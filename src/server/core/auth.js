@@ -5,12 +5,13 @@ const {signRequestToken} = require('../routes/middlewares')
 module.exports = {
   findAuth : (req = {}) => {
     let {email,_id} = req
+    // console.log(email,)
     return new Promise((resolve,reject) => {
-
       Auth.findOne({'$and':[
         email ? {email} : {},
         _id ? {_id} : {}
       ]}).then((user)=>{
+        console.log(user)
         resolve(user)
       }).catch(err => {
         reject(err)

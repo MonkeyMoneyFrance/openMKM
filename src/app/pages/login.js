@@ -32,7 +32,7 @@ function MadeWithLove() {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // height: '100vh',
+    height: '100vh',
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -83,7 +83,7 @@ function matchDispatchToProps(dispatch){
 function Login (props) {
     const [email, setMail] = useState();
     const [password, setPass] = useState();
-
+    console.log('WILL LOAD')
     const classes = useStyles();
     let theme = createMuiTheme();
     theme = responsiveFontSizes(theme);
@@ -91,79 +91,79 @@ function Login (props) {
       props.requestFetchUser({email,password})
     }
     useEffect(() => {
-      if (props.user.authenticated == 'AUTHENTICATED') window.location.href = '/'
+      if ((props.user||{}).authenticated == 'AUTHENTICATED') window.location.href = '/games'
     });
     function submitHandler(e) {
         e.preventDefault();
         tryLogin()
     }
     return (
-  <Grid container component="main" className={classes.root}>
-    <Grid item xs={false} sm={12} md={6} className={classes.image} />
-    <Grid item xs={12} sm={12} md={6} component={Paper} elevation={6} square>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={submitHandler} >
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange = {(e)=>setMail(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange = {(e)=>setPass(e.target.value)}
-          />
-        <div className={classes.wrapper}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}>
-            <CircularProgress className={classes.buttonProgress} />
-          </Button>
+      <Grid container component="main" className={classes.root}>
+        <Grid item xs={false} sm={12} md={6} className={classes.image} />
+        <Grid item xs={12} sm={12} md={6} component={Paper} elevation={6} square>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <form className={classes.form} noValidate onSubmit={submitHandler} >
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange = {(e)=>setMail(e.target.value)}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange = {(e)=>setPass(e.target.value)}
+              />
+            <div className={classes.wrapper}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}>
+                <CircularProgress className={classes.buttonProgress} />
+              </Button>
 
-        </div>
+            </div>
 
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-          <Box mt={5}>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+              <Box mt={5}>
 
-          </Box>
-        </form>
-      </div>
-    </Grid>
-  </Grid>
-)
-}
+              </Box>
+            </form>
+          </div>
+        </Grid>
+      </Grid>
+      )
+    }
 export default connect(mapStateToProps,matchDispatchToProps)(Login)

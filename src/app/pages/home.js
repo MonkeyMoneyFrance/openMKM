@@ -28,8 +28,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     overflowX: 'auto',
   },
-  table: {
-    minWidth: 650,
+  image: {
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight : 200
   },
 }));
 function Home() {
@@ -47,40 +51,9 @@ function Home() {
     }
 
     return (
-      <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow
-                  hover
-                  onClick={event => handleClick(row.name)}
-                  role="checkbox"
-                  aria-checked={selected.indexOf(row.name) !== -1}
-                  tabIndex={-1}
-                  key={row.name}
-                  selected={selected.indexOf(row.name) !== -1}
-                  >
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell selected align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
+      <Grid container component="main" className={classes.root}>
+        <Grid item xs={false} sm={12} md={6} className={classes.image} />
+      </Grid>
 )
 }
 

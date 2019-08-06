@@ -3,4 +3,5 @@ module.exports = {
   auth : require('./auth'),
   cellar : require('./cellar'),
   wine : require('./wine'),
+  match : require('./match'),
 }

@@ -5,8 +5,7 @@ const PublicLayout = ({ children, ...rest }) => {
     return (
       <div>
         <PublicHeader />
-        {children}
-        {/* <Footer /> */}
+          {children}
       </div>
     )
   }

@@ -1,13 +1,14 @@
 import React from 'react';
 import PrivateHeader from "../header/privateHeader";
-
+import {Layout} from './layout'
 const PrivateLayout = ({ children, ...rest }) => {
     return (
-      <div>
+      <Layout>
         <PrivateHeader />
-        {children}
-        {/* <Footer /> */}
-      </div>
+        <div className='content'>
+          {children}
+        </div>
+      </Layout>
     )
   }
 
