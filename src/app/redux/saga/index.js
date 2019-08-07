@@ -1,7 +1,7 @@
 import { call, put, takeLatest, takeEvery,take } from 'redux-saga/effects'
 import { setUser,sessionFailure,fetchGame} from '../actions'
 import { REQUEST_FETCH_USER,REQUEST_SET_USER,REQUEST_FETCH_GAME} from '../constants'
-const URL = (process.env.NODE_ENV == 'production') ? '' : "http://localhost:3000/"
+const URL = (process.env.NODE_ENV == 'production') ? '' : "http://localhost:3000/api/"
 
 
 function* requestFetchGame (action = '') {

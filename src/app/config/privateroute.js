@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Route, Redirect} from 'react-router-dom'
 import PrivateLayout from '../components/layout/privateLayout'
 import store from '../redux/store'
-const URL = process.env.NODE_ENV == 'production' ? '' : "http://localhost:3000/"
+const URL = process.env.NODE_ENV == 'production' ? '' : "http://localhost:3000/api/"
 
 
 export default function withAuth(ComponentToProtect) {
@@ -30,14 +30,14 @@ export default function withAuth(ComponentToProtect) {
         });
     }
     render() {
-      const { loading, redirect } = this.state;
-
-      if (loading) {
-        return null;
-      }
-      if (redirect) {
-        return <Redirect to="/login" />;
-      }
+      // const { loading, redirect } = this.state;
+      //
+      // if (loading) {
+      //   return null;
+      // }
+      // if (redirect) {
+      //   return <Redirect to="/login" />;
+      // }
       return (
         <React.Fragment>
           <PrivateLayout>

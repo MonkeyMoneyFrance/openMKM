@@ -20,11 +20,16 @@ module.exports = {
   //   })
   // },
   createMatch : (req,res) => {
-    Match.create(JSON.parse(req.body.matchs),
-    function (err, obj) {
-      if (err) return res.status(500).send(err)
-      res.status(200).send(obj)
-    });
+    try {
+      Match.create(JSON.parse(req.body.matchs),
+      function (err, obj) {
+        if (err) return res.status(500).send(err)
+        res.status(200).send(obj)
+      });
+    } catch(err){
+      return res.status(500).send(err.message)
+    }
+
   },
   fetchMatch : (req,res) => {
     let params = req.params

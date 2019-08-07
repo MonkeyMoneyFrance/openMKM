@@ -1,16 +1,26 @@
 const Auth = require('../models/auth.js')
+const Joi = require('@hapi/joi')
 const passport = require('passport')
 const FacebookStrategy =require('passport-facebook').Strategy;
 const {signRequestToken} = require('../routes/middlewares')
+
+const schema = Joi.object().keys({
+    userId: Joi.string().alphanum().min(1).max(30),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+    email: Joi.string().email({ minDomainSegments: 2 }).required()
+});
+
+
 module.exports = {
   findAuth : (req = {}) => {
-    let {email,_id} = req
+    let {email} = req
     // console.log(email,)
     return new Promise((resolve,reject) => {
-      Auth.findOne({'$and':[
-        email ? {email} : {},
-        _id ? {_id} : {}
-      ]}).then((user)=>{
+      let validation = schema.validate({ email })
+      if (validation.error){
+        return reject('wrong schema validation')
+      }
+      Auth.findOne({email}).then((user)=>{
         console.log(user)
         resolve(user)
       }).catch(err => {

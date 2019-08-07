@@ -11,7 +11,7 @@ import {requestSetUser} from './redux/actions'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-const URL = process.env.NODE_ENV == 'production' ? '' : "http://localhost:3000/"
+const URL = process.env.NODE_ENV == 'production' ? '' : "http://localhost:3000/api/"
 function mapStateToProps(state){
   return {}
 }

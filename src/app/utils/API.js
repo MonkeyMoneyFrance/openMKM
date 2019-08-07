@@ -2,7 +2,7 @@ import axios from 'axios'
 const headers = {
     'Content-Type': 'application/json'
 }
-const URL = process.env.NODE_ENV == 'production' ? '' : "http://localhost:3000"
+const URL = process.env.NODE_ENV == 'production' ? '' : "http://localhost:3000/api"
 var token;
 // var _this = this;
 

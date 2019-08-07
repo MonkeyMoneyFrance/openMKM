@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^15.1.0",
     "bcrypt": "^3.0.5",
     "bcrypt-nodejs": "^0.0.3",
     "bcryptjs": "^2.4.3",
@@ -17,7 +18,9 @@
     "connect-redis": "^3.4.2",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
+    "express-rate-limit": "^5.0.0",
     "fcm-node": "^1.5.1",
+    "helmet": "^3.20.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mongo-replica-set": "^0.3.0",
@@ -29,6 +32,7 @@
     "passport-facebook": "^3.0.0",
     "passport-facebook-token": "^3.3.0",
     "passport-local": "^1.0.0",
+    "rate-limit-redis": "^1.6.0",
     "redis": "^2.8.0",
     "socket.io": "^2.2.0"
   }

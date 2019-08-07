@@ -5,7 +5,8 @@ const {fetchMatch,createMatch} = match
 const redis = require('redis');
 const session = require('express-session');
 const passport = require('passport');
-
+const rateLimit = require("express-rate-limit");
+const helmet = require('helmet');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt-nodejs');
 const redisStore = require('connect-redis')(session);
@@ -19,7 +20,10 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const port = process.env.PORT || '3000'
-
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
 mongoose.connect('mongodb+srv://mymac:weiH8ahb@cluster0-40t5m.mongodb.net/test',
 {
   useNewUrlParser: true,
@@ -30,7 +34,8 @@ mongoose.connect('mongodb+srv://mymac:weiH8ahb@cluster0-40t5m.mongodb.net/test',
 })
 .then(()=>{console.log('connected')})
 .catch((e)=>console.log(e));
-
+// app.use("/api/", limiter);
+app.use(helmet())
 app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
 app.use(bodyParser.json({limit: '2mb', extended: true}))
 app.use(session({
@@ -43,19 +48,15 @@ app.use(session({
   saveUninitialized: true
 }))
 
-if (process.env.NODE_ENV !== 'production') {
+// if (process.env.NODE_ENV !== 'production') {
+  console.log(process.env.NODE_ENV)
   app.use(cors({origin: 'http://localhost:8080', credentials: true }));
-} else {
-//   app.get('*.js', function (req, res, next) {
-//   req.url = req.url + '.gz';
-//   res.set('Content-Encoding', 'gzip');
-//   next();
-// });
-  app.use(express.static(path.resolve(__dirname,`../../dist`)))
-  app.get('/*',(req,res) => {
-    res.sendFile(path.resolve('index.html'))
-  })
-}
+// } else {
+//   app.use(express.static(path.resolve(__dirname,`../../dist`)))
+//   app.get(/^(?!\/api\/)/,(req,res) => {
+//     res.sendFile(path.resolve('index.html'))
+//   })
+// }
 
 passport.use(new LocalStrategy(
   { usernameField: 'email' },
@@ -84,10 +85,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.get('/user', (req, res) => {
+app.get('/api/user', (req, res) => {
   !req.isAuthenticated() ? res.status(401).end() : res.status(200).send(req.session.passport)
 })
-app.post('/login', (req, res, next) => {
+app.post('/api/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if(info) {return res.status(401).send({message:info.message})}
     if (err) { return next(err); }
@@ -99,10 +100,11 @@ app.post('/login', (req, res, next) => {
   })(req, res, next);
 })
 
-app.get('/authrequired', (req, res) => {
+app.get('/api/authrequired', (req, res) => {
+  console.log(req.isAuthenticated())
   res.status(req.isAuthenticated() ? 200 : 401).end()
 })
-app.get('/adminRequired', (req, res) => {
+app.get('/api/adminRequired', (req, res) => {
   let status = (req.isAuthenticated() && req.session.passport && req.session.passport.admin) ? 200 : 401
   res.status(200).end()
 })
