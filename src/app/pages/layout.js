@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Main = styled.div`
-  width:100%
+  width:100%;
   & table {
     width:100%;
   }
@@ -17,12 +17,19 @@ const Main = styled.div`
   }
 `
 const Button = styled.button`
-  background-color:blue;
+  background-color:#203F93;
+  font-size:15px;
+  width:140px;
+  height:30px;
+  display:flex;
+  justify-content:flex-end
 `
 
 const Container = styled.div`
   display:flex;
-  & > div {
+  justify-content:space-between
+  & > div {background-color:white;
+
 
   }
 `
