@@ -30,14 +30,14 @@ export default function withAdmin(ComponentToProtect) {
         });
     }
     render() {
-      const { loading, redirect } = this.state;
-        console.log(loading,redirect)
-      if (loading) {
-        return null;
-      }
-      if (redirect) {
-        return <Redirect to="/login" />;
-      }
+      // const { loading, redirect } = this.state;
+      //   console.log(loading,redirect)
+      // if (loading) {
+      //   return null;
+      // }
+      // if (redirect) {
+      //   return <Redirect to="/login" />;
+      // }
       return (
         <React.Fragment>
           <AdminLayout>

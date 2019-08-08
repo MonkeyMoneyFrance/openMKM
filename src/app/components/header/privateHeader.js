@@ -10,8 +10,6 @@ function PublicHeader() {
 
         return (
           <AppRoot className={"headerMenu"}>
-
-
                 <LinkRouter to='/'>
                 <img src={src} alt="fsgt" />
                 </LinkRouter>
@@ -25,8 +23,6 @@ function PublicHeader() {
                     <LinkRouter to='/profile' >Mon Profil</LinkRouter>
                   </button>
                </nav>
-
-
           </AppRoot>
 
         )

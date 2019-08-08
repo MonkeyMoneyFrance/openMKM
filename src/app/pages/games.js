@@ -11,7 +11,6 @@ export default function Games(props) {
         <h2>Derniers Matchs</h2>
         <p>Type de sport</p>
       </div>
-
       <GameList history={props.history} />
     </Main>
   )

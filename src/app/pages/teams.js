@@ -1,25 +1,16 @@
 import React , { useState, useEffect } from 'react';
-import {Grid,Typography} from '@material-ui/core';
-import GamesList from '../components/lists/games'
-import { makeStyles , createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
+import {Main} from './layout'
+import TeamsList from '../components/lists/teams'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-    overflowX: 'auto',
-  }
-}));
-function MySpace(props) {
-    const [selected, setSelected] = useState([])
-    const classes = useStyles();
-    return (
-      <Grid container component="main" className={classes.root}>
-        <Typography>Mon Equipe</Typography>
-        <GamesList history = {props.history} />
-      </Grid>
-)
+
+export default function Teams(props) {
+  return (
+    <Main className={'main'}>
+      <div className={"header"}>
+        <h2>Equipes</h2>
+        <p>Type de sport</p>
+      </div>
+      <TeamsList history={props.history} />
+    </Main>
+  )
 }
-
-
-export default MySpace;
