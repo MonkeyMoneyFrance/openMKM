@@ -49,6 +49,7 @@
     "concurrently": "^4.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
     "highground": "^1.0.3-beta",
     "jsdom": "^15.1.1",
     "mocha": "^6.2.0",

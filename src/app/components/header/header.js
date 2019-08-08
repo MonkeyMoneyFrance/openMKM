@@ -2,10 +2,21 @@ import styled from 'styled-components'
 
 const AppRoot = styled.div`
   background-color:red;
+  height:50px;
   display : flex;
   justify-content : space-between;
-  img src="./Monkey money/fsgt/logo_fsgt.png" alt="fsgt";
-  h4 {background-color:yellow; display:flex; justify-content:flex-end }
+  & nav{
+    display: flex;
+    align-items: center;
+    & a, & button {
+      margin : 10px;
+    }
+  }
+  & img {
+    height:90%;
+
+  }
+
   .main {
     background-color:green;
   }
