@@ -1,0 +1,17 @@
+textarea, input.fullWidth {
+     width: 100%;
+     box-sizing: border-box;
+     -webkit-box-sizing:border-box;
+     -moz-box-sizing: border-box;
+     resize: none;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  &.wrap {
+    align-items: center;
+    @media(max-width:768px){
+      flex-direction: column;
+    }
+  }
+}

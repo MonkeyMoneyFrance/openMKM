@@ -1,5 +1,5 @@
 import React , { useState, useEffect } from 'react';
-import {Grid,Paper,Typography,TextField,Button} from '@material-ui/core';
+import {Container,Button} from './layout'
 import GameAvatar from '../components/avatars/game';
 import Player from '../components/forms/players';
 import Coach from '../components/forms/coach';
@@ -7,105 +7,126 @@ import ScheduleGame from '../components/forms/scheduleGame';
 import Signatures from '../components/forms/signatures';
 import Remarks from '../components/forms/remarks';
 import Referee from '../components/forms/referee';
-import { makeStyles , createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
-import {requestFetchGame} from '../redux/actions';
+import "./styles.scss"
+import {requestFetchResult} from '../redux/actions';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    // backgroundColor:'white',
-    borderRadius:'15px',
-    padding: theme.spacing(1),
-    margin: theme.spacing(1,0),
-    paddingTop: theme.spacing(3),
+let mochaGame = {
+  "main": {
+    "date": "2018-03-22T04:06:07.000Z",
+    "refPresent": true,
+    "status": 0,
+    "division": "BCUGEDFJED"
   },
-  main: {
-    width: '100%',
-    marginTop: theme.spacing(3),
+  "signatures": {
+    "teamA": [
+      {
+        "_id": "GHKHJGJ",
+        "date": "2019-03-22T04:06:07.000Z"
+      }
+    ],
+    "teamB": [],
+    "referee": []
   },
-  left : {
+  "teamA": {
+    "before": "PLEIN DE REMARQUES",
+    "coachPresent": true,
+    "players": []
   },
-  textField : {
-    margin : 0
+  "teamB": {
+    "players": []
   },
-  button : {
-    padding :theme.spacing(2),
-    marginTop: theme.spacing(1),
-  }
-}));
+  "_id": "5d4ad4341c9d4400007ff577"
+}
+
 function mapStateToProps(state,props){
   return {
-    game : (state.games||[]).find(m => m._id == props.match.params.gameId)
+    // default : (state.results)
+    default : mochaGame
   }
 }
 function matchDispatchToProps(dispatch){
-  return bindActionCreators({requestFetchGame},dispatch)
+  return bindActionCreators({requestFetchResult},dispatch)
 }
 function Game(props) {
-    const classes = useStyles();
-    // <GameForm  {...props.game} />
-    useEffect(()=> {
-      if (!props.game) props.requestFetchGame({_id:props.match.params.gameId})
-    }, [])
-    return (
-      <Grid container component="main" className={classes.root}>
-        <GameAvatar  {...props.game}/>
-        <Paper className={classes.main}>
-        <Grid container >
-          <Grid item xs={12} sm={6} className={classes.left}>
-            <Coach />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Coach />
-          </Grid>
-        </Grid>
-        </Paper>
-        <Paper className={classes.main}>
-        <Grid container >
-          <Grid item xs={12} sm={6} className={classes.left}>
-            <Player />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Player />
-          </Grid>
-        </Grid>
-        </Paper>
-        <Paper className={classes.main}>
-          <ScheduleGame />
-        </Paper>
-        <Paper className={classes.main}>
-          <Referee />
-        </Paper>
-        <Paper className={classes.main}>
-          <Typography>Réclamations, reserves et observations AVANT, PENDANT et APRES la recontre</Typography>
-          <Grid container >
-            <Grid item xs={12} sm={6} >
-              <Typography>Equipe A</Typography>
-              <Remarks />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography>Equipe B</Typography>
-              <Remarks />
-            </Grid>
-          </Grid>
-        </Paper>
-        <Paper className={classes.main}>
-          <Typography>SINATURES OBLIGATOIRES</Typography>
-          <Signatures />
-        </Paper>
-        <Grid container justify='center'>
+  const [data , setData] = useState({})
+  const setJson = (id,value) => setData({...data,[id]:{...data[id],...value}})
+  useEffect(()=> {
+    if (!props.game) props.requestFetchResult({_id:props.match.params.gameId})
+  }, [])
+  const defaultProps = props.default || {}
+
+  if (!props.default) return null
+  return (
+    <div style={{padding:"0.5em"}}>
+      <GameAvatar
+        {...defaultProps}
+      />
+        <Container >
+          <Coach
+            id={'teamA'}
+            {...defaultProps.teamA}
+            setData={setJson}
+          />
+          <Coach
+            id={'teamB'}
+            {...defaultProps.teamB}
+            setData={setJson}
+          />
+        </Container>
+        <Container>
+          <div>
+            <Player
+              players={(defaultProps.teamA||{}).players}
+              setData={setJson}
+            />
+        </div>
+          <div>
+            <Player
+              players={(defaultProps.teamB||{}).players}
+              setData={setJson}
+            />
+          </div>
+        </Container>
+        <ScheduleGame
+          id={'general'}
+          setData={setJson}
+        />
+        <Referee
+          id={'referee'}
+          {...defaultProps.main}
+          setData={setJson}
+        />
+        <p>Réclamations, reserves et observations AVANT, PENDANT et APRES la recontre</p>
+        <div className={"container wrap"}>
+          <div style={{flex:1,width:"100%"}}>
+            <h5>Equipe A</h5>
+            <Remarks
+              id={'teamA'}
+              {...defaultProps.teamA}
+              setData={setJson}
+            />
+          </div>
+          <div style={{flex:1,width:"100%"}}>
+            <h5>Equipe B</h5>
+            <Remarks
+              id={'teamB'}
+              {...defaultProps.teamB}
+              setData={setJson}
+            />
+          </div>
+        </div>
+        <p>SINATURES OBLIGATOIRES</p>
+        <Signatures />
+        <Container>
           <Button
-            className={classes.button}
             type="submit"
-            variant="contained"
-            color="primary"
             >
-            Enregistrer
-          </Button>
-        </Grid>
-      </Grid>
+              Enregistrer
+            </Button>
+        </Container>
+      </div>
 )
 }
 

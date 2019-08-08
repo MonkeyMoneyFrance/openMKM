@@ -1,7 +1,7 @@
 const key = require('../key.js');
 const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
-const Cellar = require('../models/cellar.js')
+// const Cellar = require('../models/cellar.js')
 var client;
 module.exports = {
   verifyToken : function(req,res,next){
@@ -52,21 +52,21 @@ module.exports = {
     // }
     // else {
     //
-      Cellar.find({userId:req.decoded.userId}).then((cellars) => {
-        if (cellars == null ||cellars.length == 0) {
-          req.cellars = []
-          next()
-        } else {
-          let array = []
-          for (var i in cellars){
-            array.push(cellars[i]._id)
-          }
-
-          req.cellars = array
-          console.log(req.cellars)
-          next()
-        }
-      })
+      // Cellar.find({userId:req.decoded.userId}).then((cellars) => {
+      //   if (cellars == null ||cellars.length == 0) {
+      //     req.cellars = []
+      //     next()
+      //   } else {
+      //     let array = []
+      //     for (var i in cellars){
+      //       array.push(cellars[i]._id)
+      //     }
+      //
+      //     req.cellars = array
+      //     console.log(req.cellars)
+      //     next()
+      //   }
+      // })
 
   },
   isAdmin: function(req,res,next){

@@ -1,78 +1,49 @@
 import React , { useState, useEffect } from 'react';
-import {Table,TableBody,TableRow,TableCell,TableHead} from '@material-ui/core';
-import {Button,TextField,CssBaseline,Container,Grid,Typography,Paper,ButtonBase,FormControlLabel,Checkbox} from '@material-ui/core';
-import { makeStyles , createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
+import LicenseInput from '../inputs/licenseInput'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(1),
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'flex-start'
-  },
-  typo : {
-    margin : theme.spacing(0,1),
-    padding: theme.spacing(0,1),
-  },
-  textField : {
-    margin : theme.spacing(1,0),
-    '&.inactive fieldset' : {
-      border : "none"
-    }
-  }
-}));
 function Coach(props) {
-    const [selected, setSelected] = useState([])
-    const classes = useStyles();
-    // const {players} = props
+    const [coachPresent , setPresent] = useState(false)
+    const setValue = (id,value) => {
+      const newJson = {coachPresent,[id]:value}
+      props.setData(props.id,newJson)
+    }
+    const onSwitch = (e) => {
+      setPresent(!coachPresent)
+      props.setData(props.id,{coachPresent})
+    }
+    useEffect(() => setPresent(props.coachPresent||false),[])
     return (
-      <Grid>
-        <Grid container className={classes.root}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Coach"
-          />
-        </Grid>
-        <Grid container className={classes.root}>
-        <Typography >Fait par :</Typography>
-        <Grid container   >
-          <Grid item xs={12} sm={6}>
-            <TextField
-
-              className={classes.textField + ' inactive'}
-              variant="outlined"
-              required
-              readOnly
-              fullWidth
-              name="password"
-              label="Equipe"
-              id="password"
-
-              // onChange = {(e)=>setPass(e.target.value)}
+      <div style={{flex:1}}>
+        <div className={"container"}>
+          <div>
+            <input
+              type="checkbox"
+              id="coachPresent"
+              name="coachPresent"
+              checked={coachPresent}
+              onChange={onSwitch}
+             />
+            <label htmlFor="coachPresent">Coach</label>
+          </div>
+        </div>
+        <div className={"container"}>
+          <div className='p2' >Fait par :</div>
+          <div className={"container wrap"} >
+            <LicenseInput
+              id = {"coachId"}
+              defaultValue={props.coachId}
+              setValue={setValue}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-          <TextField
-
-            className={classes.textField}
-            variant="outlined"
-            required
-            fullWidth
-            name="password"
-            label="Nom"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            // onChange = {(e)=>setPass(e.target.value)}
-          />
-        </Grid>
-        </Grid>
-        </Grid>
-      </Grid>
-
-
-)
-}
+            <LicenseInput
+              id = {"coachTeamId"}
+              defaultValue={props.coachTeamId}
+              setValue={setValue}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
 
 export default Coach;

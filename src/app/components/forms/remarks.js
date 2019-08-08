@@ -1,59 +1,49 @@
 import React , { useState, useEffect } from 'react';
-import {Table,TableBody,TableRow,TableCell,TableHead} from '@material-ui/core';
-import {Button,TextField,CssBaseline,Container,Grid,Typography,Paper,ButtonBase,FormControlLabel,Checkbox} from '@material-ui/core';
-import { makeStyles , createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
+import {connect} from 'react-redux';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(0,1),
-  },
-  textField : {
-    margin : theme.spacing(1,0),
-  }
-}));
+
 function Remarks(props) {
-    const [selected, setSelected] = useState([])
-    const classes = useStyles();
-    // const {players} = props
+    const [values, setValue] = useState({before:'',started:'',after:''})
+    const onChange = (e) => setValue({...values,[e.target.id]:e.target.value})
+    const onBlur = () => props.setData(props.id,values)
+    useEffect(() => setValue({
+      before : props.before,
+      started : props.started,
+      after : props.after,
+    }),[])
     return (
-        <Grid className={classes.root}>
-          <Grid  >
-            <TextField
-              fullWidth
-              className={classes.textField}
-              id="standard-multiline-flexible"
-              label="Multiline"
-              multiline
-              rowsMax="4"
-              fullWidth
-              variant="outlined"
+        <div style={{flex:1}}>
+          <div>
+            <textarea
+              id="before"
+              placeholder="Avant"
+              rowsmax="4"
+              value={values.before}
+              onChange={onChange}
+              onBlur={onBlur}
             />
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              fullWidth
-              className={classes.textField}
-              id="standard-multiline-flexible"
-              label="Multiline"
-              multiline
-              rowsMax="4"
-              variant="outlined"
-              fullWidth
+          </div>
+          <div>
+            <textarea
+              id="started"
+              placeholder="Pendant"
+              rowsmax="4"
+              value={values.started}
+              onChange={onChange}
+              onBlur={onBlur}
             />
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              fullWidth
-              className={classes.textField}
-              id="standard-multiline-flexible"
-              label="Multiline"
-              multiline
-              rowsMax="4"
-              variant="outlined"
-              fullWidth
+          </div>
+          <div>
+            <textarea
+              id="after"
+              placeholder="Après"
+              rowsmax="4"
+              value={values.after}
+              onChange={onChange}
+              onBlur={onBlur}
             />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
 
 
 )

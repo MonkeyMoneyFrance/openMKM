@@ -1,98 +1,77 @@
 import React , { useState, useEffect } from 'react';
-import {Button,TextField,CssBaseline,Container,Grid,Typography,Paper,ButtonBase,FormControlLabel,Checkbox} from '@material-ui/core';
-import { makeStyles , createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
+import LicenseInput from '../inputs/licenseInput'
 import moment from 'moment'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(1),
-  },
-  infos : {
-    padding: theme.spacing(1),
-  },
-  score : {
-    padding : theme.spacing(0,1),
-  },
-  textField : {
-    margin : theme.spacing(1,0),
-  }
-}));
-function MatchAvatar(props) {
+
+function GameAvatar(props) {
     const [selected, setSelected] = useState([])
-    const classes = useStyles();
-    const {sport,division,category,teams,playedAt} = props
+    const {sport,division,category,playedAt} = props
+    const {teamA,teamB} = props
+    const setValue = (id,value) => props.setData({[id]:value})
+
     return (
 
-          <Grid item xs={12} className={classes.root} >
-            <Grid container justify='space-between'>
-              <Grid item  item xs={6} sm={6}  className={classes.infos}>
-                <Grid container justify='flex-start'   >
-                  <Typography variant="body2" gutterBottom>
+          <div >
+            <div className={"container"} style={{justifyContent:'space-between'}}>
+              <div>
+                <div>
+                  <div className='p2'>
                     Sport : {sport}
-                  </Typography>
-                </Grid>
-                <Grid container justify='flex-start' >
-                  <Typography variant="body2" gutterBottom>
+                  </div>
+                </div>
+                <div>
+                  <div className='p2'>
                     Division : {division}
-                  </Typography>
-                </Grid>
-                <Grid container justify='flex-start' >
-                  <Typography variant="body2" gutterBottom>
+                  </div>
+                </div>
+                <div>
+                  <div className='p2'>
                     Categorie : {category}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid item  item xs={6} sm={6}  className={classes.infos}>
-                <Grid container justify='flex-end' >
-                  <Typography variant="body2" gutterBottom>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div style={{textAlign:'right'}}>
+                  <div className='p2'>
                     Date : {moment(playedAt).format('DD/MM/YYYY')}
-                  </Typography>
-                </Grid>
-                <Grid container justify='flex-end' >
-                  <Typography variant="body2" gutterBottom>
+                  </div>
+                </div>
+                <div style={{textAlign:'right'}}>
+                  <div className='p2'>
                     Lieu
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Paper >
-
-              <Grid container justify='space-between'>
-              <Grid container alignItems='center' justify='center' item xs={12} sm={4} className={classes.infos} >
-                <Typography variant="body2" gutterBottom>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={"container wrap"} style={{justifyContent:'space-between'}}>
+              <div className={"container"} style={{justifyContent:'space-between'}}>
+                <div className='p2'>
                   EQUIPE A
-                </Typography>
-              </Grid>
-              <Grid container alignItems='center' justify='center' item xs={12} sm={4} className={classes.score}>
-                <Grid alignItems='center' item sm={5} xs={12}>
-                  <TextField
-                    fullWidth
-                    className={classes.textField}
-                    variant="outlined"
-                    label="Multiline"
-                  />
-                </Grid>
-                <Grid  justify='center' container xs={12} sm={2}>-</Grid>
-                <Grid item xs={12} sm={5}>
-                  <TextField
-                    fullWidth
-                    className={classes.textField}
-                    label="Multiline"
-                    variant="outlined"
-                  />
-                </Grid>
-              </Grid>
-              <Grid container alignItems='center' justify='center' item xs={12} sm={4}  className={classes.infos}>
-                <Typography  variant="body2" gutterBottom>
+                </div>
+              </div>
+              <div className={"container wrap"} style={{justifyContent:'space-between'}}>
+                <input
+                  id = {"resultB"}
+
+                  value={teamB.result}
+                />
+                -
+                <input
+                  id = {"resultA"}
+                  value={teamA.result}
+
+                />
+              </div>
+              <div className={"container"} style={{justifyContent:'space-between'}}>
+                <div className='p2'>
                   EQUIPE B
-                </Typography>
-              </Grid>
-              </Grid>
-            </Paper>
-        </Grid>
+                </div>
+              </div>
+          </div>
+        </div>
 
 )
 }
 
 
-export default MatchAvatar;
+export default GameAvatar;

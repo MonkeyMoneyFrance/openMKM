@@ -1,11 +1,38 @@
 import { call, put, takeLatest, takeEvery,take } from 'redux-saga/effects'
-import { setUser,sessionFailure,fetchGame} from '../actions'
-import { REQUEST_FETCH_USER,REQUEST_SET_USER,REQUEST_FETCH_GAME} from '../constants'
+import { setUser,sessionFailure,fetchResult,fetchGame} from '../actions'
+import {
+  REQUEST_FETCH_USER,
+  REQUEST_SET_USER,
+  REQUEST_FETCH_GAME,
+  REQUEST_FETCH_RESULT
+} from '../constants'
 const URL = (process.env.NODE_ENV == 'production') ? '' : "http://localhost:3000/api/"
 
-
 function* requestFetchGame (action = '') {
-  console.log('ERE')
+  try {
+    const options = {
+      credentials: 'include',
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    let params = ''
+    params = "?" + Object.keys(action.payload)
+             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent((action.payload||{})[k]))
+             .join('&')
+
+    const res = yield call(fetch, URL + 'matchs' + params, options)
+    const games = yield res.json()
+
+    yield put(fetchGame(games))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* requestFetchResult (action = '') {
   try {
   const options = {
     credentials: 'include',
@@ -14,14 +41,16 @@ function* requestFetchGame (action = '') {
       'Content-Type': 'application/json'
     })
   }
+
   let params = ''
-  params = "?" + Object.keys(action)
-           .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(action[k]))
+  params = "?" + Object.keys(action.payload)
+           .map(k => encodeURIComponent(k) + '=' + encodeURIComponent((action.payload||{})[k]))
            .join('&')
+
   const res = yield call(fetch, URL + 'matchs' + params, options)
   const games = yield res.json()
 
-  yield put(fetchGame(games))
+  yield put(fetchResult(games))
   } catch (e) {
     console.log(e)
   }
@@ -80,6 +109,7 @@ function* requestSetUser (action) {
 
 function* rootSaga() {
   yield takeLatest(REQUEST_FETCH_GAME,requestFetchGame)
+  yield takeLatest(REQUEST_FETCH_RESULT,requestFetchResult)
   yield takeLatest(REQUEST_SET_USER ,requestSetUser)
   yield takeLatest(REQUEST_FETCH_USER, requestFetchUser)
 }

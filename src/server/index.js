@@ -1,6 +1,6 @@
 const express=require('express');
 const mongoose = require('mongoose')
-const {user,auth,cellar,match}=require('./core');
+const {user,auth,cellar,game,match}=require('./core');
 const {fetchMatch,createMatch} = match
 const redis = require('redis');
 const session = require('express-session');
@@ -81,8 +81,8 @@ passport.deserializeUser((user, done) => {
 
 
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 app.get('/api/user', (req, res) => {
@@ -112,7 +112,8 @@ app.get('/testAuth', (req, res) => {
   console.log(`User authenticated? ${req.isAuthenticated()}`)
   res.send({})
 })
-app.get('/matchs', fetchMatch)
+app.get('/api/matchs', game.get)
+// app.get('/api/matchs', fetchMatch)
 app.post('/matchs', createMatch)
 app.get('/', (req, res) => {
   console.log('is not auth')

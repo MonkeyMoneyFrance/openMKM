@@ -16,6 +16,17 @@ const Main = styled.div`
     }
   }
 `
+const Button = styled.button`
+  background-color:blue;
+`
+
+const Container = styled.div`
+  display:flex;
+  & > div {
+
+  }
+`
 
 
-export {Main}
+
+export {Main,Container,Button}
