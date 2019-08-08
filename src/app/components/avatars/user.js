@@ -23,9 +23,11 @@ function UserAvatar(props) {
                 </h3>
               </div>
           </div>
-          <div className={'button'} style={{}}>
-            <button>Deconnexion</button>
-          </div>
+          {props.isSelf &&
+            <div className={'button'} style={{}}>
+              <button>Deconnexion</button>
+            </div>
+          }
         </div>
       </div>
     )

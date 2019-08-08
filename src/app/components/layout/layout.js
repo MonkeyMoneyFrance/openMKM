@@ -6,7 +6,7 @@ const PrivateLayout = styled.div`
   & > .content {
     margin:auto;
     max-width:95%;
-    margin-top: 5rem
+    padding-top: 5rem
   }
 `
 
@@ -16,9 +16,17 @@ const AdminLayout = styled.div`
   & > .content {
     margin:auto;
     max-width:95%;
-    margin-top: 5rem
+    padding-top: 5rem
   }
 `
 
+const PublicLayout = styled.div`
+  height:100%;
+  /* overflow:hidden; */
+  & > .content {
+    margin:auto;
+    height:100%;
+  }
+`
 
-export {AdminLayout,PrivateLayout}
+export {AdminLayout,PrivateLayout,PublicLayout}

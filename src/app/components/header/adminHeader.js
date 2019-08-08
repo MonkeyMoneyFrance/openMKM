@@ -8,7 +8,7 @@ import src from "../../assets/logo_fsgt.png"
 function AdminHeader() {
         return (
           <AppRoot className={"headerMenu"}>
-            <LinkRouter to='/'>
+            <LinkRouter to='/' className="homeImg">
             <img src={src} alt="fsgt" />
             </LinkRouter>
             <nav className='navigator'>

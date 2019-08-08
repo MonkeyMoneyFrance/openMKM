@@ -1,12 +1,15 @@
 import React from 'react';
 import PublicHeader from "../header/publicHeader";
+import {PublicLayout as Layout} from './layout'
 
 const PublicLayout = ({ children, ...rest }) => {
     return (
-      <div>
+      <Layout>
         <PublicHeader />
+        <div className='content'>
           {children}
-      </div>
+        </div>
+      </Layout>
     )
   }
 
