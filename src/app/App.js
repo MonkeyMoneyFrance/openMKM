@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react';
+import React , {useEffect,useState} from 'react';
 import { withRouter } from 'react-router-dom'
 import {login} from './utils/API'
 import Home from './pages/home'
@@ -19,9 +19,7 @@ function matchDispatchToProps(dispatch){
   return bindActionCreators({requestSetUser}, dispatch)
 }
 function App(props) {
-  useEffect(()=>{
-    props.requestSetUser()
-  },[])
+
 
   return (
     <div style={{height:"100%"}}>
