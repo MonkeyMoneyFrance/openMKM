@@ -1,38 +1,31 @@
 import React , { useState, useEffect } from 'react';
-import {Table,TableBody,TableRow,TableCell,TableHead} from '@material-ui/core';
-import {Button,TextField,CssBaseline,Container,Grid,Typography,Paper,ButtonBase,FormControlLabel,Checkbox} from '@material-ui/core';
-import { makeStyles , createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(1),
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'flex-start'
-  },
-  typo : {
-    padding: theme.spacing(0,1),
-  },
-}));
 function ScheduleGame(props) {
-    const [selected, setSelected] = useState([])
-    const classes = useStyles();
-    // const {players} = props
+
+    const [value, setValue] = useState('')
+    const onChange = (e) => {
+      setValue(e.target.value)
+    }
+    const onBlur = () => {
+      props.setData(props.id,{["startGame"]:value})
+    }
     return (
-      <Grid container className={classes.root}>
-        <Typography className={classes.typo}>Heure du coup d'envoi d'effectif de la recontre</Typography>
-        <TextField
-          variant="outlined"
+      <div className='container'>
+        <div className={"p2"}>Heure du coup d'envoi d'effectif de la recontre</div>
+        <input
+          value={value}
+          type="time"
+          min="00:00"
+          max="23:59"
           required
-          name="password"
-          label="Heure de début"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          // onChange = {(e)=>setPass(e.target.value)}
+          name="startGame"
+          placeholder="Début"
+          id="startGame"
+          onChange={onChange}
+          onBlur={onBlur}
         />
 
-      </Grid>
+      </div>
 
 )
 }

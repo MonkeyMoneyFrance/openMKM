@@ -1,68 +1,50 @@
 import React , { useState, useEffect } from 'react';
-import {Table,TableBody,TableRow,TableCell,TableHead} from '@material-ui/core';
-import {Button,TextField,CssBaseline,Container,Grid,Typography,Paper,ButtonBase,FormControlLabel,Checkbox} from '@material-ui/core';
-import { makeStyles , createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
+import LicenseInput from '../inputs/licenseInput'
+import {connect} from 'react-redux'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(1),
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'flex-start'
-  },
-  typo : {
-    margin : theme.spacing(0,1),
-    padding: theme.spacing(0,1),
-  },
-}));
+
 function Referee(props) {
-    const [selected, setSelected] = useState([])
-    const classes = useStyles();
-    // const {players} = props
-    return (
-      <Grid>
-        <Grid container className={classes.root}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Observation de la recontre"
+
+  const [refPresent, setPresent] = useState(false)
+  const setValue = (id,value) => {
+    const newJson = {refPresent,[id]:value}
+    props.setData(props.id,newJson)
+  }
+  const onSwitch = (e) => {
+    setPresent(!refPresent)
+    props.setData(props.id,{refPresent})
+  }
+  useEffect(() => setPresent(props.refPresent||false),[])
+  return (
+    <div style={{flex:1}}>
+      <div className={"container"}>
+        <div>
+          <input
+            type="checkbox"
+            id="refPresent"
+            name="refPresent"
+            checked={refPresent}
+            onChange={onSwitch}
           />
-        </Grid>
-        <Grid container className={classes.root}>
-          <Typography >Fait par :</Typography>
-          <Grid container   >
-          <Grid item xs={12} sm={6}>
-            <TextField
-              style={{flex:1}}
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="Equipe"
-              type="password"
-              id="password"
-              // onChange = {(e)=>setPass(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              style={{flex:1}}
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="Equipe"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              // onChange = {(e)=>setPass(e.target.value)}
-            />
-          </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-
-
-)
+          <label htmlFor="refPresent">Observation de la rencontre</label>
+        </div>
+      </div>
+      <div className={"container"}>
+        <div className='p2' >Fait par :</div>
+        <div className={"container"} >
+          <LicenseInput
+            id = {"refId"}
+            defautValue={props.refereeId}
+            setValue={setValue}
+          />
+          <LicenseInput
+            id = {"refLicence"}
+            setValue={setValue}
+          />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 

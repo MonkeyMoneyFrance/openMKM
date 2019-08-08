@@ -4,7 +4,10 @@ import {
   TODOS_FAILURE,
   REQUEST_FETCH_USER,
   REQUEST_FETCH_GAME,
-  FETCH_GAME
+  FETCH_GAME,
+  REQUEST_FETCH_RESULT,
+  FETCH_RESULT
+
 } from "../constants/index";
 
 export const sessionFailure = item => ({ type: TODOS_FAILURE, payload: item });
@@ -13,3 +16,5 @@ export const requestFetchUser = item => ({ type: REQUEST_FETCH_USER, payload: it
 export const requestFetchGame = item => ({ type: REQUEST_FETCH_GAME, payload: item });
 export const setUser = item => ({ type: SET_USER, payload: item });
 export const fetchGame = item => ({ type: FETCH_GAME, payload: item });
+export const fetchResult = item => ({ type: FETCH_RESULT, payload: item });
+export const requestFetchResult = item => ({ type: REQUEST_FETCH_RESULT, payload: item });
