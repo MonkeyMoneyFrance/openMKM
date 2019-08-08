@@ -80,13 +80,14 @@ textarea, input.fullWidth {
   height:100%;
   .imageLeft {
     flex:1;
-    background-image: url(https://source.unsplash.com/random);
+    background-image: url(https://source.unsplash.com/900x770/weekly);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     min-height : 100px;
     width:100%;
     @media(max-width:768px){
+      background-image: url(https://source.unsplash.com/812x375/weekly);
       flex:2
     }
   }
