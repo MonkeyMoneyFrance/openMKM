@@ -10,14 +10,14 @@ function PublicHeader() {
 
         return (
           <AppRoot className={"headerMenu"}>
-                <LinkRouter className="homeImg" to='/'>
-                <img src={src} alt="fsgt" />
-                </LinkRouter>
-              <nav className='navigator'>
-                  <button >
-                    <LinkRouter to='/profile' >Connexion</LinkRouter>
-                  </button>
-               </nav>
+            <LinkRouter className="homeImg" to='/'>
+            <img src={src} alt="fsgt" />
+            </LinkRouter>
+            {/* <nav className='navigator'>
+                <button >
+                  <LinkRouter to='/profile' >Connexion</LinkRouter>
+                </button>
+             </nav> */}
           </AppRoot>
 
         )

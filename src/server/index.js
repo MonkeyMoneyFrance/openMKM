@@ -48,15 +48,14 @@ app.use(session({
   saveUninitialized: true
 }))
 
-// if (process.env.NODE_ENV !== 'production') {
-  console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV !== 'production') {
   app.use(cors({origin: 'http://localhost:8080', credentials: true }));
-// } else {
-//   app.use(express.static(path.resolve(__dirname,`../../dist`)))
-//   app.get(/^(?!\/api\/)/,(req,res) => {
-//     res.sendFile(path.resolve('index.html'))
-//   })
-// }
+} else {
+  app.use(express.static(path.resolve(__dirname,`../../dist`)))
+  app.get(/^(?!\/api\/)/,(req,res) => {
+    res.sendFile(path.resolve('index.html'))
+  })
+}
 
 passport.use(new LocalStrategy(
   { usernameField: 'email' },
