@@ -15,6 +15,7 @@ const AppRoot = styled.div`
   & img {
     height:90%;
 
+
   }
 
   .main {
