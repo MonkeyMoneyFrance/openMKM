@@ -1,7 +1,27 @@
 .lists {
   .table {
-   border : 1px solid blue;
-   background-color: yellow;
    width:100%;
+   border-spacing: 0 10px;
   }
+  thead {td {padding: 10px}}
+  tbody {
+    tr td:first-child {
+      border-top-left-radius: 13px;
+      border-bottom-left-radius:13px
+    }
+    tr td:last-child {
+      border-top-right-radius: 13px;
+      border-bottom-right-radius:13px;
+      height: 35px
+    }
+    tr {
+      background-color: rgba(255,255,255,0.63);
+      border-spacing: 1em
+    }
+    td {padding: 10px}
+  }
+  .main {
+    h2, p {
+    background-color: green; display: flex; justify-content: space-between;
+  }}
 }

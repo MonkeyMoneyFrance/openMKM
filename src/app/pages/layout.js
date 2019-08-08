@@ -5,6 +5,16 @@ const Main = styled.div`
   & table {
     width:100%;
   }
+  & .header {
+    display:flex;
+    justify-content:space-between;
+    @media(max-width:768px){
+      flex-direction:column;
+    }
+    h2 {
+
+    }
+  }
 `
 
 
