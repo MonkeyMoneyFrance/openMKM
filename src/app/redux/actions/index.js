@@ -18,3 +18,5 @@ export const setUser = item => ({ type: SET_USER, payload: item });
 export const fetchGame = item => ({ type: FETCH_GAME, payload: item });
 export const fetchResult = item => ({ type: FETCH_RESULT, payload: item });
 export const requestFetchResult = item => ({ type: REQUEST_FETCH_RESULT, payload: item });
+export const fetchTeam = item => ({ type: FETCH_TEAM, payload: item });
+export const requestFetchTeam = item => ({ type: REQUEST_FETCH_TEAM, payload: item });

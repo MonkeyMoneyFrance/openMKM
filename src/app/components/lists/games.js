@@ -27,7 +27,7 @@ function GamesList(props) {
 
 
     const handleClick = (value) => {
-      props.history.push(`/game/${value}`)
+      props.history.push(`games/${value}`)
     }
     useEffect(()=>{
       !props.games ? props.requestFetchGame() : void 0

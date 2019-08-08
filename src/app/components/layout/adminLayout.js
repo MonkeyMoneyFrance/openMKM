@@ -1,13 +1,15 @@
 import React from 'react';
 import AdminHeader from "../header/adminHeader";
+import {AdminLayout as Layout} from './layout'
 
 const AdminLayout = ({ children, ...rest }) => {
     return (
-      <div>
+      <Layout>
         <AdminHeader />
+        <div className='content'>
         {children}
-        {/* <Footer /> */}
-      </div>
+        </div>
+      </Layout>
     )
   }
 

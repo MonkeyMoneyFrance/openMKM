@@ -6,13 +6,11 @@ import src from "../../assets/logo_fsgt.png"
 function mapStateToProps(state){
   return {}
 }
-function PublicHeader() {
+function PrivateHeader() {
 
         return (
           <AppRoot className={"headerMenu"}>
-
-
-                <LinkRouter to='/'>
+                <LinkRouter to='/' className="homeImg">
                 <img src={src} alt="fsgt" />
                 </LinkRouter>
 
@@ -25,11 +23,9 @@ function PublicHeader() {
                     <LinkRouter to='/profile' >Mon Profil</LinkRouter>
                   </button>
                </nav>
-
-
           </AppRoot>
 
         )
 }
 
-export default connect(mapStateToProps)(PublicHeader);
+export default connect(mapStateToProps)(PrivateHeader);
