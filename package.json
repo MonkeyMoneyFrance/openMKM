@@ -57,12 +57,14 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^1.0.0",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.7"
+    "webpack-dev-server": "^3.1.7",
+    "webpack-merge": "^4.2.1"
   },
   "scripts": {
     "start": "NODE_ENV=production npm run server",
-    "dev": "webpack-dev-server --mode development --open",
-    "build": "webpack --mode production",
+    "dev": "webpack-dev-server --mode production --open",
+    "build:dev": "webpack-dev-server --progress --config=webpack.dev.js --mode development --open",
+    "build": "webpack -p --progress --config=webpack.prod.js --mode production",
     "server": "cross-env NODE_ENV=production babel-node src/server/index.js",
     "server-dev": "node ./src/server/index.js",
     "start-dev": "concurrently \"npm run server-dev\" \"npm run dev\"",
