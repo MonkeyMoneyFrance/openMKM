@@ -34,11 +34,11 @@ function GamesList(props) {
     },[])
 
     return (
-      <div className={'paper'}>
+      <div className={'lists'}>
           <table className={'table'}>
             <thead>
               <tr>
-                <td>Date</td>
+                <td >Date</td>
                 <td >Equipe A</td>
                 <td >Résultat</td>
                 <td >Equipe B</td>
