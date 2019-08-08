@@ -12,9 +12,38 @@ import {bindActionCreators} from 'redux'
 import "./styles.scss"
 import {requestFetchResult} from '../redux/actions';
 
+let mochaGame = {
+  "main": {
+    "date": "2018-03-22T04:06:07.000Z",
+    "refPresent": true,
+    "status": 0,
+    "division": "BCUGEDFJED"
+  },
+  "signatures": {
+    "teamA": [
+      {
+        "_id": "GHKHJGJ",
+        "date": "2019-03-22T04:06:07.000Z"
+      }
+    ],
+    "teamB": [],
+    "referee": []
+  },
+  "teamA": {
+    "before": "PLEIN DE REMARQUES",
+    "coachPresent": true,
+    "players": []
+  },
+  "teamB": {
+    "players": []
+  },
+  "_id": "5d4ad4341c9d4400007ff577"
+}
+
 function mapStateToProps(state,props){
   return {
-    default : (state.results)
+    // default : (state.results)
+    default : mochaGame
   }
 }
 function matchDispatchToProps(dispatch){
@@ -27,6 +56,7 @@ function Game(props) {
     if (!props.game) props.requestFetchResult({_id:props.match.params.gameId})
   }, [])
   const defaultProps = props.default || {}
+
   if (!props.default) return null
   return (
     <div style={{padding:"0.5em"}}>
