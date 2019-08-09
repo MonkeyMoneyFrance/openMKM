@@ -29,6 +29,7 @@ function TeamAvatar(props) {
             </div>
         </div>
       </div>
+      
     )
 }
 
