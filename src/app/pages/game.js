@@ -39,12 +39,12 @@ let mochaGame = {
   },
   "_id": "5d4ad4341c9d4400007ff577"
 }
-
+let mochaMatch = {}
 function mapStateToProps(state,props){
   return {
     // default : (state.results)
     default : mochaGame,
-    game : (state.games||[]).find(g => g._id == props.match.params.gameId)
+    game : (state.games||[]).find(g => g._id == props.match.params.gameId) || mochaMatch
   }
 }
 function matchDispatchToProps(dispatch){
@@ -61,7 +61,6 @@ function Game(props) {
   return (
     <div style={{padding:"0.5em"}}>
       <GameAvatar
-
         {...defaultProps}
         game = {props.game}
       />
