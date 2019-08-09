@@ -5,7 +5,6 @@ import {requestFetchUser} from '../redux/actions'
 import {bindActionCreators} from 'redux'
 
 
-
 function mapStateToProps(state){
   return {
     user : state.user
