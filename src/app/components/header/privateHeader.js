@@ -7,19 +7,14 @@ import src from "../../assets/logo_fsgt.png"
 
 function PrivateHeader() {
   const [menuStatus,setStatus] = useState('')
-  const [size,changeSize] = useState(0)
   const toggleMenu = () => setStatus(menuStatus === '' ? 'isopen' : '')
-  const updateWindowDimensions = () => {
-    changeSize(window.innerHeight)
-  }
-  window.addEventListener('resize', updateWindowDimensions);
+
   return (
     <AppRoot className={"headerMenu"}>
         <BackgroundSlider onClick={toggleMenu} className={menuStatus} ></BackgroundSlider>
           <LinkRouter to='/' className="homeImg">
           <img src={src} alt="fsgt" />
           </LinkRouter>
-          {size > 767 ?
             <nav className='navigator'>
                 <LinkRouter to='/games' >Matchs</LinkRouter>
                 <LinkRouter to='/team' >Mon Equipe</LinkRouter>
@@ -27,10 +22,7 @@ function PrivateHeader() {
                   <LinkRouter to='/profile' >Mon Profil</LinkRouter>
                 </button>
              </nav>
-          :
           <HamburgerMenu onClick={toggleMenu} className={ menuStatus }><span></span><span></span><span></span><span></span></HamburgerMenu>
-          }
-
           <SlideMenu className={menuStatus} >
            <ul>
              <li >

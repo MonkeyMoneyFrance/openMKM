@@ -1,40 +1,42 @@
 const User = require('../models/user.js')
 
 module.exports = {
+  mock : (req,res) => {
+    const mock = require("../mocks/user.js")
+    User.create(mock,
+    function (err, user) {
+      if (err) res.status(500).send(err)
+      res.status(200).send(user)
+    });
+  },
   create : (params) => {
-    return new Promise((resolve,reject) => {
       User.create(JSON.parse(params),
       function (err, users) {
-        if (err) return reject(err)
-        // create a token
-        resolve(users)
+        if (err) res.status(500).send(err)
+        res.status(200).send(users)
       });
-    })
   },
-  set : (req,userId,post) => {
-    return new Promise((resolve,reject) => {
-      User.findOneAndUpdate({'$and' : [
-        {_id:userId}, // userId vaut saut req.params.uid , soit token.decoded.userId
-        req.decoded.admin ? {} : {_id : { '$in' : req.cellars}}   // admin ou alors => doit faire partie des pairs
-      ]}
-      ,post
-      ,{new: true,upsert:req.decoded.admin == true}).then((user)=>{
-          resolve(user)
-      }).catch(err => reject(err))
-    })
+  set : (req,res) => {
+    const params = req.query || {}
+    const user = (req.body||{}).user
+    User.findOneAndUpdate({'$and' : [
+      params.userId ? {_id:params.userId} : {}, // userId vaut saut req.params.uid , soit token.decoded.userId
+    ]}
+    ,user
+    ,{new: true}).then((user)=>{
+        res.status(200).send(user)
+    }).catch(err => res.status(500).send(err))
   },
-  get : (req,userId = null) => {
-    return new Promise((resolve,reject) => {
-      console.log(userId ? {_id:userId} : {})
-      console.log(req.decoded.admin ? {} : {_id : { '$in' : req.cellars}})
-      User.find({'$and' : [
-        userId ? {_id:userId} : {}, // userId vaut saut req.params.uid , soit token.decoded.userId
-        req.decoded.admin ? {} : {_id : { '$in' : req.cellars}}   // dans tous les cas => doit faire partie des pairs
-      ]}).then((users)=>{
+  get : (req,res) => {
+    const params = req.query || {}
+    console.log(params)
 
-        resolve(users) // no need to store in a {}
-      }).catch(err => reject(err))
-    })
+    User.find({'$and' : [
+      params.teamId ? {teams : { $elemMatch: { teamId: params.teamId} }} : {}, // userId vaut saut req.params.uid , soit token.decoded.userId
+    ]}).then((users)=>{
+
+      res.status(200).send(users) // no need to store in a {}
+    }).catch(err => res.status(500).send(err))
   },
   delete : (params) => {
     return new Promise((resolve,reject) => {

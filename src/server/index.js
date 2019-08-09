@@ -1,7 +1,6 @@
 const express=require('express');
 const mongoose = require('mongoose')
-const {user,auth,cellar,game,match}=require('./core');
-const {fetchMatch,createMatch} = match
+const {user,auth,result,game,team}=require('./core');
 const redis = require('redis');
 const session = require('express-session');
 const passport = require('passport');
@@ -65,7 +64,7 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done('invalid credentials', false);
       }
-
+      console.log(user.userId)
       return done(null, user.userId);
     }).catch(error => done(error));
   }
@@ -80,8 +79,9 @@ passport.deserializeUser((user, done) => {
 
 
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 
 app.get('/api/user', (req, res) => {
@@ -92,7 +92,7 @@ app.post('/api/login', (req, res, next) => {
     if(info) {return res.status(401).send({message:info.message})}
     if (err) { return next(err); }
     if (!user) { return res.redirect('/login'); }
-    req.login(user, (err) => {
+    req.logIn(user, (err) => {
       if (err) { return next(err); }
       res.status(200).send({authenticated:'AUTHENTICATED',...req.session.passport,admin:true})
     })
@@ -107,16 +107,31 @@ app.get('/api/adminRequired', (req, res) => {
   let status = (req.isAuthenticated() && req.session.passport && req.session.passport.admin) ? 200 : 401
   res.status(200).end()
 })
-app.get('/testAuth', (req, res) => {
-  console.log(`User authenticated? ${req.isAuthenticated()}`)
-  res.send({})
+
+app.use((req,res,next)=>{
+  !req.isAuthenticated() ? res.status(403).end() : next()
 })
-app.get('/api/matchs', game.get)
-// app.get('/api/matchs', fetchMatch)
-app.post('/matchs', createMatch)
+
+app.get('/api/users', user.get)
+app.post('/api/users', user.set)
+
+app.get('/api/games', game.get)
+
+app.get('/api/teams', team.get)
+
+
+app.get('/api/results', result.get)
+app.post('/api/results', result.set)
+
+
+app.get('/api/mock/games',game.mock)
+app.get('/api/mock/teams',team.mock)
+app.get('/api/mock/users',user.mock)
+app.get('/api/mock/resul',result.mock)
+
 app.get('/', (req, res) => {
   console.log('is not auth')
   res.send({})
 })
-///////////////////////////
+
 server.listen(port,()=>console.log("...listening HTTP on port " + port));
