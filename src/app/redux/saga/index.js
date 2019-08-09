@@ -22,7 +22,7 @@ function* requestFetchGame (action = '') {
     params = "?" + Object.keys(action.payload)
              .map(k => encodeURIComponent(k) + '=' + encodeURIComponent((action.payload||{})[k]))
              .join('&')
-
+             console.log(URL+'matchs')
     const res = yield call(fetch, URL + 'matchs' + params, options)
     const games = yield res.json()
 
