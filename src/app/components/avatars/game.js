@@ -12,7 +12,7 @@ function GameAvatar(props) {
     return (
 
           <div >
-            <div className={"container"} style={{justifyContent:'space-between'}}>
+            <div className={"container"} style={{justifyContent:'flex-start'}}>
               <div>
                 <div>
                   <div className='p2'>
@@ -71,7 +71,12 @@ function GameAvatar(props) {
         </div>
 
 )
+
 }
+
+
+
+
 
 
 export default GameAvatar;
