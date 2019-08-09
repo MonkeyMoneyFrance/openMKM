@@ -12,9 +12,68 @@ const schema = Joi.object().keys({
 
 
 module.exports = {
+  askForConfirmation : (req,id,email) => {
+    return new Promise(async (resolve,reject) => {
+      try {
+        let passwordToken = await createResetPasswordToken(id)
+        await sendConfirmMail(req.hostname,email,id,passwordToken)
+        console.log('DID SEND MSG')
+        resolve()
+      } catch (err) {
+        console.log(err)
+        reject(err)
+      }
+    })
+  },
+  confirmMail : (_id) => {
+    return new Promise(function(resolve,reject){
+
+      Auth.updateOne({_id : new  ObjectId(_id)},{
+         '$set': {"emailProvider.verify" : true}
+      }).then(update => {
+        console.log(update)
+        resolve()
+      }).catch((err)=>{
+        console.log("User not found, error: "+err)
+        reject("User not found, error: "+err)
+        return;
+      })
+    })
+  },
+  resetPass : (_id,password) => {
+    return new Promise(function(resolve,reject){
+      Auth.findOne({_id:new  ObjectId(_id)}).then(auth => {
+        auth.emailProvider =  {...auth.emailProvider,password}
+        auth.save(function(err){
+          if(err) return reject(err)
+          resolve();
+        })
+      }).catch((err)=>{
+        console.log("User not found, error: "+err)
+        reject("User not found, error: "+err)
+        return;
+      })
+    })
+  },
+  findEmail : (email) => {
+    return new Promise((resolve,reject) => {
+      Auth.findOne({'$and' : [
+        {email},
+        {emailProvider : {$exists:true}}
+      ] }).then((user)=>{
+        if (user == null){
+          resolve() //no user with this email
+        }
+        else{
+          resolve(user._id)
+        }
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
   findAuth : (req = {}) => {
     let {email} = req
-    // console.log(email,)
     return new Promise((resolve,reject) => {
       let validation = schema.validate({ email })
       if (validation.error){
@@ -28,37 +87,7 @@ module.exports = {
       })
     })
   },
-  facebookAuth : (profile,accessToken) => {
-    return new Promise((resolve,reject) => {
-          Auth.findOne({
-                'facebookProvider.id': profile.id
-          }, function(err, auth) {
-            if (err) reject(err)
-            // no user was found, lets create a new one
-            if (!auth) {
-              console.log(profile)
-                  Auth.create({
-                        email: profile.emails[0].value,
-                        // userId : userId,
-                        name : profile.displayName,
-                        facebookProvider: {
-                              id: profile.id,
-                              token: accessToken
-                        }
-                  },{new:true,upsert:true}).then((createdAuth)=>{
-                    const token = signRequestToken({userId:createdAuth._id.toString()})
-                    resolve({...profile,token,userId:createdAuth._id.toString(),accessToken})
-                  }).catch((error)=>{
-                    console.log(error)
-                    reject(error)
-                  })
-            } else {
-              const token = signRequestToken({userId:auth._id.toString()})
-              resolve({...profile,token,userId:auth._id.toString(),accessToken})
-            }
-          });
-    })
-  },
+
   delete : (email) => {
     return new Promise(function(resolve,reject){
       Auth.findOneAndRemove({email}).then((response)=>resolve(response))

@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
 const HamburgerMenu = styled.div`
+  @media(min-width:768px){
+    display:none
+  }
   position: relative;
   width: 30px;
 
@@ -110,6 +113,9 @@ const AppRoot = styled.div`
   max-width:100%;
   justify-content : space-between;
   & nav{
+    @media(max-width:768px){
+      display:none
+    }
     display: flex;
     align-items: center;
     & a, & button {

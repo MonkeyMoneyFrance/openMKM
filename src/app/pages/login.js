@@ -1,28 +1,28 @@
 import React , { useState, useEffect } from 'react';
 import {login} from '../utils/API'
 import {connect} from 'react-redux'
-import {requestFetchUser} from '../redux/actions'
+import {requestLogin} from '../redux/actions'
 import {bindActionCreators} from 'redux'
 
 
 function mapStateToProps(state){
   return {
-    user : state.user
+    auth : state.auth
   }
 }
 
 function matchDispatchToProps(dispatch){
-  return bindActionCreators({requestFetchUser}, dispatch)
+  return bindActionCreators({requestLogin}, dispatch)
 }
 
 function Login (props) {
     const [email, setMail] = useState();
     const [password, setPass] = useState();
     function tryLogin(){
-      props.requestFetchUser({email,password})
+      props.requestLogin({email,password})
     }
     useEffect(() => {
-      if ((props.user||{}).authenticated == 'AUTHENTICATED') window.location.href = '/games'
+      if ((props.auth||{}).authenticated == 'AUTHENTICATED') window.location.href = '/games'
     });
     function submitHandler(e) {
         e.preventDefault();

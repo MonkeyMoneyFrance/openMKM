@@ -60,6 +60,13 @@ export default  [
     path : '/bo/teams/:teamId',
     main: require('../pages/team').default,
     admin : true,
+    exact:true,
+  },
+  {
+    path : '/bo/teams/users/:userId',
+    main: require('../pages/user').default,
+    admin : true,
+    exact:true,
   },
   {
     path : '/bo/users/',

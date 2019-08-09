@@ -3,7 +3,6 @@ Schema = mongoose.Schema;
 // ObjectId = Schema.Types.ObjectId;
 //
 module.exports = new Schema({
-        // name: String,
         email: {
             type: String, required: true,
             trim: true, unique: true,
@@ -11,11 +10,5 @@ module.exports = new Schema({
         },
         password : {type: String, required: true},
         userId : {type:ObjectId,required:true,unique:true},
-        // facebookProvider: {
-        //       type: {
-        //             id: String,
-        //             token: String
-        //       },
-        //       select: false
-        // }
+        admin: {type:Boolean,default:false}
   },{timestamps:true})

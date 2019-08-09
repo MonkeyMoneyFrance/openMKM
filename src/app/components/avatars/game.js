@@ -5,7 +5,8 @@ import moment from 'moment'
 
 function GameAvatar(props) {
     const [selected, setSelected] = useState([])
-    const {sport,division,category,playedAt} = props
+
+    const {sport,division,category,playedAt} = props.game
     const {teamA,teamB} = props
     const setValue = (id,value) => props.setData({[id]:value})
 

@@ -10,7 +10,7 @@ import Referee from '../components/forms/referee';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import "./styles.scss"
-import {requestFetchResult} from '../redux/actions';
+import {requestFetchGame} from '../redux/actions';
 
 let mochaGame = {
   "main": {
@@ -43,25 +43,27 @@ let mochaGame = {
 function mapStateToProps(state,props){
   return {
     // default : (state.results)
-    default : mochaGame
+    default : mochaGame,
+    game : (state.games||[]).find(g => g._id == props.match.params.gameId)
   }
 }
 function matchDispatchToProps(dispatch){
-  return bindActionCreators({requestFetchResult},dispatch)
+  return bindActionCreators({requestFetchGame},dispatch)
 }
 function Game(props) {
   const [data , setData] = useState({})
   const setJson = (id,value) => setData({...data,[id]:{...data[id],...value}})
   useEffect(()=> {
-    if (!props.game) props.requestFetchResult({_id:props.match.params.gameId})
+    if (!props.game) props.requestFetchGame({_id:props.match.params.gameId})
   }, [])
   const defaultProps = props.default || {}
-
-  if (!props.default) return null
+  if (!props.default || !props.game) return null
   return (
     <div style={{padding:"0.5em"}}>
       <GameAvatar
+
         {...defaultProps}
+        game = {props.game}
       />
         <Container >
           <Coach

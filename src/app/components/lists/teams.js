@@ -2,7 +2,7 @@ import React , { useState, useEffect } from 'react';
 import './list.scss'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {requestFetchGame} from '../../redux/actions'
+import {requestFetchTeam} from '../../redux/actions'
 
 const rows = [
   createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
@@ -20,17 +20,14 @@ function mapStateToProps(state) {
   }
 }
 function matchDispatchToProps(dispatch){
-  return bindActionCreators({requestFetchGame}, dispatch)
+  return bindActionCreators({requestFetchTeam}, dispatch)
 }
 function TeamsList(props) {
-    const [selected, setSelected] = useState([])
-
-
     const handleClick = (value) => {
       props.history.push(`teams/${value}`)
     }
     useEffect(()=>{
-      !props.teams ? props.requestFetchGame() : void 0
+      props.requestFetchTeam()
     },[])
 
     return (
@@ -41,18 +38,17 @@ function TeamsList(props) {
                 <td >Nom</td>
                 <td >Ligue</td>
                 <td >Categorie</td>
-
             </tr>
             </thead>
             <tbody>
-              {(rows).map((row,i)=> (
+              {(props.teams || rows).map((row,i)=> (
                 <tr
-                  onClick={event => handleClick(i)}
-                  key={i}
+                  onClick={event => handleClick(row.teamId)}
+                  key={row._id || i}
                   >
-                  <td>{row.playedAt}</td>
-                  <td>{(row.teams[0]||{}).teamId}</td>
-                  <td >{(row.teams[0]||{}).result} - {(row.teams[1]||{}).result}</td>
+                  <td>{row.teamName}</td>
+                  <td>{row.division}</td>
+                  <td >{row.category}</td>
                 </tr>
               ))}
             </tbody>

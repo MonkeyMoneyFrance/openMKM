@@ -6,15 +6,23 @@ import {
   REQUEST_FETCH_GAME,
   FETCH_GAME,
   REQUEST_FETCH_RESULT,
-  FETCH_RESULT
+  REQUEST_FETCH_TEAM,
+  FETCH_TEAM,
+  FETCH_RESULT,
+  REQUEST_LOGIN,
+  SET_PROFILE,
+  REQUEST_PROFILE
 
 } from "../constants/index";
+export const requestLogin = item => ({ type: REQUEST_LOGIN, payload: item });
+export const requestProfile = item => ({ type: REQUEST_PROFILE, payload: item });
+export const setProfile = item => ({ type: SET_PROFILE, payload: item });
+
 
 export const sessionFailure = item => ({ type: TODOS_FAILURE, payload: item });
-export const requestSetUser = item => ({ type: REQUEST_SET_USER, payload: item });
 export const requestFetchUser = item => ({ type: REQUEST_FETCH_USER, payload: item });
 export const requestFetchGame = item => ({ type: REQUEST_FETCH_GAME, payload: item });
-export const setUser = item => ({ type: SET_USER, payload: item });
+export const fetchUser = item => ({ type: SET_USER, payload: item });
 export const fetchGame = item => ({ type: FETCH_GAME, payload: item });
 export const fetchResult = item => ({ type: FETCH_RESULT, payload: item });
 export const requestFetchResult = item => ({ type: REQUEST_FETCH_RESULT, payload: item });

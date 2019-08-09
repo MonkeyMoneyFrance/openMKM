@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux'
-import user from './user'
+import users from './users'
+import auth from './auth'
 import games from './games'
 import results from './results'
 import teams from './teams'
 export default combineReducers({
-  user,
+  users,
   games,
   results,
+  auth,
   teams
 });

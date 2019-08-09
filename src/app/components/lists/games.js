@@ -5,10 +5,10 @@ import {bindActionCreators} from 'redux'
 import {requestFetchGame} from '../../redux/actions'
 
 const rows = [
-  createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
-  createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
-  createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
-  createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir")
+  createData('22 Juin 2019', [{teamId:"France",score:"3"},{teamId:"Angleterre",score:"0"}],"A venir"),
+  createData('22 Juin 2019', [{teamId:"France",score:"3"},{teamId:"Angleterre",score:"0"}],"A venir"),
+  createData('22 Juin 2019', [{teamId:"France",score:"3"},{teamId:"Angleterre",score:"0"}],"A venir"),
+  createData('22 Juin 2019', [{teamId:"France",score:"3"},{teamId:"Angleterre",score:"0"}],"A venir")
 ];
 function createData(playedAt, teams, status) {
   return { playedAt, teams, status };
@@ -23,14 +23,11 @@ function matchDispatchToProps(dispatch){
   return bindActionCreators({requestFetchGame}, dispatch)
 }
 function GamesList(props) {
-    const [selected, setSelected] = useState([])
-
-
     const handleClick = (value) => {
       props.history.push(`games/${value}`)
     }
     useEffect(()=>{
-      !props.games ? props.requestFetchGame() : void 0
+      props.requestFetchGame()
     },[])
 
     return (
@@ -46,17 +43,14 @@ function GamesList(props) {
             </tr>
             </thead>
             <tbody>
-              {(rows).map((row,i)=> (
+              {(props.games||rows).map((row,i)=> (
                 <tr
-                  hover
-                  onClick={event => handleClick(i)}
-                  // aria-checked={selected.indexOf(row.name) !== -1}
-                  key={i}
-                  // selected={selected.indexOf(row.name) !== -1}
+                  onClick={event => handleClick(row._id)}
+                  key={row._id || i}
                   >
                   <td>{row.playedAt}</td>
                   <td>{(row.teams[0]||{}).teamId}</td>
-                  <td >{(row.teams[0]||{}).result} - {(row.teams[1]||{}).result}</td>
+                <td >{(row.teams[0]||{}).score} - {(row.teams[1]||{}).score}</td>
                   <td >{(row.teams[1]||{}).teamId}</td>
                 <td >{row.status}</td>
                 </tr>

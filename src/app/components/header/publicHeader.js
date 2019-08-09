@@ -13,11 +13,11 @@ function PublicHeader() {
             <LinkRouter className="homeImg" to='/'>
             <img src={src} alt="fsgt" />
             </LinkRouter>
-            {/* <nav className='navigator'>
+            <nav className='navigator'>
                 <button >
                   <LinkRouter to='/profile' >Connexion</LinkRouter>
                 </button>
-             </nav> */}
+             </nav>
           </AppRoot>
 
         )
