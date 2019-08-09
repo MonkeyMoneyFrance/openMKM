@@ -1,6 +1,7 @@
 import React , { useState, useEffect } from 'react';
 
 function UserAvatar(props) {
+    const {firstName,lastName,licence,createdAt,teams} = props.user || []
     return (
       <div className='userInfo'>
         <div className='container wrap' style={{height:"100%"}}>
@@ -10,16 +11,20 @@ function UserAvatar(props) {
           <div style={{flex:9, padding:"0 1em"}}>
               <div>
                 <h2>
-                  NOM COMPLET : {props.name}
+                  NOM COMPLET : {firstName} {lastName}
                 </h2>
                 <h3>
-                  SPORT : {props.sport}
+                  LICENSE : {licence}
                 </h3>
                 <h3>
-                  LICENSE : {props.licence}
-                </h3>
-                <h3>
-                  EQUIPE : {props.team}
+                  EQUIPE :
+                  <ul>
+                    {(teams || []).map(t=>(
+                      <li>{t.teamId}</li>
+                    )
+                    )}
+                  </ul>
+
                 </h3>
               </div>
           </div>

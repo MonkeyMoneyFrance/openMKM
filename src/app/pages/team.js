@@ -22,7 +22,7 @@ function Team(props) {
     return (
       <Main className={'main'}>
         <TeamAvatar team={props.team} />
-        <UserList teamId={props.match.params.teamId}/>
+        <UserList history={props.history} teamId={props.match.params.teamId}/>
       </Main>
 )
 }
