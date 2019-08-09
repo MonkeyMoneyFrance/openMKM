@@ -4,6 +4,7 @@ textarea, input.fullWidth {
      -webkit-box-sizing:border-box;
      -moz-box-sizing: border-box;
      resize: none;
+
 }
 .container {
   display: flex;
@@ -106,7 +107,7 @@ textarea, input.fullWidth {
     .forgotPass a {
       font-size: 1em;
       margin-top:0.5em;
-      color:blue;
+      color:green;
     }
     form {
       margin : 0 2em;

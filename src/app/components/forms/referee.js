@@ -16,7 +16,7 @@ function Referee(props) {
   }
   useEffect(() => setPresent(props.refPresent||false),[])
   return (
-    <div style={{flex:1}}>
+    <div style={{flex:1; backgroundColor: 'red'}}>
       <div className={"container"}>
         <div>
           <input
@@ -29,7 +29,7 @@ function Referee(props) {
           <label htmlFor="refPresent">Observation de la rencontre</label>
         </div>
       </div>
-      <div className={"container"}>
+      <div className={"container"}
         <div className='p2' >Fait par :</div>
         <div className={"container"} >
           <LicenseInput
@@ -45,6 +45,7 @@ function Referee(props) {
       </div>
     </div>
   )
+
 }
 
 
