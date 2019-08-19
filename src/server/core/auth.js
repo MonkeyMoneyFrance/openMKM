@@ -2,7 +2,6 @@ const Auth = require('../models/auth.js')
 const Joi = require('@hapi/joi')
 const passport = require('passport')
 const FacebookStrategy =require('passport-facebook').Strategy;
-const {signRequestToken} = require('../routes/middlewares')
 
 const schema = Joi.object().keys({
     userId: Joi.string().alphanum().min(1).max(30),

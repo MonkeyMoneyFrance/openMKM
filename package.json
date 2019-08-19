@@ -9,6 +9,7 @@
     "chai": "^4.2.0",
     "compression-webpack-plugin": "^3.0.0",
     "cors": "^2.8.4",
+    "dotenv": "^8.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "express": "^4.16.3",
@@ -65,7 +66,7 @@
     "dev": "webpack-dev-server --progress --config=webpack.dev.js --mode development --open",
     "build": "webpack -p --progress --config=webpack.prod.js --mode production",
     "server": "cross-env NODE_ENV=production babel-node src/server/index.js",
-    "server-dev": "node ./src/server/index.js",
+    "server-dev": "cross-env NODE_ENV=development node ./src/server/index.js",
     "start-dev": "concurrently \"npm run server-dev\" \"npm run dev\"",
     "test": "mocha --require @babel/register ./src/*/test/",
     "eject": "react-scripts eject"

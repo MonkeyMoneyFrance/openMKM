@@ -1,10 +1,15 @@
 const express=require('express');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const {user,auth,result,game,team}=require('./core');
 const redis = require('redis');
 const session = require('express-session');
 const passport = require('passport');
 const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
 const helmet = require('helmet');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt-nodejs');
@@ -18,12 +23,15 @@ const uuid = require('uuid/v4')
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+
+dotenv.config();
 const port = process.env.PORT || '3000'
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
-mongoose.connect('mongodb+srv://mymac:weiH8ahb@cluster0-40t5m.mongodb.net/test',
+const secretKey =  process.env.SECRETKEY || 'abcdefghijklmnopqrstuvwxyz'
+const dbUser =  process.env.DBUSER || null
+const dbPass = process.env.DBPASS || null
+const connnectString =  "mongodb+srv://"+dbUser+":"+dbPass+"@cluster0-40t5m.mongodb.net/test"
+console.log(connnectString)
+mongoose.connect(connnectString,
 {
   useNewUrlParser: true,
   autoIndex:false,
@@ -33,7 +41,8 @@ mongoose.connect('mongodb+srv://mymac:weiH8ahb@cluster0-40t5m.mongodb.net/test',
 })
 .then(()=>{console.log('connected')})
 .catch((e)=>console.log(e));
-// app.use("/api/", limiter);
+
+app.use("/api/", limiter);
 app.use(helmet())
 app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
 app.use(bodyParser.json({limit: '2mb', extended: true}))
@@ -42,7 +51,7 @@ app.use(session({
     return uuid() // use UUIDs for session IDs
   },
   store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
-  secret: 'keyboard cat',
+  secret: process.env.SECRETKEY,
   resave: false,
   saveUninitialized: true
 }))
