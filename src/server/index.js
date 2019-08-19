@@ -5,11 +5,6 @@ const {user,auth,result,game,team}=require('./core');
 const redis = require('redis');
 const session = require('express-session');
 const passport = require('passport');
-const rateLimit = require("express-rate-limit");
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
 const helmet = require('helmet');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt-nodejs');
@@ -30,7 +25,7 @@ const secretKey =  process.env.SECRETKEY || 'abcdefghijklmnopqrstuvwxyz'
 const dbUser =  process.env.DBUSER || null
 const dbPass = process.env.DBPASS || null
 const connnectString =  "mongodb+srv://"+dbUser+":"+dbPass+"@cluster0-40t5m.mongodb.net/test"
-console.log(connnectString)
+
 mongoose.connect(connnectString,
 {
   useNewUrlParser: true,
@@ -42,7 +37,7 @@ mongoose.connect(connnectString,
 .then(()=>{console.log('connected')})
 .catch((e)=>console.log(e));
 
-app.use("/api/", limiter);
+
 app.use(helmet())
 app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
 app.use(bodyParser.json({limit: '2mb', extended: true}))
