@@ -72,7 +72,6 @@ function GameAvatar(props) {
         </div>
 
 )
-.container{background-color='red'}
 }
 
 

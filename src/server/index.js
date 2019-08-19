@@ -28,6 +28,7 @@ const connnectString =  "mongodb+srv://"+dbUser+":"+dbPass+"@cluster0-40t5m.mong
 
 mongoose.connect(connnectString,
 {
+  useFindAndModify:false,
   useNewUrlParser: true,
   autoIndex:false,
   replicaSet:"Cluster0-shard-0",
@@ -61,22 +62,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 passport.use(new LocalStrategy(
-  { usernameField: 'email' },
-  (email, password, done) => {
-    auth.findAuth({email})
-    .then(user => {
-      if (!user) {
-        return done('invalid credentials', false);
-      }
-      console.log(user.userId)
-      return done(null, user.userId);
-    }).catch(error => done(error));
-  }
+  { usernameField: 'email' },auth.findAuth
 ));
 passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
+  done(null, user)
+})
 passport.deserializeUser((user, done) => {
   done(null, user)
 })
@@ -94,10 +84,10 @@ app.get('/api/user', (req, res) => {
 app.post('/api/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if(info) {return res.status(401).send({message:info.message})}
-    if (err) { return next(err); }
+    if (err) { return res.status(403).send({authenticated:'UNAUTHENTICATED'}); }
     if (!user) { return res.redirect('/login'); }
     req.logIn(user, (err) => {
-      if (err) { return next(err); }
+      if (err) { res.status(403).send({authenticated:'UNAUTHENTICATED'}); }
       res.status(200).send({authenticated:'AUTHENTICATED',...req.session.passport,admin:true})
     })
   })(req, res, next);

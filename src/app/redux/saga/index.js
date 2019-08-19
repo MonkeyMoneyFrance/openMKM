@@ -75,11 +75,16 @@ function* requestLogin (action) {
     })
   }
   const res = yield call(fetch, URL + 'login', options)
-  const user = yield res.json()
-
-  yield put(setProfile(user))
+  if (res.status == 200){
+    const user = yield res.json()
+    yield put(setProfile(user))
+  } else {
+    throw "unable to authenticate"
+  }
   } catch (e) {
     yield put(sessionFailure({authenticated:'UNAUTHENTICATED'}))
+    alert('Wrong Password/userName')
+    console.log(e)
   }
 }
 
@@ -97,7 +102,7 @@ function* requestProfile (action) {
     throw "unable to authenticate"
   }
   } catch (e) {
-    yield put(sessionFailure({authenticated:'UNAUTHENTICATED'}))
+    // yield put(sessionFailure({authenticated:'UNAUTHENTICATED'}))
     console.log(e)
   }
 }
@@ -114,7 +119,6 @@ function* requestFetchUser (action = '') {
   }
 
   let params = encodeParams(action.payload) || ''
-  console.log('REQUETS IS ',  URL + 'users' + params)
   const res = yield call(fetch, URL + 'users' + params, options)
   if (res.status == 200){
     const users = yield res.json()
@@ -146,7 +150,7 @@ function* requestFetchTeam (action = '') {
     throw "unable to authenticate"
   }
   } catch (e) {
-    yield put(sessionFailure({authenticated:'UNAUTHENTICATED'}))
+    // yield put(sessionFailure({authenticated:'UNAUTHENTICATED'}))
   }
 }
 // function* requestFetchUser (action) {

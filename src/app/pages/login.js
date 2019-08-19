@@ -18,13 +18,17 @@ function matchDispatchToProps(dispatch){
 function Login (props) {
     const [email, setMail] = useState();
     const [password, setPass] = useState();
-    function tryLogin(){
+    const tryLogin = () => {
       props.requestLogin({email,password})
     }
     useEffect(() => {
-      if ((props.auth||{}).authenticated == 'AUTHENTICATED') window.location.href = '/games'
+
+      if ((props.auth||{}).authenticated == 'AUTHENTICATED') {
+        window.location.href = '/games'
+      }
+
     });
-    function submitHandler(e) {
+    const submitHandler = (e) => {
         e.preventDefault();
         tryLogin()
     }

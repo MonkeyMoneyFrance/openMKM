@@ -13,7 +13,7 @@ export default  [
     path : '/games',
     main : require('../pages/games').default,
     private : true,
-    exact:true
+
   },
   {
     path : '/games/:gameId',
