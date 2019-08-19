@@ -15,6 +15,7 @@ node_modules
 /build
 
 # misc
+.dump.rdb
 .DS_Store
 .ecosystem.config.js
 .env
