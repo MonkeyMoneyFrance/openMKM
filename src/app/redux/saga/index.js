@@ -9,7 +9,7 @@ import {
   REQUEST_FETCH_TEAM
 } from '../constants'
 import {encodeParams} from '../../functions'
-const URL = (process.env.NODE_ENV == 'production') ? '' : "http://localhost:3000/api/"
+const URL = (process.env.NODE_ENV == 'production') ? 'api/' : "http://localhost:3000/api/"
 
 
 
