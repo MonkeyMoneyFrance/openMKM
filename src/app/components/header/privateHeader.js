@@ -13,7 +13,7 @@ function PrivateHeader() {
     <AppRoot className={"headerMenu"}>
         <BackgroundSlider onClick={toggleMenu} className={menuStatus} ></BackgroundSlider>
           <LinkRouter to='/' className="homeImg">
-          <img src={src} alt="fsgt" />
+          <img src={require(`../../assets/logo_fsgt.png`)} alt="fsgt" />
           </LinkRouter>
             <nav className='navigator'>
                 <LinkRouter to='/games' >Matchs</LinkRouter>
