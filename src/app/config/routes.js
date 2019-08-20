@@ -1,7 +1,7 @@
 export default  [
   {
     path : '/',
-    main: require('../pages/login').default,
+    main: require('../pages/home').default,
     exact:true
   },
   {

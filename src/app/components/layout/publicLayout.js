@@ -5,7 +5,7 @@ import {PublicLayout as Layout} from './layout'
 const PublicLayout = ({ children, ...rest }) => {
     return (
       <Layout>
-        <PublicHeader />
+        {/*<PublicHeader />*/}
         <div className='content'>
           {children}
         </div>

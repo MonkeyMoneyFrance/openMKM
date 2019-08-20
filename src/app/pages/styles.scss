@@ -81,16 +81,12 @@ textarea, input.fullWidth {
   height:100%;
   .imageLeft {
     flex:1;
-    background-image: url(https://source.unsplash.com/900x770/weekly);
+    background-image: url(https://i0.wp.com/startup.info/wp-content/uploads/2017/11/monkey-money-e1511472681196.png?fit=580%2C306&ssl=1);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     min-height : 100px;
     width:100%;
-    @media(max-width:768px){
-      background-image: url(https://source.unsplash.com/812x375/weekly);
-      flex:2
-    }
   }
   .loginForm {
     flex:1;
