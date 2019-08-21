@@ -1,5 +1,6 @@
 import React , { useState, useEffect } from 'react';
 import {Main} from './layout'
+import './styles.scss'
 import UserAvatar from '../components/avatars/user'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'

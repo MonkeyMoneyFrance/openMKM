@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 const PrivateLayout = styled.div`
   background-color:#D7DFF4;
-  /* height:100%; */
   min-height:100%;
   & > .content {
     margin:auto;
@@ -13,12 +12,15 @@ const PrivateLayout = styled.div`
 
 const AdminLayout = styled.div`
   background-color:#D7DFF4;
-  /* height:100%; */
   min-height:100%;
   & > .content {
+    padding:1em;
     margin:auto;
     max-width:95%;
-    padding-top: 5rem
+
+    @media(min-width:758px){
+      margin-right:210px
+    }
   }
 `
 

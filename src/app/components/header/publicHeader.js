@@ -3,10 +3,12 @@ import { Link as LinkRouter } from 'react-router-dom';
 import {AppRoot,SlideMenu,HamburgerMenu,BackgroundSlider} from './header'
 import {connect} from 'react-redux'
 import src from "../../assets/logo_fsgt.png"
+import headers from '../../config/headers'
+
 function mapStateToProps(state){
   return {}
 }
-function PublicHeader() {
+function PublicHeader(props) {
   const [menuStatus,setStatus] = useState('')
   const toggleMenu = () => setStatus(menuStatus === '' ? 'isopen' : '')
 
@@ -16,26 +18,22 @@ function PublicHeader() {
                 <LinkRouter to='/' className="homeImg">
                 <img src={src} alt="fsgt" />
                 </LinkRouter>
-                  <nav className='navigator'>
-                      <LinkRouter to='/games' >Matchs</LinkRouter>
-                      <LinkRouter to='/team' >Mon Equipe</LinkRouter>
-                      <button >
-                        <LinkRouter to='/profile' >Mon Profil</LinkRouter>
-                      </button>
-                   </nav>
+                <nav className='navigator'>
+                  {((headers.find(h => (new RegExp(h.match)).test(props.pathname)) || {}).menus||[]).map((e,i)=> (
+                      <LinkRouter key={i} to={e.href} >{e.label}</LinkRouter>
+                    )
+                  )}
+                 </nav>
                 <HamburgerMenu onClick={toggleMenu} className={ menuStatus }><span></span><span></span><span></span><span></span></HamburgerMenu>
                 <SlideMenu className={menuStatus} >
-                 <ul>
-                   <li >
-                     <LinkRouter to='/games' >Matchs</LinkRouter>
-                   </li>
-                   <li >
-                     <LinkRouter to='/team' >Mon Equipe</LinkRouter>
-                   </li>
-                   <li >
-                     <LinkRouter to='/profile' >Mon Profil</LinkRouter>
-                   </li>
-                 </ul>
+                  <ul>
+                    {((headers.find(h => (new RegExp(h.match)).test(props.pathname)) || {}).menus||[]).map((e,i)=> (
+                      <li key={i} >
+                        <LinkRouter to={e.href} >{e.label}</LinkRouter>
+                      </li>
+                      )
+                    )}
+                  </ul>
                </SlideMenu>
           </AppRoot>
 

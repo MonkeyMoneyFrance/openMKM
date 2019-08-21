@@ -6,10 +6,10 @@ export default function withLayout(PublicComponent) {
   return class extends Component {
 
     render() {
-      
+
       return (
         <React.Fragment>
-          <PublicLayout>
+          <PublicLayout location={this.props.location}>
             <PublicComponent {...this.props} />
           </PublicLayout>
         </React.Fragment>

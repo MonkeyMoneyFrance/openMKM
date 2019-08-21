@@ -40,7 +40,7 @@ export default function withAuth(ComponentToProtect) {
       // }
       return (
         <React.Fragment>
-          <PrivateLayout>
+          <PrivateLayout location={this.props.location}>
             <ComponentToProtect {...this.props} />
           </PrivateLayout>
         </React.Fragment>

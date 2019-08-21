@@ -71,11 +71,46 @@ const BackgroundSlider = styled.div`
     z-index: 8;
   }
 `
-const SlideMenu = styled.div`
-  position: absolute;
+const BOMenu = styled.div`
+  position: fixed;
   height: calc(100vh - 50px);
   width: 210px;
   right:0;
+  z-index:10;
+  top:50px;
+  background-color: white;
+
+  transition: transform 300ms;
+  &.isopen{
+    transform: none;
+  }
+  @media(max-width:758px){
+    transform: translateX(100%);
+  }
+
+  & ul {
+    margin-top: 0px;
+    padding: 0px;
+    color: black;
+    list-style-type: none;
+    text-align: left;
+  & li {
+    padding: 30px 0 20px 20px;
+    font-size: 1.5em;
+
+  }
+
+  & li:last-child {
+    border-bottom: none;
+  }
+  }
+`
+
+const SlideMenu = styled.div`
+  position: absolute;
+  height: calc(100% - 50px);
+  width: 210px;
+  left:0;
   z-index:10;
   top:50px;
   background-color: white;
@@ -142,4 +177,42 @@ const AppRoot = styled.div`
 
 `
 
-export {AppRoot,SlideMenu,HamburgerMenu,BackgroundSlider}
+const AppUnderMenu = styled.div`
+  background-color:white;
+  padding-top:50px;
+  width:100%;
+  display : flex;
+  max-width:100%;
+  justify-content : space-between;
+  & nav{
+    @media(max-width:768px){
+      flex-direction: column;
+      width : 100%;
+    }
+    display: flex;
+    align-items: center;
+    & a, & button {
+      color:#575757;
+      margin:1em;
+    	text-decoration:none;
+    }
+    & button {height:40px}
+  }
+  & .homeImg {
+    max-width:100px;
+    display:flex;
+    align-items:center;
+  }
+  & img {
+    height:90%;
+    object-fit:contain;
+
+  }
+
+  .main {
+    background-color:green;
+  }
+
+`
+
+export {BOMenu,AppUnderMenu,AppRoot,SlideMenu,HamburgerMenu,BackgroundSlider}

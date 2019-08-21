@@ -40,7 +40,7 @@ export default function withAdmin(ComponentToProtect) {
       // }
       return (
         <React.Fragment>
-          <AdminLayout>
+          <AdminLayout location={this.props.location}>
             <ComponentToProtect {...this.props} />
           </AdminLayout>
         </React.Fragment>
