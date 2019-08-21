@@ -5,6 +5,11 @@ export default  [
     exact:true
   },
   {
+    path : '/home',
+    main: require('../pages/home').default,
+    exact:true
+  },
+  {
     path : '/login',
     main : require('../pages/login').default,
     exact:true
