@@ -1,5 +1,21 @@
 export default  [
   {
+    match:/^((\/bo)|)\/users\?type=particular/,
+    title : 'Liste des Utilisateurs Particuliers'
+  },
+  {
+    match:/^((\/bo)|)\/users\?type=professional/,
+    title : 'Liste des Utilisateurs Professionnels'
+  },
+  {
+    match:/^((\/bo)|)\/users\?minAccessLevel=/,
+    title : 'Liste des Utilisateurs Administrateurs'
+  },
+  {
+    match:/^((\/bo)|)\/users(?!\/)/,
+    title : 'Liste des Utilisateurs'
+  },
+  {
     match:/^((\/bo)|)\/users\/\w+\/(detail|finance|cotisation|publicPlaces)$/,
     menus:[
       {
@@ -23,8 +39,8 @@ export default  [
       accessLevel:10
       },
     ],
-    title : ''
   },
+
   {
     match:/^((\/bo)|)\/groups\/\w+\/(detail|finance|members)$/,
     menus:[

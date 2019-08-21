@@ -181,12 +181,17 @@ const AppUnderMenu = styled.div`
   background-color:white;
   padding-top:50px;
   width:100%;
-  display : flex;
+
   max-width:100%;
-  justify-content : space-between;
+  & h2 {
+    margin:0.5em;
+  }
   & nav{
+    display : flex;
+
     @media(max-width:768px){
       flex-direction: column;
+      align-items:flex-start;
       width : 100%;
     }
     display: flex;

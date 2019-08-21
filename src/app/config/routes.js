@@ -39,6 +39,7 @@ export default  [
   {
     path : '/bo/users',
     main: require('../pages/users').default,
+    exact:true,
     admin : true,
   },
   {

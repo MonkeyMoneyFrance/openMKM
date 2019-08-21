@@ -117,7 +117,6 @@ function* requestFetchUser (action = '') {
       'Content-Type': 'application/json'
     })
   }
-
   let params = encodeParams(action.payload) || ''
   const res = yield call(fetch, URL + 'users' + params, options)
   if (res.status == 200){

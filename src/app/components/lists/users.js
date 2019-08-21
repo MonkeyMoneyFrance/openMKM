@@ -1,56 +1,48 @@
 import React , { useState, useEffect } from 'react';
 import './list.scss'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {requestFetchUser} from '../../redux/actions'
-
+import {withRouter} from 'react-router-dom'
+import tables from '../../config/tables'
+import {theadcell} from '../inputs/index.js'
+import SearchTable from '../inputs/searchTable'
+import dotProp from 'dot-prop'
 const rows = [
   createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
   createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
   createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
   createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir")
 ];
-function createData(playedAt, users, status) {
-  return { playedAt, users, status };
+function createData(playedAt, results, status) {
+  return { playedAt, results, status };
 }
 
-function mapStateToProps(state) {
-  console.log(state.users)
-  return {
-    users : state.users
-  }
-}
-function matchDispatchToProps(dispatch){
-  return bindActionCreators({requestFetchUser}, dispatch)
-}
 function UsersList(props) {
-    const handleClick = (value) => {
-      props.history.push(`users/${value}`)
-    }
-    useEffect(()=>{
-      console.log('TEAMID IS ' , props.teamId)
-      props.requestFetchUser(props.teamId ? {teamId:props.teamId} : {})
-    },[])
-    console.log(props.users)
+
+    const table = (tables.find(h => h.id === props.id) || {}).header||[]
     return (
       <div className={'lists'}>
+          <SearchTable location={props.location} history={props.history} />
           <table className={'table'}>
             <thead>
               <tr>
-                <td>Prenom</td>
-                <td>Nom</td>
-                <td>Licence</td>
-            </tr>
+                {table.map((headcell,i)=> {
+                  let Component = theadcell
+                  return (
+                      <Component key={i} {...headcell} location={props.location} history={props.history} />
+                  )
+                })}
+              </tr>
             </thead>
             <tbody>
-              {(props.users||rows).map((row,i)=> (
+              {(props.data || rows).map((row,i)=> (
                 <tr
-                  onClick={event => handleClick(row._id)}
+                  onClick={event => props.rowClicked(row._id)}
                   key={row._id || i}
                   >
-                  <td>{row.firstName}</td>
-                  <td>{row.lastName}</td>
-                  <td>{row.licence}</td>
+                  {table.map((cell,i)=> {
+                    return (
+                      <td key={i}>{cell.path.map(p => dotProp.get(row,p) || p) }</td>
+                    )
+                  })}
                 </tr>
               ))}
             </tbody>
@@ -60,4 +52,4 @@ function UsersList(props) {
 }
 
 
-export default connect(mapStateToProps,matchDispatchToProps)(UsersList);
+export default withRouter(UsersList);
