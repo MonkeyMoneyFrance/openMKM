@@ -6,6 +6,18 @@ textarea, input.fullWidth {
      resize: none;
 
 }
+.verticalContainer {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+}
+
+.horizontalContainer {
+  flex:1;
+  display:flex;
+  flex-direction: row;
+}
+
 .container {
   display: flex;
   flex-direction: row;
