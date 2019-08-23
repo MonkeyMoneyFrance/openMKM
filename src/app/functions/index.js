@@ -5,5 +5,9 @@ function encodeParams(payload = {}){
            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent((payload||{})[k]))
            .join('&') : ''
 }
-
-export {encodeParams}
+function decodeParams(payload = ''){
+  return ((payload.split('?') || [])[1]||'').split('&').reduce((arr, item) => 
+      item.split('=').length == 2 ? {...arr,[item.split('=')[0]] : item.split('=')[1] } : arr
+  ,{})
+}
+export {encodeParams,decodeParams}

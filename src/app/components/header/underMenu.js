@@ -5,11 +5,12 @@ import {connect} from 'react-redux'
 import src from "../../assets/logo_fsgt.png"
 import undermenus from '../../config/undermenus'
 
-function PrivateHeader(props) {
-  let undermenu = undermenus.find(h => (new RegExp(h.match)).test(props.pathname))
+export default  function UnderMenu(props) {
+  let undermenu = undermenus.find(h => (new RegExp(h.match)).test(props.pathname + (props.search || '')))
   if (!undermenu) return <div style={{paddingTop:50}}></div>
   return (
     <AppUnderMenu>
+      {undermenu.title && <div><h2>{undermenu.title}</h2></div>}
       <nav className='navigator'>
         {(undermenu.menus||[]).map((e,i)=> (
             <LinkRouter key={i} to={e.href} >{e.label}</LinkRouter>
@@ -19,5 +20,3 @@ function PrivateHeader(props) {
     </AppUnderMenu>
   )
 }
-
-export default PrivateHeader;

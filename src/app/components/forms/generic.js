@@ -5,7 +5,6 @@ import {input,h2,h3,p} from '../inputs/index.js'
 
 import {connect} from 'react-redux'
 import {setForm,resetForm} from '../../redux/actions'
-
 const translate = {p,h2,h3,input}
 
 function mapStateToProps(state,props){
