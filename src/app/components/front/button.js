@@ -1,0 +1,25 @@
+import React , { useState, useEffect } from 'react';
+import {Button as ButtonSemantic} from 'semantic-ui-react';
+import {withRouter} from 'react-router-dom';
+
+function Button(props){
+  //props : buttonText, colorButton, inverted, fluid, size
+  return(
+    <ButtonSemantic
+      content={props.text}
+      color={props.color}
+      inverted={props.inverted}
+      fluid={props.fluid}
+      size={props.size}
+      style={props.style}
+      onClick={()=>{
+        if (props.onClick) props.onClick();
+        if (!props.link) return
+        else if (/^\//.test(props.link)) props.history.push(props.link)
+        else if (/^https?:\/\//.test(props.link)) window.open(props.link, '_blank');
+        else return
+      }}
+    />
+  );
+}
+export default withRouter(Button)
