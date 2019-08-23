@@ -21,12 +21,12 @@ const website = {
                   elements:{
                     0:{
                       type:"paragraph",
-                      props:{"html":"Bonjour"},
+                      props:{html:"Bonjour"},
                       style:{padding:50},
                     },
                     1:{
                       type:"image",
-                      props:{"url":"http://img.over-blog-kiwi.com/1/51/56/14/20160121/ob_bfbbf6_link-twilight-princess-by-hitokirisa.jpg"},
+                      props:{url:"http://img.over-blog-kiwi.com/1/51/56/14/20160121/ob_bfbbf6_link-twilight-princess-by-hitokirisa.jpg"},
                       style:{padding:50},
                     }
                   },
