@@ -13,9 +13,9 @@ import {requestFetchUser} from '../redux/actions';
 import website from '../mocks/website'
 
 const Forker = {
-    paragraph : ParagraphEditor, //or Paragraph ?
-    button : Button,
-    image: Image,
+  paragraph : Paragraph, //or ParagraphEditor ?
+  button : Button,
+  image: Image,
 };
 
 // function mapStateToProps(state,props){
@@ -49,61 +49,57 @@ function Front() {
   return(
     <div style={{flex:1,height:"100%",display:"flex",flexDirection:"row"}}
     >
-      {/*this is the editing part*/}
-      <div style={{width:isEditing ? 500 : 0, borderRight:"1rem solid"}}>
-        <Button style={{position:"absolute", top:500,left:isEditing ? 500 : 0}}
-          onClick={()=>{
-            setEditMode(!isEditing)
-          }}
-          text="Clique"
-        />
-      </div>
-      {/*this is the main front*/}
-      <div className="verticalContainer">
-        {Object.keys(page.blocks).map(i=>{
-          let block = page.blocks[i];
-          return(
-            <div key={i} name="block" className="verticalContainer"
-              style={{...block.style}}
-            >
-              {Object.keys(block.lines).map(j=>{
-                let line = block.lines[j];
-                return(
-                  <div key={i+"."+j} className="horizontalContainer"
-                    style={{...line.style}}
-                  >
-                    {Object.keys(line.columns).map(k=>{
-                      let column = line.columns[k];
-                      return(
-                        <div key={i+"."+j+"."+k} className="verticalContainer"
-                          style={{...column.style}}
-                        >
-                          {Object.keys(column.elements).map(l=>{
-                              let element = column.elements[l];
-                              const Component = Forker[element.type];
-                              return(
-                                <div key={i+"."+j+"."+k+"."+l}
-                                  style={{...element.style,display:"flex"}}
-                                >
-                                  <Component
-                                    {...element.props}
-                                  />
-                                </div>
-                              )
-                            }
-                          )}
-                        </div>
-                      )}
-                    )}
-                  </div>
-                )}
-              )}
-            </div>
-          )}
-        )}
-      </div>
+    {/*this is the editing part*/}
+    <div style={{width:isEditing ? 500 : 0, borderRight:"1rem solid"}}>
+    <Button style={{position:"absolute", top:500,left:isEditing ? 500 : 0}}
+    onClick={()=>{
+      setEditMode(!isEditing)
+    }}
+    buttonText="Clique"
+    />
     </div>
-  );
+    {/*this is the main front*/}
+    <div className="page">
+    {page.blocks.map((block,i)=>{
+      return(
+        <div key={i} name="block" className={"block"+ (isEditing ? " blockEditing" : "")}
+        style={{...block.style}} onClick={()=>console.log("block "+i+" clicked")}
+        >
+        {block.lines.map((line,j)=>{
+          return(
+            <div key={i+"."+j} className={"line"+ (isEditing ? " lineEditing" : "")}
+            style={{...line.style}} onClick={()=>console.log("line "+i+"."+j+" clicked")}
+            >
+            {line.columns.map((column,k)=>{
+              return(
+                <div key={i+"."+j+"."+k} className={"column"+ (isEditing ? " columnEditing" : "")}
+                style={{...column.style}} onClick={()=>console.log("column "+i+"."+j+"."+k+" clicked")}
+                >
+                {column.elements.map((element,l)=>{
+                  const Component = Forker[element.type];
+                  return(
+                    <div key={i+"."+j+"."+k+"."+l} className={"element"+ (isEditing ? " elementEditing" : "")}
+                    style={{...element.style}} onClick={()=>console.log("element "+i+"."+j+"."+k+"."+l+" clicked")}
+                    >
+                    <Component
+                    {...element.props}
+                    />
+                    </div>
+                  )
+                }
+              )}
+              </div>
+            )}
+          )}
+          </div>
+        )}
+      )}
+      </div>
+    )}
+  )}
+  </div>
+  </div>
+);
 }
 //export default withRouter(connect(mapStateToProps,matchDispatchToProps)(Front))
 export default withRouter(Front)
