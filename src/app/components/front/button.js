@@ -6,8 +6,8 @@ function Button(props){
   //props : buttonText, colorButton, inverted, fluid, size
   return(
     <ButtonSemantic
-      content={props.text}
-      color={props.color}
+      content={props.buttonText}
+      color={props.colorButton}
       inverted={props.inverted}
       fluid={props.fluid}
       size={props.size}

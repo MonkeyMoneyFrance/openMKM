@@ -16,6 +16,49 @@ input {
   flex-direction: column;
 }
 
+.page {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+}
+
+.block {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+}
+.blockEditing:hover {
+  box-shadow:0 0 3px black;
+}
+
+.line {
+  flex:1;
+  display:flex;
+  flex-direction: row;
+}
+
+.lineEditing:hover {
+  box-shadow:0 0 3px black;
+}
+
+.column {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+}
+
+.columnEditing:hover {
+  box-shadow:0 0 3px black;
+}
+
+.element {
+
+}
+
+.elementEditing:hover {
+  box-shadow:0 0 3px black;
+}
+
 .horizontalContainer {
   flex:1;
   display:flex;
