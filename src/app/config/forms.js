@@ -22,5 +22,89 @@ export default  [
       match:/^\d+$/
       }]
     ]
-  }
+  },
+  {
+    id:'addUser',
+    form:[
+      [{
+        label:"Ajout d'Utilisateur",
+        html:'h2',
+        className:'',
+      }],
+      [{
+        label:'Prénom',
+        html:'input',
+        id:'firstName',
+        className:'',
+        match:/^.+$/
+      },
+      {
+        label:'Nom',
+        html:'input',
+        id:'lastname',
+        className:'',
+        match:/^\d+$/
+      }],
+      [{
+        label:'Adresse',
+        html:'input',
+        id:'address',
+        className:'',
+        match:/^.+$/
+      }],
+      [{
+        label:'Soumettre',
+        html:'submit',
+        id:'submit',
+        className:'',
+        match:/^.+$/
+      }]
+    ]
+  },
+  {
+    id:'addCotisation',
+    form:[
+      [{
+        label:"Ajout de Cotisation",
+        html:'h2',
+        className:'',
+      }],
+      [{
+        label:'Date de Début',
+        html:'input',
+        id:'start',
+        className:'',
+        match:/^.+$/
+      },
+      {
+        label:'Date de Fin',
+        html:'input',
+        id:'end',
+        className:'',
+        match:/^\d+$/
+      }],
+      [{
+        label:'Montant',
+        html:'input',
+        id:'address',
+        className:'',
+        match:/^.+$/
+      },
+      {
+        label:'Mode de Paiement',
+        html:'input',
+        id:'address',
+        className:'',
+        match:/^.+$/
+      }],
+      [{
+        label:'Créer la cotisation',
+        html:'submit',
+        id:'submit',
+        className:'',
+        match:/^.+$/
+      }]
+    ]
+  },
+
 ]

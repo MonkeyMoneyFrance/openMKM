@@ -11,14 +11,21 @@ import {
   FETCH_RESULT,
   REQUEST_LOGIN,
   SET_PROFILE,
-  REQUEST_PROFILE
+  REQUEST_PROFILE,
+  SET_FORM,
+  RESET_FORM,
+  REQUEST_COTISATION,
+  SET_COTISATION
 
 } from "../constants/index";
 export const requestLogin = item => ({ type: REQUEST_LOGIN, payload: item });
 export const requestProfile = item => ({ type: REQUEST_PROFILE, payload: item });
 export const setProfile = item => ({ type: SET_PROFILE, payload: item });
+export const setForm = item => ({ type: SET_FORM, payload: item });
+export const resetForm = item => ({ type: RESET_FORM, payload: item });
 
-
+export const requestCotisations = item => ({ type: REQUEST_COTISATION, payload: item });
+export const setCotisation = item => ({ type: SET_COTISATION, payload: item });
 export const sessionFailure = item => ({ type: TODOS_FAILURE, payload: item });
 export const requestFetchUser = item => ({ type: REQUEST_FETCH_USER, payload: item });
 export const requestFetchGame = item => ({ type: REQUEST_FETCH_GAME, payload: item });

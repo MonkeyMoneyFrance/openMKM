@@ -1,12 +1,18 @@
 import React , {useState} from 'react'
 import {Content,Button,Input,Main} from './styles'
+import {withRouter} from 'react-router-dom'
 import Generic from '../forms/generic'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 
-function UserModal(props){
+function CotisationModal(props){
   const onSubmit = (form) => {
+    props.setCotisation({
+      userId:props.match.params.userId,
+      _id : 'RANDOM',
+      ...form
+    })
     onClose()
   }
   const onClose = () => props.close()
@@ -17,10 +23,10 @@ function UserModal(props){
       onClick={onClose}
     />
     <Content>
-      <Generic id={'addUser'} onSubmit={onSubmit}/>
+      <Generic id={'addCotisation'} onSubmit={onSubmit}/>
     </Content>
 
   </Main>
   )
 }
-export default UserModal;
+export default withRouter(CotisationModal);

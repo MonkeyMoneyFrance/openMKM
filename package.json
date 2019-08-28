@@ -46,13 +46,15 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.5.5",
     "assert": "^2.0.0",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "concurrently": "^4.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "highground": "^1.0.3-beta",
+    "identity-obj-proxy": "^3.0.0",
     "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
     "mongodb": "^3.1.10",
@@ -72,8 +74,21 @@
     "server": "cross-env NODE_ENV=production babel-node src/server/index.js",
     "server-dev": "cross-env NODE_ENV=development node ./src/server/index.js",
     "start-dev": "concurrently \"npm run server-dev\" \"npm run dev\"",
-    "test": "mocha --require @babel/register ./src/*/test/",
+    "test": "jest test --watch",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.js": "<rootDir>/node_modules/babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!@agm)"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

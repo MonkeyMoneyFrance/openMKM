@@ -1,4 +1,3 @@
-
 function encodeParams(payload = {}){
 
   return Array.isArray(Object.keys(payload)) ? "?" + Object.keys(payload)
