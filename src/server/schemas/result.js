@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-Schema = mongoose.Schema;
+Schema = mongoose.Schema,
 ObjectId = Schema.Types.ObjectId;
 
 module.exports = new Schema({

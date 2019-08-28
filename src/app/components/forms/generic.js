@@ -1,11 +1,11 @@
 import React , {useState,useEffect} from 'react'
 import forms from '../../config/forms'
 import {bindActionCreators} from 'redux'
-import {input,h2,h3,p,submit} from '../inputs/index.js'
-
+import {input,h2,h3,p,submit,autocomplete} from '../inputs/index.js'
+import dotProp from 'dot-prop'
 import {connect} from 'react-redux'
 import {setForm,resetForm} from '../../redux/actions'
-const translate = {p,h2,h3,input,submit}
+const translate = {p,h2,h3,input,autocomplete,submit}
 
 
 function matchDispatchToProps(dispatch){
@@ -13,10 +13,9 @@ function matchDispatchToProps(dispatch){
 }
 
 
-
 function Generic(props){
   useEffect(()=>{
-    props.resetForm()
+    props.resetForm({})
   },[])
   const submitForm = (form) => props.onSubmit(form);
   return (
@@ -28,7 +27,7 @@ function Generic(props){
               (state) => {return {form : state.form}},
               (dispatch) => bindActionCreators({setForm},dispatch)
             )(translate[e.html])
-            return(<Component key={j} {...e} onSubmit={submitForm} />)
+            return(<Component key={j} {...e} defaultValue={(props.initialData||{})[e.id]} onSubmit={submitForm} />)
           })}
           </div>
         )

@@ -1,7 +1,7 @@
 export default  [
   {
     path : '/',
-    main: require('../pages/login').default,
+    main: require('../pages/front').default,
     exact:true
   },
   {
@@ -33,7 +33,7 @@ export default  [
   },
   {
     path : '/bo/publicPlaces/:publicPlaceId/finance',
-    main: require('../pages/finance').default,
+    main: require('../pages/transactions').default,
     admin : true,
   },
   {
@@ -55,7 +55,7 @@ export default  [
   },
   {
     path : '/bo/users/:userId/finance',
-    main: require('../pages/finance').default,
+    main: require('../pages/transactions').default,
     admin : true,
     exact:true,
   },
@@ -84,7 +84,7 @@ export default  [
   },
   {
     path : '/bo/groups/:groupId/finance',
-    main: require('../pages/finance').default,
+    main: require('../pages/transactions').default,
     admin : true,
   },
   {

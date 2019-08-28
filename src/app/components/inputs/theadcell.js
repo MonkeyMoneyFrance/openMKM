@@ -39,13 +39,18 @@ function theadcell(props){
     let newParams = {...params,orderBy:props.id,order:-1}
     props.history.push(props.location.pathname+encodeParams(newParams))
   }
+  const toggleUpdate = () => {
 
+    let newParams = {...params,orderBy:props.id,order:order ? -1 : 1}
+    props.history.push(props.location.pathname+encodeParams(newParams))
+
+  }
   return(
     <Td selected={selected}>
       <Label >
       <Icon selected={selected && order} onClick={updateSearchUp}><SVG src={sortUp} /></Icon>
       <Icon selected={selected && !order} onClick={updateSearchDown}><SVG src={sortDown} /></Icon>
-      <span onClick={updateSearchUp}>{props.label}</span>
+      <span onClick={toggleUpdate}>{props.label}</span>
       </Label>
     </Td>
   )

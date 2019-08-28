@@ -24,6 +24,51 @@ export default  [
     ]
   },
   {
+    id:'editUser',
+    form:[
+      [{
+        label:"Editer cet Utilisateur",
+        html:'h2',
+        className:'',
+      }],
+      [{
+        label:'Prénom',
+        html:'input',
+        id:'firstName',
+        className:'',
+        match:/^.+$/
+      },
+      {
+        label:'Nom',
+        html:'input',
+        id:'lastName',
+        className:'',
+        match:/^\d+$/
+      }],
+      [{
+        label:'Adresse',
+        html:'input',
+        id:'address',
+        className:'',
+        match:/^.+$/
+      },
+      {
+        label:'Téléphone',
+        html:'input',
+        id:'phone',
+        className:'',
+        match:/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/
+      }],
+      [{
+        label:'Soumettre',
+        html:'submit',
+        id:'submit',
+        className:'',
+        match:/^.+$/
+      }]
+    ]
+  },
+  {
     id:'addUser',
     form:[
       [{
@@ -41,7 +86,7 @@ export default  [
       {
         label:'Nom',
         html:'input',
-        id:'lastname',
+        id:'lastName',
         className:'',
         match:/^\d+$/
       }],
@@ -99,6 +144,53 @@ export default  [
       }],
       [{
         label:'Créer la cotisation',
+        html:'submit',
+        id:'submit',
+        className:'',
+        match:/^.+$/
+      }]
+    ]
+  },
+  {
+    id:'addTransactionUser',
+    form:[
+      [{
+        label:"Nouvelle Transaction",
+        html:'h2',
+        className:'',
+      }],
+      [{
+        label:'Destinataire',
+        html:'autocomplete',
+        collection:'users',
+        returned:['_id:to','firstName:firstName'],
+        id:'to',
+        className:'',
+        match:/^.+$/
+      }],
+      [{
+        label:'Montant €',
+        html:'input',
+        id:'std_currency',
+        className:'',
+        match:/^.+$/
+      },
+      {
+        label:'Montant MLC',
+        html:'input',
+        id:'mlc',
+        className:'',
+        match:/^.+$/
+      }],
+      [{
+        label:'Date Effective',
+        html:'input',
+        id:'createdAt',
+        className:'',
+        match:/^.+$/
+      }],
+      [{
+        label:'Créer la Transaction',
         html:'submit',
         id:'submit',
         className:'',

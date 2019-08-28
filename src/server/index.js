@@ -47,7 +47,7 @@ app.use(session({
     return uuid() // use UUIDs for session IDs
   },
   store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
-  secret: process.env.SECRETKEY,
+  secret: "POPOPOPOPOPOP",
   resave: false,
   saveUninitialized: true
 }))
@@ -65,6 +65,7 @@ passport.use(new LocalStrategy(
   { usernameField: 'email' },auth.findAuth
 ));
 passport.serializeUser((user, done) => {
+  console.log(user)
   done(null, user)
 })
 passport.deserializeUser((user, done) => {
@@ -79,6 +80,7 @@ app.use(passport.session());
 
 
 app.get('/api/user', (req, res) => {
+  console.log('TRY TO LOG')
   !req.isAuthenticated() ? res.status(401).end() : res.status(200).send(req.session.passport)
 })
 app.post('/api/login', (req, res, next) => {
@@ -94,7 +96,6 @@ app.post('/api/login', (req, res, next) => {
 })
 
 app.get('/api/authrequired', (req, res) => {
-  console.log(req.isAuthenticated())
   res.status(req.isAuthenticated() ? 200 : 401).end()
 })
 app.get('/api/adminRequired', (req, res) => {
@@ -107,7 +108,8 @@ app.use((req,res,next)=>{
 })
 
 app.get('/api/users', user.get)
-app.post('/api/users', user.set)
+app.put('/api/users/:_id', user.set)
+app.post('/api/users', user.create)
 
 app.get('/api/games', game.get)
 

@@ -9,32 +9,34 @@ module.exports = {
       res.status(200).send(user)
     });
   },
-  create : (params) => {
-      User.create(JSON.parse(params),
+  create : (req,res) => {
+      User.create((req.body.users),
       function (err, users) {
-        if (err) res.status(500).send(err)
+        if (err) res.status(500).send({err})
         res.status(200).send(users)
       });
   },
   set : (req,res) => {
-    const params = req.query || {}
-    const user = (req.body||{}).user
+    const params = req.params || {}
+    const user = req.body||{}
     User.findOneAndUpdate({'$and' : [
-      params.userId ? {_id:params.userId} : {}, // userId vaut saut req.params.uid , soit token.decoded.userId
+      params._id ? {_id:params._id} : {}, // userId vaut saut req.params.uid , soit token.decoded.userId
     ]}
     ,user
     ,{new: true}).then((user)=>{
-        res.status(200).send(user)
+        res.status(200).send([user])
     }).catch(err => res.status(500).send(err))
   },
   get : (req,res) => {
     const params = req.query || {}
     console.log(params)
-
     User.find({'$and' : [
-      params.teamId ? {teams : { $elemMatch: { teamId: params.teamId} }} : {}, // userId vaut saut req.params.uid , soit token.decoded.userId
+      params.text ? {'$or' : [
+        {firstName : new RegExp(params.text, "gi")},
+        {lastName : new RegExp(params.text, "gi")}
+      ]} : {}
     ]}).then((users)=>{
-
+      console.log(users)
       res.status(200).send(users) // no need to store in a {}
     }).catch(err => res.status(500).send(err))
   },

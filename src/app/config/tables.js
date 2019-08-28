@@ -5,20 +5,74 @@ export default  [
       {
       label:'Prenom',
       id:'firstName',
-      path:['playedAt'],
+      path:['firstName'],
       type:'string',
       default:true,
       },
       {
       label:'Nom',
       id:'lastName',
-      path:['results.1.teamId',' ','results.1.result',' - ','results.0.result',' ','results.0.teamId'],
+      path:['lastName'],
       type:'string'
       },
       {
-      label:'License',
-      id:'licence',
-      path:['status'],
+      label:'Créé le',
+      id:'createdAt',
+      path:['createdAt'],
+      type:'string'
+      }]
+  },
+  {
+    id:'publicPlaceList',
+    header:[
+      {
+      label:'Nom',
+      id:'name',
+      path:['name'],
+      type:'string',
+      default:true,
+      },
+      {
+      label:'Addresse',
+      id:'address',
+      path:['address'],
+      type:'string'
+      },
+      {
+      label:'Email',
+      id:'email',
+      path:['email'],
+      type:'string'
+      }]
+  },
+  {
+    id:'transactionList',
+    header:[
+      {
+      label:'Date',
+      id:'name',
+      path:['date'],
+      type:'string',
+      default:true,
+      },
+      {
+      label:'De',
+      id:'name',
+      path:['from'],
+      type:'string',
+      default:true,
+      },
+      {
+      label:'A',
+      id:'name',
+      path:['to'],
+      type:'string',
+      default:true,
+      },
+      {
+      label:'Montant (€/MLC)',
+      id:'address',
+      path:['std_currency', ' /', 'mlc'],
       type:'string'
       }]
   }

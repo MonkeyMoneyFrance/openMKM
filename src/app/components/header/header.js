@@ -76,7 +76,7 @@ const BOMenu = styled.div`
   height: calc(100vh - 50px);
   width: 210px;
   right:0;
-  z-index:10;
+  z-index:2;
   top:50px;
   background-color: white;
 
@@ -111,7 +111,7 @@ const SlideMenu = styled.div`
   height: calc(100% - 50px);
   width: 210px;
   left:0;
-  z-index:10;
+  z-index:2;
   top:50px;
   background-color: white;
   transform: translateX(100%);
@@ -143,6 +143,7 @@ const AppRoot = styled.div`
   background-color:white;
   position:fixed;
   height:50px;
+  z-index:1;
   width:100%;
   display : flex;
   max-width:100%;

@@ -1,5 +1,5 @@
 import {
-  SET_USER,REQUEST_SET_USER,TODOS_FAILURE,REQUEST_FETCH_USER,REQUEST_COTISATION,SET_COTISATION
+  ADD_USER,SET_USER,REQUEST_SET_USER,TODOS_FAILURE,REQUEST_FETCH_USER,REQUEST_COTISATION,SET_COTISATION
 } from "../constants/index";
 
 const initialState = null
@@ -65,7 +65,7 @@ export default function user(state = initialState, action){
     return []
       break;
     default:
-      return state
+      return state || []
     break;
 
   }

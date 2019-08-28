@@ -6,6 +6,10 @@ textarea, input.fullWidth {
      resize: none;
 
 }
+input {
+  height:30px;
+  padding:0.2em;
+}
 .verticalContainer {
   flex:1;
   display:flex;
@@ -44,6 +48,7 @@ textarea, input.fullWidth {
 }
 .userInfo {
   background-color: white;
+  position: relative;
   border-radius: 10px;
   overflow: hidden;
 

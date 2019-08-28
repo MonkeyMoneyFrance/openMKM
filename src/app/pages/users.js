@@ -7,10 +7,15 @@ import {requestFetchUser} from '../redux/actions'
 import List from '../components/lists/users'
 import Modal from '../components/modal/user'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,props) => {
+  const params = decodeParams(props.location.search) || {}
+  const orderBy = params.orderBy || 'firstName'
+  const order = (params.order || 1)
   return {
-    users : state.users
-  }
+    users : state.users.sort((a,b)=>  {
+      return (a[orderBy]||'').toLowerCase() >= (b[orderBy]||'').toLowerCase() ? 1*order : -1*order
+      })
+    }
 };
 const matchDispatchToProps = (dispatch) => bindActionCreators({requestFetchUser}, dispatch);
 
@@ -26,7 +31,7 @@ export function Users(props) {
     <Main className={'main'}>
       <button onClick={openModal}>ADD</button>
       {modalOpen && <Modal close={closeModal} /> }
-      <List rowClicked={handleClick} id={'userList'} data={props.user}/>
+      <List rowClicked={handleClick} id={'userList'} data={props.users}/>
     </Main>
   )
 }

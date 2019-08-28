@@ -1,8 +1,14 @@
 import {
   REQUEST_SET_USER,
   SET_USER,
+  EDIT_USER,
+  ADD_USER,
   TODOS_FAILURE,
   REQUEST_FETCH_USER,
+  REQUEST_FETCH_PUBLIC_PLACE,
+  FETCH_PUBLIC_PLACE,
+  REQUEST_FETCH_TRANSACTION,
+  FETCH_TRANSACTION,
   REQUEST_FETCH_GAME,
   FETCH_GAME,
   REQUEST_FETCH_RESULT,
@@ -28,6 +34,18 @@ export const requestCotisations = item => ({ type: REQUEST_COTISATION, payload: 
 export const setCotisation = item => ({ type: SET_COTISATION, payload: item });
 export const sessionFailure = item => ({ type: TODOS_FAILURE, payload: item });
 export const requestFetchUser = item => ({ type: REQUEST_FETCH_USER, payload: item });
+
+export const requestFetchPublicPlace = item => ({ type: REQUEST_FETCH_PUBLIC_PLACE, payload: item });
+export const fetchPublicPlace = item => ({ type: FETCH_PUBLIC_PLACE, payload: item });
+
+export const addUser = item => ({ type: ADD_USER, payload: item });
+export const editUser = item => ({ type: EDIT_USER, payload: item });
+
+
+export const requestFetchTransaction = item => ({ type: REQUEST_FETCH_TRANSACTION, payload: item });
+export const fetchTransaction = item => ({ type: FETCH_TRANSACTION, payload: item });
+
+
 export const requestFetchGame = item => ({ type: REQUEST_FETCH_GAME, payload: item });
 export const fetchUser = item => ({ type: SET_USER, payload: item });
 export const fetchGame = item => ({ type: FETCH_GAME, payload: item });

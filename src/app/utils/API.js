@@ -6,6 +6,15 @@ const URL = process.env.NODE_ENV == 'production' ? '' : "http://localhost:3000/a
 var token;
 // var _this = this;
 
+function getMatching(text,collection) {
+  return new Promise((resolve,reject)=>{
+    request('GET','/'+collection,{text})
+    .then((results) => resolve(results))
+    .catch((e)=>reject(e))
+  })
+
+}
+
 function login(email='geoffroymounier@gmail.com',password='France98') {
   return new Promise((resolve,reject) => {
     request('POST','/login',{email,password},{email,password})
@@ -47,4 +56,4 @@ function request(method = 'GET',path,query = {},body){
     })
   }
 
-export {login,request,isAuth}
+export {login,request,isAuth,getMatching}

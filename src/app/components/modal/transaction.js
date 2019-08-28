@@ -1,20 +1,18 @@
 import React , {useState} from 'react'
 import {Content,Button,Input,Main} from './styles'
+import {withRouter} from 'react-router-dom'
 import Generic from '../forms/generic'
-import {addUser} from '../../redux/actions'
-import {bindActionCreators} from 'redux'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
-const mapStateToProps = (state) => {
-  return {}
-};
-const matchDispatchToProps = (dispatch) => bindActionCreators({addUser},dispatch)
 
-
-function UserModal(props){
+function CotisationModal(props){
   const onSubmit = (form) => {
-    props.addUser(form)
+    props.setCotisation({
+      userId:props.match.params.userId,
+      _id : 'RANDOM',
+      ...form
+    })
     onClose()
   }
   const onClose = () => props.close()
@@ -25,10 +23,10 @@ function UserModal(props){
       onClick={onClose}
     />
     <Content>
-      <Generic id={'addUser'} onSubmit={onSubmit}/>
+      <Generic id={'addTransaction'+props.name} onSubmit={onSubmit}/>
     </Content>
 
   </Main>
   )
 }
-export default connect(mapStateToProps,matchDispatchToProps)(UserModal);
+export default withRouter(CotisationModal);

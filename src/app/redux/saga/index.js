@@ -1,9 +1,11 @@
 import { call, put, takeLatest, takeEvery,take } from 'redux-saga/effects'
-import { setProfile,fetchUser,sessionFailure,fetchResult,fetchGame,fetchTeam} from '../actions'
+import { setProfile,fetchUser,sessionFailure,fetchResult,fetchPublicPlace,fetchTeam} from '../actions'
 import {
+  ADD_USER,
+  EDIT_USER,
   REQUEST_LOGIN,
   REQUEST_PROFILE,
-  REQUEST_FETCH_GAME,
+  REQUEST_FETCH_PUBLIC_PLACE,
   REQUEST_FETCH_RESULT,
   REQUEST_FETCH_USER,
   REQUEST_FETCH_TEAM
@@ -13,7 +15,7 @@ const URL = (process.env.NODE_ENV == 'production') ? 'api/' : "http://localhost:
 
 
 
-function* requestFetchGame (action = '') {
+function* requestFetchPublicPlace (action = '') {
   try {
     const options = {
       credentials: 'include',
@@ -23,10 +25,10 @@ function* requestFetchGame (action = '') {
       })
     }
     let params = encodeParams(action.payload) || ''
-    const res = yield call(fetch, URL + 'games' + params, options)
+    const res = yield call(fetch, URL + 'publicPlace' + params, options)
     if (res.status == 200){
       const games = yield res.json()
-      yield put(fetchGame(games))
+      yield put(fetchPublicPlace(games))
     } else {
       throw "unable to authenticate"
     }
@@ -107,6 +109,52 @@ function* requestProfile (action) {
   }
 }
 
+function* requestAddUser (action) {
+  try {
+  const options = {
+    credentials: 'include',
+    method: 'POST',
+    body: JSON.stringify({users:[action.payload]}),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    })
+  }
+  const res = yield call(fetch, URL + 'users', options)
+  if (res.status == 200){
+    const user = yield res.json()
+    yield put(fetchUser(user))
+  } else {
+    console.log(res.json())
+    throw "unable to authenticate"
+  }
+  } catch (e) {
+    console.log(e)
+  }
+}
+function* requestEditUser(action){
+  try {
+  const options = {
+    credentials: 'include',
+    method: 'PUT',
+    body: JSON.stringify(action.payload),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    })
+  }
+  console.log(action.payload)
+  const res = yield call(fetch, URL + 'users/'+(action.payload||{})._id, options)
+  if (res.status == 200){
+    const user = yield res.json()
+    yield put(fetchUser(user))
+  } else {
+    console.log(res.json())
+    throw "unable to authenticate"
+  }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 
 function* requestFetchUser (action = '') {
   try {
@@ -118,7 +166,7 @@ function* requestFetchUser (action = '') {
     })
   }
   let params = encodeParams(action.payload) || ''
-  console.log(URL + 'users' + params)
+
   const res = yield call(fetch, URL + 'users' + params, options)
   if (res.status == 200){
     const users = yield res.json()
@@ -171,7 +219,9 @@ function* requestFetchTeam (action = '') {
 // }
 
 function* rootSaga() {
-  yield takeLatest(REQUEST_FETCH_GAME,requestFetchGame)
+  yield takeLatest(ADD_USER,requestAddUser)
+  yield takeLatest(EDIT_USER,requestEditUser)
+  yield takeLatest(REQUEST_FETCH_PUBLIC_PLACE,requestFetchPublicPlace)
   yield takeLatest(REQUEST_FETCH_RESULT,requestFetchResult)
   yield takeLatest(REQUEST_FETCH_TEAM,requestFetchTeam)
   yield takeLatest(REQUEST_FETCH_USER,requestFetchUser)
