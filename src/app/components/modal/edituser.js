@@ -2,10 +2,8 @@ import React , {useState} from 'react'
 import {Content,Button,Input,Main} from './styles'
 import Generic from '../forms/generic'
 import {bindActionCreators} from 'redux'
-import {withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {editUser} from '../../redux/actions'
-
 import {connect} from 'react-redux'
 
 const matchDispatchToProps = (dispatch) => {
@@ -14,7 +12,7 @@ const matchDispatchToProps = (dispatch) => {
 
 function EditUserModal(props){
   const onSubmit = (form) => {
-    props.editUser({...form,_id : props.initialData._id})
+    props.editUser({...form})
     onClose()
   }
   const onClose = () => props.close()
@@ -31,4 +29,4 @@ function EditUserModal(props){
   </Main>
   )
 }
-export default withRouter(connect(null,matchDispatchToProps)(EditUserModal));
+export default connect(null,matchDispatchToProps)(EditUserModal);

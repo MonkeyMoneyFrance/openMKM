@@ -1,12 +1,14 @@
 import { call, put, takeLatest, takeEvery,take } from 'redux-saga/effects'
-import { setProfile,fetchUser,sessionFailure,fetchResult,fetchPublicPlace,fetchTeam} from '../actions'
+import { setProfile,fetchUser,fetchTransaction,sessionFailure,fetchResult,fetchPublicPlace,fetchTeam} from '../actions'
 import {
   ADD_USER,
+  ADD_TRANSACTION,
   EDIT_USER,
   REQUEST_LOGIN,
   REQUEST_PROFILE,
   REQUEST_FETCH_PUBLIC_PLACE,
   REQUEST_FETCH_RESULT,
+  REQUEST_FETCH_TRANSACTION,
   REQUEST_FETCH_USER,
   REQUEST_FETCH_TEAM
 } from '../constants'
@@ -108,7 +110,28 @@ function* requestProfile (action) {
     console.log(e)
   }
 }
-
+function* requestAddTransaction (action) {
+  try {
+  const options = {
+    credentials: 'include',
+    method: 'POST',
+    body: JSON.stringify({transactions:[action.payload]}),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    })
+  }
+  const res = yield call(fetch, URL + 'transactions', options)
+  if (res.status == 200){
+    const transaction = yield res.json()
+    yield put(fetchTransaction(transaction))
+  } else {
+    console.log(res.json())
+    throw "unable to authenticate"
+  }
+  } catch (e) {
+    console.log(e)
+  }
+}
 function* requestAddUser (action) {
   try {
   const options = {
@@ -155,7 +178,27 @@ function* requestEditUser(action){
   }
 }
 
-
+function* requestFetchTransaction (action = '') {
+  try {
+    const options = {
+      credentials: 'include',
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    }
+    let params = encodeParams(action.payload) || ''
+    const res = yield call(fetch, URL + 'transactions' + params, options)
+    if (res.status == 200){
+      const transactions = yield res.json()
+      yield put(fetchTransaction(transactions))
+    } else {
+      throw "unable to authenticate"
+    }
+  } catch (e) {
+    // yield put(sessionFailure({authenticated:'UNAUTHENTICATED'}))
+  }
+}
 function* requestFetchUser (action = '') {
   try {
   const options = {
@@ -166,7 +209,6 @@ function* requestFetchUser (action = '') {
     })
   }
   let params = encodeParams(action.payload) || ''
-
   const res = yield call(fetch, URL + 'users' + params, options)
   if (res.status == 200){
     const users = yield res.json()
@@ -219,6 +261,7 @@ function* requestFetchTeam (action = '') {
 // }
 
 function* rootSaga() {
+  yield takeLatest(ADD_TRANSACTION,requestAddTransaction)
   yield takeLatest(ADD_USER,requestAddUser)
   yield takeLatest(EDIT_USER,requestEditUser)
   yield takeLatest(REQUEST_FETCH_PUBLIC_PLACE,requestFetchPublicPlace)
@@ -227,6 +270,7 @@ function* rootSaga() {
   yield takeLatest(REQUEST_FETCH_USER,requestFetchUser)
   yield takeLatest(REQUEST_PROFILE ,requestProfile)
   yield takeLatest(REQUEST_LOGIN, requestLogin)
+  yield takeLatest(REQUEST_FETCH_TRANSACTION,requestFetchTransaction)
 }
 
 export default rootSaga

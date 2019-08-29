@@ -7,7 +7,6 @@ import store from "./redux/store/index";
 import {history} from "./config/history";
 import * as serviceWorker from './serviceWorker';
 import { Router } from 'react-router-dom';
-import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(
   <Provider store={store}>

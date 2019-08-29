@@ -1,7 +1,7 @@
 const express=require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const {user,auth,result,game,team}=require('./core');
+const {user,auth,result,game,team,transaction}=require('./core');
 const redis = require('redis');
 const session = require('express-session');
 const passport = require('passport');
@@ -38,20 +38,6 @@ mongoose.connect(connnectString,
 .then(()=>{console.log('connected')})
 .catch((e)=>console.log(e));
 
-
-app.use(helmet())
-app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
-app.use(bodyParser.json({limit: '2mb', extended: true}))
-app.use(session({
-  genid: (req) => {
-    return uuid() // use UUIDs for session IDs
-  },
-  store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
-  secret: "POPOPOPOPOPOP",
-  resave: false,
-  saveUninitialized: true
-}))
-
 if (process.env.NODE_ENV !== 'production') {
   app.use(cors({origin: 'http://localhost:8080', credentials: true }));
 } else {
@@ -61,11 +47,31 @@ if (process.env.NODE_ENV !== 'production') {
   })
 }
 
+app.use(helmet())
+app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
+app.use(bodyParser.json({limit: '2mb', extended: true}))
+app.use(session({
+  // genid: (req) => {
+  //   return uuid() // use UUIDs for session IDs
+  // },
+  //
+  store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
+  secret: "POPOPOPOPOPOP",
+  resave: false,
+  saveUninitialized: false,
+  cookie : {
+    name:'s3ssionName',
+    secure:process.env.NODE_ENV === 'production',
+    maxAge : 1200000
+  },
+}))
+
+
+
 passport.use(new LocalStrategy(
   { usernameField: 'email' },auth.findAuth
 ));
 passport.serializeUser((user, done) => {
-  console.log(user)
   done(null, user)
 })
 passport.deserializeUser((user, done) => {
@@ -80,7 +86,7 @@ app.use(passport.session());
 
 
 app.get('/api/user', (req, res) => {
-  console.log('TRY TO LOG')
+  console.log(req.session)
   !req.isAuthenticated() ? res.status(401).end() : res.status(200).send(req.session.passport)
 })
 app.post('/api/login', (req, res, next) => {
@@ -110,6 +116,9 @@ app.use((req,res,next)=>{
 app.get('/api/users', user.get)
 app.put('/api/users/:_id', user.set)
 app.post('/api/users', user.create)
+
+app.get('/api/transactions', transaction.get)
+app.post('/api/transactions', transaction.create)
 
 app.get('/api/games', game.get)
 

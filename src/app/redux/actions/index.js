@@ -3,6 +3,7 @@ import {
   SET_USER,
   EDIT_USER,
   ADD_USER,
+  ADD_TRANSACTION,
   TODOS_FAILURE,
   REQUEST_FETCH_USER,
   REQUEST_FETCH_PUBLIC_PLACE,
@@ -37,6 +38,8 @@ export const requestFetchUser = item => ({ type: REQUEST_FETCH_USER, payload: it
 
 export const requestFetchPublicPlace = item => ({ type: REQUEST_FETCH_PUBLIC_PLACE, payload: item });
 export const fetchPublicPlace = item => ({ type: FETCH_PUBLIC_PLACE, payload: item });
+
+export const addTransaction = item => ({type:ADD_TRANSACTION,payload:item})
 
 export const addUser = item => ({ type: ADD_USER, payload: item });
 export const editUser = item => ({ type: EDIT_USER, payload: item });

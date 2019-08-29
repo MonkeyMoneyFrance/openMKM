@@ -30,7 +30,7 @@ export function Users(props) {
   return (
     <Main className={'main'}>
       <button onClick={openModal}>ADD</button>
-      {modalOpen && <Modal close={closeModal} /> }
+      {modalOpen && <Modal close={closeModal} initialData={{}} /> }
       <List rowClicked={handleClick} id={'userList'} data={props.users}/>
     </Main>
   )

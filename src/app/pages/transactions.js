@@ -8,10 +8,10 @@ import Buttons from '../components/buttons/generic'
 import List from '../components/lists/users'
 import Modal from '../components/modal/transaction'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,props) => {
   return {
-    users : state.users
-  }
+    transactions : state.transactions || []
+   }
 };
 const matchDispatchToProps = (dispatch) => bindActionCreators({requestFetchTransaction}, dispatch);
 
@@ -27,8 +27,11 @@ export function Transactions(props) {
   return (
     <Main className={'main'}>
       <Buttons id={'transactionListUser'} onClick={openModal}/>
-    {modalOpen && <Modal name={modalOpen} close={closeModal} /> }
-      <List rowClicked={handleClick} id={'transactionList'} data={props.user}/>
+      {modalOpen && <Modal name={modalOpen} close={closeModal} /> }
+      <List rowClicked={handleClick} id={'transactionList'} data={
+        (props.transactions||[]).filter(t =>
+        [t.from,t.to].some(key => [props.match.params.userId,props.match.params.publicPlaceId,props.match.params.groupId].includes(key))) || []
+      }/>
     </Main>
   )
 }

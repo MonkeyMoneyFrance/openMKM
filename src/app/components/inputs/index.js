@@ -4,9 +4,11 @@ import h3 from './h3'
 import p from './p'
 import theadcell from './theadcell'
 import autocomplete from './autocomplete'
+import datepicker from './datepicker'
 import submit from './submit'
 export {
   input,
+  datepicker,
   h2,
   h3,
   p,

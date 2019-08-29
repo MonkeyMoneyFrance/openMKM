@@ -3,5 +3,6 @@ module.exports = {
   auth : require('./auth'),
   game : require('./game'),
   team : require('./team'),
+  transaction : require('./transaction'),
   result : require('./result'),
 }

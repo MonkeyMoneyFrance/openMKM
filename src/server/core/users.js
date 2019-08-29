@@ -29,14 +29,12 @@ module.exports = {
   },
   get : (req,res) => {
     const params = req.query || {}
-    console.log(params)
     User.find({'$and' : [
       params.text ? {'$or' : [
         {firstName : new RegExp(params.text, "gi")},
         {lastName : new RegExp(params.text, "gi")}
       ]} : {}
     ]}).then((users)=>{
-      console.log(users)
       res.status(200).send(users) // no need to store in a {}
     }).catch(err => res.status(500).send(err))
   },

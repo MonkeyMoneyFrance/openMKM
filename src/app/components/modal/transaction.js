@@ -1,32 +1,30 @@
 import React , {useState} from 'react'
 import {Content,Button,Input,Main} from './styles'
-import {withRouter} from 'react-router-dom'
+import {bindActionCreators} from 'redux'
 import Generic from '../forms/generic'
 import PropTypes from 'prop-types'
+import {addTransaction} from '../../redux/actions'
 import {connect} from 'react-redux'
 
+const matchDispatchToProps = (dispatch) =>  bindActionCreators({addTransaction},dispatch)
 
-function CotisationModal(props){
+function TransactionModal(props){
   const onSubmit = (form) => {
-    props.setCotisation({
-      userId:props.match.params.userId,
-      _id : 'RANDOM',
-      ...form
-    })
+    props.addTransaction(form)
     onClose()
   }
   const onClose = () => props.close()
   return(
-  <Main>
-    <div
-      className={`background`}
-      onClick={onClose}
-    />
-    <Content>
-      <Generic id={'addTransaction'+props.name} onSubmit={onSubmit}/>
-    </Content>
+    <Main>
+      <div
+        className={`background`}
+        onClick={onClose}
+      />
+      <Content>
+        <Generic id={'addTransaction'+props.name} onSubmit={onSubmit}/>
+      </Content>
 
-  </Main>
+    </Main>
   )
 }
-export default withRouter(CotisationModal);
+export default connect(null,matchDispatchToProps)(TransactionModal);

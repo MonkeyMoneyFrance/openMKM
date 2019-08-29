@@ -25,6 +25,7 @@ export default  [
   },
   {
     id:'editUser',
+    props:['match.params.userId:_id'],
     form:[
       [{
         label:"Editer cet Utilisateur",
@@ -153,6 +154,7 @@ export default  [
   },
   {
     id:'addTransactionUser',
+    props:['match.params.userId:from'],
     form:[
       [{
         label:"Nouvelle Transaction",
@@ -163,7 +165,8 @@ export default  [
         label:'Destinataire',
         html:'autocomplete',
         collection:'users',
-        returned:['_id:to','firstName:firstName'],
+        returned:['_id:to'],
+        displayed:['firstName',' ','lastName'],
         id:'to',
         className:'',
         match:/^.+$/
@@ -184,7 +187,7 @@ export default  [
       }],
       [{
         label:'Date Effective',
-        html:'input',
+        html:'datepicker',
         id:'createdAt',
         className:'',
         match:/^.+$/

@@ -6,9 +6,7 @@ import {bindActionCreators} from 'redux'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
-const mapStateToProps = (state) => {
-  return {}
-};
+
 const matchDispatchToProps = (dispatch) => bindActionCreators({addUser},dispatch)
 
 
@@ -19,16 +17,16 @@ function UserModal(props){
   }
   const onClose = () => props.close()
   return(
-  <Main>
-    <div
-      className={`background`}
-      onClick={onClose}
-    />
-    <Content>
-      <Generic id={'addUser'} onSubmit={onSubmit}/>
-    </Content>
+    <Main>
+      <div
+        className={`background`}
+        onClick={onClose}
+      />
+      <Content>
+        <Generic id={'addUser'} onSubmit={onSubmit}/>
+      </Content>
 
-  </Main>
+    </Main>
   )
 }
-export default connect(mapStateToProps,matchDispatchToProps)(UserModal);
+export default connect(null,matchDispatchToProps)(UserModal);

@@ -7,7 +7,6 @@ export default function form(state = initialState, action){
 
   switch (action.type) {
     case SET_FORM:
-    console.log(action.payload)
     return {...state,...action.payload}
       break;
     case RESET_FORM:
