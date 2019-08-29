@@ -25,7 +25,7 @@ const secretKey =  process.env.SECRETKEY || 'abcdefghijklmnopqrstuvwxyz'
 const dbUser =  process.env.DBUSER || null
 const dbPass = process.env.DBPASS || null
 const connnectString =  "mongodb+srv://"+dbUser+":"+dbPass+"@cluster0-40t5m.mongodb.net/test"
-
+console.log(connnectString)
 mongoose.connect(connnectString,
 {
   useFindAndModify:false,
