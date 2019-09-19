@@ -11,7 +11,6 @@ const website = {
         style:{
           "background": "#ffffff",
           "margin": "0",
-          "maxHeight": "400px",
           "padding": "0"
         },
         lines:[{

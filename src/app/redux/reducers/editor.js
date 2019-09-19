@@ -1,0 +1,42 @@
+import {
+  TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM
+} from "../constants/index";
+import dotProp from 'dot-prop'
+const initialState = {
+  panel:['editElement'],
+  path:null,
+  isEditing:false,
+  form:{},
+  page:{}
+}
+export default function editor(state = initialState, action){
+
+  switch (action.type) {
+    case TOGGLE_EDITOR:
+    return {...state,isEditing:!state.isEditing,page:action.payload.page}
+      break;
+    case UPDATE_PAGE:
+      return {...state,page:action.payload}
+      break;
+    case SET_EDITED_ITEM:
+      return {...state,path:action.payload}
+      break;
+    case SET_EDITOR_FORM:
+      return {
+        ...state,
+        form : {...state.form,...action.payload},
+        page : (dotProp.set(state.page,`${state.path}.${state.panel[1]}`,{...state.form,...action.payload}))
+      }
+      break;
+    case RESET_EDITOR_FORM :
+      return {...state,form:{}}
+      break;
+    case SET_PANEL:
+      return {...state,panel:action.payload}
+      break;
+    default:
+      return state
+    break;
+
+  }
+}

@@ -7,7 +7,7 @@ textarea, input.fullWidth {
 
 }
 input {
-  height:30px;
+  height:50px;
   padding:0.2em;
 }
 .verticalContainer {
@@ -51,7 +51,70 @@ input {
   box-shadow:0 0 3px black;
 }
 
-.element {
+.element , .line , .column {
+  position: relative;
+  & > .snippedEditorContainer {
+    position :absolute;
+    display: flex;
+    opacity: 0;
+    flex-direction: row;
+    justify-content: center;
+    transition: opacity 200ms ease-in 0ms;
+
+
+    &.elementSnippet {
+      top:0;
+      left:0;
+      height:20px;
+    }
+    &.columnSnippet {
+      bottom:0;
+      left: 0;
+      height:20px;
+    }
+    &.lineSnippet {
+      top:0;
+      left: 0;
+      right: 0;
+      height:20px;
+    }
+  }
+
+//
+  &.elementEditing > .snippedEditorContainer div,
+  &.lineEditing > .snippedEditorContainer div,
+  &.columnEditing > .snippedEditorContainer div{
+    &.default {z-index: 150}
+    &:nth-of-type(2){transform: translateX(-20px);}
+    &:nth-of-type(3){transform: translateX(-40px);}
+    &:nth-of-type(4){transform: translateX(-60px);}
+    &:nth-of-type(5){transform: translateX(-80px);}
+    overflow: hidden;
+    width:20px;
+    transition: opacity 100ms ease-in 0ms, transform 100ms ease-in 200ms, ;
+    z-index: 101;
+    cursor:pointer;
+    background-color:gray;
+  }
+  &.elementEditing:hover > .snippedEditorContainer,
+  &.lineEditing:hover > .snippedEditorContainer,
+  &.columnEditing:hover > .snippedEditorContainer {
+    opacity: 1;
+    &:hover div {
+      background-color:yellow;
+      &:nth-of-type(2){transform: translateX(0px);}
+      &:nth-of-type(3){transform: translateX(0px);}
+      &:nth-of-type(4){transform: translateX(0px);}
+      &:nth-of-type(5){transform: translateX(0px);}
+      &:hover {background-color:gray;}
+    }
+
+  }
+
+
+
+
+
 
 }
 

@@ -5,7 +5,7 @@ export default function input(props){
   const [error, setError] = useState(false)
   const [value,setValue] = useState(props.form[props.id] != null && typeof props.form[props.id] != 'undefined'? props.form[props.id] : props.defaultValue ||'')
   const updateInput = (e) => {
-    setError(!props.match.test(e.target.value))
+    props.match ? setError(!props.match.test(e.target.value)) : void 0
     props.setForm({[props.id]:e.target.value})
   }
   return(

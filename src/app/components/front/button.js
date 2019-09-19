@@ -6,12 +6,13 @@ function Button(props){
   //props : buttonText, colorButton, inverted, fluid, size
   return(
     <ButtonSemantic
+
       content={props.buttonText}
       color={props.colorButton}
       inverted={props.inverted}
       fluid={props.fluid}
       size={props.size}
-      style={props.style}
+      style={props.styles}
       onClick={()=>{
         if (props.onClick) props.onClick();
         if (!props.link) return

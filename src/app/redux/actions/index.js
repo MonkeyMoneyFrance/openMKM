@@ -22,7 +22,13 @@ import {
   SET_FORM,
   RESET_FORM,
   REQUEST_COTISATION,
-  SET_COTISATION
+  SET_COTISATION,
+  TOGGLE_EDITOR,
+  UPDATE_PAGE,
+  SET_PANEL,
+  SET_EDITED_ITEM,
+  SET_EDITOR_FORM,
+  RESET_EDITOR_FORM
 
 } from "../constants/index";
 export const requestLogin = item => ({ type: REQUEST_LOGIN, payload: item });
@@ -56,3 +62,9 @@ export const fetchResult = item => ({ type: FETCH_RESULT, payload: item });
 export const requestFetchResult = item => ({ type: REQUEST_FETCH_RESULT, payload: item });
 export const fetchTeam = item => ({ type: FETCH_TEAM, payload: item });
 export const requestFetchTeam = item => ({ type: REQUEST_FETCH_TEAM, payload: item });
+export const toggleEditor = item => ({type:TOGGLE_EDITOR, payload:item})
+export const updatePage = item => ({type:UPDATE_PAGE, payload:item})
+export const setPanel = item => ({type:SET_PANEL , payload:item})
+export const setEditedItem = item => ({type:SET_EDITED_ITEM , payload:item})
+export const setEditorForm = item => ({type:SET_EDITOR_FORM , payload:item})
+export const resetEditorForm = item => ({type:RESET_EDITOR_FORM , payload:item})
