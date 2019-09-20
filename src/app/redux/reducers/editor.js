@@ -1,5 +1,5 @@
 import {
-  TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM
+  TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM,MAP_FORM_TO_PAGE
 } from "../constants/index";
 import dotProp from 'dot-prop'
 const initialState = {
@@ -7,25 +7,30 @@ const initialState = {
   path:null,
   isEditing:false,
   form:{},
-  page:{}
+  page:"{}"
 }
 export default function editor(state = initialState, action){
 
   switch (action.type) {
     case TOGGLE_EDITOR:
-    return {...state,isEditing:!state.isEditing,page:action.payload.page}
+    return {...state,isEditing:!state.isEditing,page:JSON.stringify(action.payload.page||{})}
       break;
     case UPDATE_PAGE:
-      return {...state,page:action.payload}
+      return {...state,page:JSON.stringify(action.payload)}
       break;
     case SET_EDITED_ITEM:
       return {...state,path:action.payload}
+      break;
+    case MAP_FORM_TO_PAGE:
+      return {
+        ...state,
+        page : JSON.stringify(dotProp.set(JSON.parse(state.page),`${state.path}.${state.panel[1]}`,{...state.form}))
+      }
       break;
     case SET_EDITOR_FORM:
       return {
         ...state,
         form : {...state.form,...action.payload},
-        page : (dotProp.set(state.page,`${state.path}.${state.panel[1]}`,{...state.form,...action.payload}))
       }
       break;
     case RESET_EDITOR_FORM :

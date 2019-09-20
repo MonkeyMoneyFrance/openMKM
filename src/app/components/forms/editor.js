@@ -11,7 +11,7 @@ const translate = {p,h2,h3,input,autocomplete,submit,datepicker}
 
 function Editor(props){
   const submitForm = (form) => props.onSubmit(form);
-
+  const updatePage = () => props.updateForm()
   return (
     <form className={'form'}>
       {((forms.find(h => h.id === props.id) || {})[props.subProps]||[]).map((line,i)=> (
@@ -22,7 +22,7 @@ function Editor(props){
               (dispatch) => bindActionCreators({setForm:setEditorForm},dispatch)
             )(translate[e.html])
             return(<Component key={j} {...e}
-
+              onBlur={updatePage}
               defaultValue={(props.initialData||{})[e.id]}
               onSubmit={submitForm} />)
           })}

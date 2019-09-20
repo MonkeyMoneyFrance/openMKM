@@ -8,6 +8,7 @@ export default function input(props){
     props.match ? setError(!props.match.test(e.target.value)) : void 0
     props.setForm({[props.id]:e.target.value})
   }
+  const onBlur = () => props.onBlur()
   return(
     <input
       disabled={props.disabled}
@@ -16,6 +17,7 @@ export default function input(props){
       className={props.className + (error ? ' error ' : '')}
       placeholder={props.label}
       onChange={updateInput}
+      onBlur={onBlur}
     />
   )
 }

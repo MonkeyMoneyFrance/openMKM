@@ -1,10 +1,14 @@
 import React, {useState} from 'react'
-import { useDrop } from 'react-dnd'
+import { useDrop , useDrag} from 'react-dnd'
+import EditElements from '../buttons/editorElement'
+import Element from './element'
 import Button from './button';
 import Paragraph from './paragraph';
 import Image from './image';
-import DropZone from '../drop/dropColumn'
+import DropElement from '../drop/dropElement'
+import DropColumn from '../drop/dropColumn'
 import { useDispatch , useSelector } from "react-redux";
+
 
 const Forker = {
   paragraph : Paragraph, //or ParagraphEditor ?
@@ -14,79 +18,83 @@ const Forker = {
 //
 
 
-function Column({column,i,j,k,addItem,setEdition}){
+function Column({column,i,j,k,droppedItem,setEdition}){
+  const isEditing = useSelector(state => state.editor.isEditing);
 
-  const [{canDropColumn,isOverColumn}, dropColumn] = useDrop({
-    accept: ["button","text"],
-    drop: () => ({ name: 'Dustbin' }),
+  const [{overColumn}, dropColumn] = useDrop({
+    accept : ["column","element","button","paragraph"],
+    canDrag : () => isEditing,
     collect: monitor => ({
-      isOverColumn: monitor.isOver(),
-      canDropColumn: monitor.canDrop(),
+      overColumn: monitor.isOver(),
     }),
   })
 
-  const droppedItem = (item,index) => addItem({item,index,i,j,k})
-  const isEditing = useSelector(state => state.editor.isEditing);
+  const [{ isDraggingColumn }, dragColumn] = useDrag({
+    item: { type : 'column' , path : `blocks.${i}.lines.${j}.columns.${k}`},
+    canDrag : () => isEditing,
+    collect: monitor => ({
+      isDraggingColumn: monitor.isDragging(),
+    }),
+  })
+
+
+  // const droppedItem = (item,index) => addItem({item,index,i,j,k})
   const editingPath = useSelector(state => state.editor.path);
   const editingPanel = useSelector(state => state.editor.panel[1]);
   const editingForm = useSelector(state => state.editor.form);
-  const overColumn = canDropColumn && isOverColumn
+
   const itemWasClicked = (path,type,subProps) => isEditing ? setEdition(path,type,subProps) : void 0
+  // const isSameColumn = pathColumn == `blocks.${i}.lines.${j}.columns.${k}`
 
   return (
-    <div
-      ref={dropColumn} key={`${i}.${j}.${k}`} className={"column"+ (isEditing ? " columnEditing" : "")}
-      style={{...column.style}}
-    >
-    <div className={'snippedEditorContainer columnSnippet'}>
+
+
+    <div ref={dropColumn} style={{display:'flex',flex:1}}>
       <div
-        onClick={()=>itemWasClicked(`blocks.${i}.lines.${j}.columns.${k}`,'editColumn','styles')}
-        className={'default'}>O</div>
-        <div>ADD</div>
-        <div>COPY</div>
-        <div>MOVE</div>
-        <div>DELETE</div>
+        ref={dragColumn}
+        key={`${i}.${j}.${k}`} className={"column"+ (isEditing ? " columnEditing" : "")}
+        style={{...column.style}}
+      >
+
+      <div className={'snippedEditorContainer columnSnippet'}>
+      <EditElements
+        path={`blocks.${i}.lines.${j}.columns.${k}`}
+        subProps={'style'}
+        panel={'editColumn'}
+        itemEdition={itemWasClicked}
+        />
     </div>
-    <DropZone
+    <DropElement
+      path={`blocks.${i}.lines.${j}.columns.${k}`}
       droppedItem={droppedItem}
       overColumn={overColumn}
       index={0}
     />
     {column.elements.map((element,l)=>{
-      const Component = Forker[element.type];
+
       const elementProps = isEditing && editingPath == `blocks.${i}.lines.${j}.columns.${k}.elements.${l}` && editingPanel == 'props' ? editingForm : element.props
       const elementStyles = isEditing && editingPath == `blocks.${i}.lines.${j}.columns.${k}.elements.${l}` && editingPanel == 'styles' ? editingForm : element.styles
 
       return(
-        <div key={`${i}.${j}.${k}.${l}`}>
-          <div className={"element"+ (isEditing ? " elementEditing" : "")}
-          style={{...element.style}} onClick={()=>console.log(`element ${i}.${j}.${k}.${l} clicked`)}
-          >
-          <div className={'snippedEditorContainer elementSnippet'}>
-            <div
-              onClick={()=>itemWasClicked(`blocks.${i}.lines.${j}.columns.${k}.elements.${l}`,'editElement','props')}
-              className={'default'}>O</div>
-              <div>ADD</div>
-              <div>COPY</div>
-              <div>MOVE</div>
-              <div>DELETE</div>
-          </div>
-            <Component
-              {...elementProps}
-              styles = {elementStyles}
-            />
-          </div>
-          <DropZone
-            droppedItem={droppedItem}
+        <Element
+            key={`${i}.${j}.${k}.${l}`}
+            l={l}
+            isEditing={isEditing}
+            type={element.type}
             overColumn={overColumn}
-            index={l+1}
+            elementProps={elementProps}
+            elementStyles={elementStyles}
+            setEdition={itemWasClicked}
+            droppedItem={droppedItem}
+            path={`blocks.${i}.lines.${j}.columns.${k}`}
           />
-        </div>
-
       )
     }
     )}
     </div>
+  </div>
+
+
   )
 }
 export default Column

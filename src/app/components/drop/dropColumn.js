@@ -2,24 +2,28 @@ import React from 'react'
 import { useDrop } from 'react-dnd'
 
 
-const DropZone = ({ overColumn , index , droppedItem}) => {
-  const [{canDropItem,isOverItem}, dropItem] = useDrop({
-    accept: ["button","text"],
-    drop: (item) =>  droppedItem(item,index),
+const DropColumn = ({ path , index , droppedItem}) => {
+
+  const [{canDropItem,isOverItem}, dropColumn] = useDrop({
+    accept : ["column"],
+    drop: (item) =>  droppedItem(item,path+'.columns',index),
+    canDrop:(item,monitor) => {
+      return (item.path !== path+'.columns.'+(index-1) && item.path !== path+'.columns.'+(index))
+    },
     collect: monitor => ({
       isOverItem: monitor.isOver(),
       canDropItem: monitor.canDrop(),
     }),
   })
-  const isActive = canDropItem && isOverItem
+  const isActive = isOverItem && canDropItem
+  if (!canDropItem) return null
   return(
     <div
-      ref={dropItem}
-      className={"element"}
-      style={{transition:"all 200ms ease-in",padding:isActive ? "1em 0" : "0",width:"100%",backgroundColor:overColumn ? 'blue' : 'transparent'}}
+      ref={dropColumn}
+      style={{transition:"all 200ms ease-in",flex:isActive ? 1 : 0,height:"100%",backgroundColor:canDropItem ? 'blue' : 'transparent'}}
       >
-      {overColumn && 'DROP HERE TO ADD THE ITEM'}
+      {canDropItem && '+'}
     </div>
   )
 }
-export default DropZone
+export default DropColumn

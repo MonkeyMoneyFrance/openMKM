@@ -9,6 +9,7 @@ import { DndProvider } from 'react-dnd'
 import {withRouter} from 'react-router-dom';
 import {  useSelector , useDispatch } from "react-redux";
 import {bindActionCreators} from 'redux'
+import DropColumn from '../components/drop/dropColumn'
 import {requestFetchUser,updatePage,setEditedItem,setEditorForm,resetEditorForm,setPanel} from '../redux/actions';
 import dotProp from 'dot-prop'
 import website from '../mocks/website'
@@ -19,35 +20,60 @@ function Front() {
   const dispatch = useDispatch();
 
   const isEditing = useSelector(state => state.editor.isEditing);
-  const page = useSelector(state => isEditing ? state.editor.page : website.pages.home);
+  const websiteString = JSON.stringify(website.pages.home)
+  const pageString = useSelector(state =>  isEditing ? state.editor.page : websiteString);
+  const page = JSON.parse(pageString)
+
   const setEdition = (path,type,subProps) => {
-    // console.log(props)
-    // let path = `blocks.${props.i}.lines.${props.j}.columns.${props.k}.elements.${props.l}`
-
     let propsElement = (dotProp.get(page,path)||{})[subProps]
-
     dispatch(setEditedItem(path))
     dispatch(setPanel([type,subProps]))
     dispatch(resetEditorForm())
     dispatch(setEditorForm(propsElement))
   }
-  const addItem = (props) => {
-    let path = `blocks.${props.i}.lines.${props.j}.columns.${props.k}.elements`
-    let column = dotProp.get(page,path)
-    let {item,index} = props
-    let newColumn = []
+  const droppedItem = (item,path,index) => {
+
+    let newPage = {...page}
+    let newItem = item.path ? dotProp.get(newPage,item.path) : item
+    let oldPath,oldIndex
+    // first remove old item
+    if (item.path){
+      oldIndex = item.path.split('.').reverse()[0]
+      oldPath = item.path.split('.').slice(0, -1).join('.')
+      let initalElement = dotProp.get(newPage,oldPath)
+      initalElement[oldIndex] = null
+      newPage = dotProp.set(newPage,oldPath,initalElement)
+    }
+    let element = dotProp.get(newPage,path)
+    let newElement = []
     let i = 0 , j = 0
 
-    while (i < column.length + 1){
+    while (i < element.length + 1){
       if (i == index) {
-        newColumn[i] = item
+        newElement[i] = newItem
       } else {
-        newColumn[i] = column[j]
+        newElement[i] = element[j]
         j++
       }
       i++
     }
-    dispatch(updatePage(dotProp.set(page,path,newColumn)))
+
+
+    // let newPage = item.path ? dotProp.get(newPage,item.path) : page
+    newPage = dotProp.set(newPage,path,newElement)
+    // sanitize
+    if (item.path) {
+      let sanitizeOldElement = dotProp.get(newPage,oldPath)
+      newPage = dotProp.set(newPage,oldPath,sanitizeOldElement.filter(Boolean))
+    }
+    let sanitizeNewElement = dotProp.get(newPage,path)
+    newPage = dotProp.set(newPage,path,sanitizeNewElement.filter(Boolean))
+    // end sanitize
+
+    dispatch(resetEditorForm())
+    dispatch(setEditedItem(null))
+    dispatch(updatePage(newPage))
+
   }
 
   useEffect(()=>{
@@ -55,6 +81,7 @@ function Front() {
   },[]);
 
   useEffect(()=>{
+    console.log('STILL EDIT')
     if (isEditing === null){
       // first time
       isEditing = false;
@@ -62,7 +89,7 @@ function Front() {
       console.log("editing finished")
       //dispatch draft
     }
-  },[isEditing]);
+  });
 
 
   return(
@@ -93,18 +120,31 @@ function Front() {
                         <div>MOVE</div>
                         <div>DELETE</div>
                     </div>
+                    <DropColumn
+                      path={`blocks.${i}.lines.${j}`}
+                      droppedItem={droppedItem}
+                      index={0}
+                    />
                     {line.columns.map((column,k)=>{
                       return(
-                        <Column
-                          key={k}
-                          i={i}
-                          j={j}
-                          k={k}
-                          column={column}
-                          addItem={addItem}
-                          setEdition={setEdition}
+                        <React.Fragment key={k}>
+                          <Column
+                            i={i}
+                            j={j}
+                            k={k}
+                            column={column}
+                            droppedItem={droppedItem}
+                            setEdition={setEdition}
+                            />
+                          <DropColumn
+                            droppedItem={droppedItem}
+                            path={`blocks.${i}.lines.${j}`}
+                            index={k+1}
                           />
-                      )}
+                        </React.Fragment>
+
+                      )
+                    }
                     )}
                   </div>
                 )}
