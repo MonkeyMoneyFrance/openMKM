@@ -22,7 +22,7 @@ export default function editorElements({path,panel,subProps,itemEdition,droppedI
   const editItem = () => itemEdition(`${path}.${index}`,panel,subProps)
   const copyItem = () => droppedItem({path:`${path}.${index}`},path,index+1,true)
   const deleteItem = () => droppedItem({path:`${path}.${index}`},path,index-1000)
-  const addItem = () => panel == 'editColumn' ? droppedItem({elements:[]},path,index) : panel == 'editLine' ? droppedItem({columns:[]},path,index) : void 0
+  const addItem = () => panel == 'editColumn' ? droppedItem({type:'column',elements:[],style:{}},path,index) : panel == 'editLine' ? droppedItem({type:'line',columns:[],style:{}},path,index) : void 0
   return (
   <>
    <div className={'default'}><Icon onClick={editItem}><SVG src={edit} /></Icon></div>

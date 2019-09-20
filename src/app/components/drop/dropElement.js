@@ -5,7 +5,7 @@ import { useDrop } from 'react-dnd'
 const DropElement = ({ path , overColumn, index , droppedItem}) => {
 
   const [{canDropItem,isOverItem}, dropItem] = useDrop({
-    accept : ["button","element","column","paragraph"],
+    accept : ["button","element","paragraph"],
     drop: (item) =>  droppedItem(item,path+'.elements',index),
     canDrop:(item,monitor) => (item.path !== path+'.elements.'+(index-1) && item.path !== path+'.elements.'+(index)),
     collect: monitor => ({

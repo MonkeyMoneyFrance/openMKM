@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { useDrop , useDrag} from 'react-dnd'
 import EditElements from '../buttons/editorElement'
 import Button from './button';
+import Column from './column';
 import Paragraph from './paragraph';
 import Image from './image';
 import DropElement from '../drop/dropElement'
@@ -11,9 +12,9 @@ import { useDispatch , useSelector } from "react-redux";
 const Forker = {
   paragraph : Paragraph, //or ParagraphEditor ?
   button : Button,
-  image: Image,
+  image: Image
 };
-//
+
 
 
 function Element(props){
@@ -23,6 +24,7 @@ function Element(props){
     canDrag : () => isEditing,
     item: { type , path : `${path}.elements.${l}` }
   })
+
   const Component = Forker[type];
   return(
     <>
@@ -42,9 +44,8 @@ function Element(props){
           />
       </div>
         <Component
-          {...elementProps}
-          styles = {elementStyles}
-        />
+
+           {...elementProps} styles = {elementStyles}/>
       </div>
       <DropElement
         path={path}

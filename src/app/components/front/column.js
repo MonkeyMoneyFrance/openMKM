@@ -2,20 +2,19 @@ import React, {useState} from 'react'
 import { useDrop , useDrag} from 'react-dnd'
 import EditElements from '../buttons/editorElement'
 import Element from './element'
-import Button from './button';
-import Paragraph from './paragraph';
-import Image from './image';
+import styled from 'styled-components'
 import DropElement from '../drop/dropElement'
 import DropColumn from '../drop/dropColumn'
 import { useDispatch , useSelector } from "react-redux";
 
+const ColumnFront = styled.div`
+  background : ${props => props["background"]};
+  margin : ${props => props["margin"]};
+  padding : ${props => props["padding"]};
+  display:flex;
+  flex:${props => props.flex || 1};
 
-const Forker = {
-  paragraph : Paragraph, //or ParagraphEditor ?
-  button : Button,
-  image: Image,
-};
-//
+`
 
 
 function Column({column,i,j,k,droppedItem,setEdition}){
@@ -49,14 +48,8 @@ function Column({column,i,j,k,droppedItem,setEdition}){
   return (
 
 
-    <div ref={dropColumn} style={{display:'flex',flex:1}}>
-      <div
-        ref={dragColumn}
-        key={`${i}.${j}.${k}`} className={"column"+ (isEditing ? " columnEditing" : "")}
-        style={{...column.style}}
-      >
-
-      <div className={'snippedEditorContainer columnSnippet'}>
+  <ColumnFront className={"column"+ (isEditing ? " columnEditing" : "")} ref={dragColumn} {...column.style}>
+    <div className={'snippedEditorContainer columnSnippet'}>
       <EditElements
         path={`blocks.${i}.lines.${j}.columns`}
         index={k}
@@ -66,6 +59,7 @@ function Column({column,i,j,k,droppedItem,setEdition}){
         itemEdition={itemWasClicked}
         />
     </div>
+      <div ref={dropColumn}>
     <DropElement
       path={`blocks.${i}.lines.${j}.columns.${k}`}
       droppedItem={droppedItem}
@@ -94,7 +88,7 @@ function Column({column,i,j,k,droppedItem,setEdition}){
     }
     )}
     </div>
-  </div>
+  </ColumnFront>
 
 
   )

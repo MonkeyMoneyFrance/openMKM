@@ -2,12 +2,12 @@ import React , {useState} from 'react'
 import Editor from '../forms/editor'
 import {setPanel,resetEditorForm,setEditorForm,mapFormToPage} from '../../redux/actions'
 import {useSelector, useDispatch} from 'react-redux';
-import dotProp from 'dot-prop'
+import dotProp from 'dot-prop-immutable'
 
 function EditElement(props){
   const dispatch = useDispatch()
-  // const page = JSON.parse(useSelector(state => state.editor.page))
-  const idItem = useSelector(state => (dotProp.get(JSON.parse(state.editor.page),state.editor.path)||{}).type)
+  const page = JSON.parse(useSelector(state => state.editor.page))
+  const idItem = useSelector(state => (dotProp.get(JSON.parse(state.editor.page),state.editor.path||'')||{}).type)
   const panel = useSelector(state => state.editor.panel);
   const path = useSelector(state => state.editor.path);
   const cancelEdition = () => {
@@ -22,6 +22,7 @@ function EditElement(props){
     dispatch(setEditorForm(propsElement))
   }
   const updateForm = () => dispatch(mapFormToPage())
+
   return (
     <div>
       <ul>
