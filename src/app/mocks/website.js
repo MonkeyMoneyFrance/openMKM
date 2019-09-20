@@ -13,13 +13,13 @@ const website = {
           "margin": "0",
           "padding": "0"
         },
-        lines:[{
+        lines:[{columns:[]},{
           style:{
             "margin": "2em 0 0 0",
             "minHeight": 100,
             "padding": "0"
           },
-          columns:[{
+          columns:[{elements:[]},{
             style:{
               "background": "#F9DDE2",
               "justifyContent": "flex-start",

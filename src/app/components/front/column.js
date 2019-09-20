@@ -58,9 +58,11 @@ function Column({column,i,j,k,droppedItem,setEdition}){
 
       <div className={'snippedEditorContainer columnSnippet'}>
       <EditElements
-        path={`blocks.${i}.lines.${j}.columns.${k}`}
+        path={`blocks.${i}.lines.${j}.columns`}
+        index={k}
         subProps={'style'}
         panel={'editColumn'}
+        droppedItem={droppedItem}
         itemEdition={itemWasClicked}
         />
     </div>

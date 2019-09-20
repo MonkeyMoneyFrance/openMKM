@@ -33,9 +33,11 @@ function Element(props){
       >
       <div className={'snippedEditorContainer elementSnippet'}>
         <EditElements
-          path={`${path}.elements.${l}`}
+          path={`${path}.elements`}
+          index={l}
           subProps={'props'}
           panel={'editElement'}
+          droppedItem={droppedItem}
           itemEdition={itemWasClicked}
           />
       </div>

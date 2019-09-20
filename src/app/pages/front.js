@@ -6,6 +6,7 @@ import ParagraphEditor from '../components/front/paragraphEditor';
 import Image from '../components/front/image';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
+import EditElements from '../components/buttons/editorElement'
 import {withRouter} from 'react-router-dom';
 import {  useSelector , useDispatch } from "react-redux";
 import {bindActionCreators} from 'redux'
@@ -31,13 +32,12 @@ function Front() {
     dispatch(resetEditorForm())
     dispatch(setEditorForm(propsElement))
   }
-  const droppedItem = (item,path,index) => {
-
+  const droppedItem = (item,path,index,copy=false) => {
     let newPage = {...page}
     let newItem = item.path ? dotProp.get(newPage,item.path) : item
     let oldPath,oldIndex
     // first remove old item
-    if (item.path){
+    if (item.path && !copy){
       oldIndex = item.path.split('.').reverse()[0]
       oldPath = item.path.split('.').slice(0, -1).join('.')
       let initalElement = dotProp.get(newPage,oldPath)
@@ -62,7 +62,7 @@ function Front() {
     // let newPage = item.path ? dotProp.get(newPage,item.path) : page
     newPage = dotProp.set(newPage,path,newElement)
     // sanitize
-    if (item.path) {
+    if (item.path && !copy) {
       let sanitizeOldElement = dotProp.get(newPage,oldPath)
       newPage = dotProp.set(newPage,oldPath,sanitizeOldElement.filter(Boolean))
     }
@@ -112,13 +112,14 @@ function Front() {
                     // onClick={()=>console.log("line "+i+"."+j+" clicked")}
                     >
                     <div className={'snippedEditorContainer lineSnippet'}>
-                      <div
-                        onClick={()=>setEdition(`blocks.${i}.lines.${j}`,'editLine','styles')}
-                        className={'default'}>O</div>
-                        <div>ADD</div>
-                        <div>COPY</div>
-                        <div>MOVE</div>
-                        <div>DELETE</div>
+                      <EditElements
+                        path={`blocks.${i}.lines`}
+                        index={j}
+                        subProps={'styles'}
+                        panel={'editLine'}
+                        droppedItem={droppedItem}
+                        itemEdition={setEdition}
+                        />
                     </div>
                     <DropColumn
                       path={`blocks.${i}.lines.${j}`}
