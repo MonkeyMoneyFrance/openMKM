@@ -33,7 +33,8 @@ import {
   DROP_ITEM,
   SET_EDITION,
   SET_EDITED_CONTENT,
-  SET_HISTORY_PANEL
+  SET_HISTORY_PANEL,
+  PUSH_HISTORY_PANEL,
 } from "../constants/index";
 export const requestLogin = item => ({ type: REQUEST_LOGIN, payload: item });
 export const requestProfile = item => ({ type: REQUEST_PROFILE, payload: item });
@@ -72,3 +73,4 @@ export const dropItem = item => ({type:DROP_ITEM , payload:item})
 export const setEdition = item => ({type:SET_EDITION ,payload:item})
 export const setEditedContent = item => ({type:SET_EDITED_CONTENT ,payload:item})
 export const setHistoryPanel = item => ({type:SET_HISTORY_PANEL,payload:item})
+export const pushHistoryPanel = item => ({type:PUSH_HISTORY_PANEL , payload:item})

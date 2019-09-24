@@ -1,6 +1,6 @@
 import React from 'react'
 import PanelHeader from './panelHeader'
-import {setPanel,setEditedContent,setHistoryPanel} from '../../redux/actions'
+import {setPanel,setEditedContent,pushHistoryPanel} from '../../redux/actions'
 import {useDispatch,useSelector} from 'react-redux'
 const items = [
   {
@@ -35,11 +35,10 @@ const styles = {
 }
 function MainPanel(){
   const dispatch = useDispatch();
-  const historyPanel = useSelector(state => state.editor.historyPanel);
   const changePanel = ({panel,content}) => {
     if (panel) dispatch(setPanel([panel]))
     if (content) dispatch(setEditedContent(content))
-    dispatch(setHistoryPanel(historyPanel.push([[panel],content])))
+    dispatch(pushHistoryPanel([panel]))
   }
   return (
     <div style={{
