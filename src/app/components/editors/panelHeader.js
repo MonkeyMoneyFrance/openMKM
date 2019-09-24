@@ -8,7 +8,7 @@ width:100%;
 display : flex;
 max-width:100%;
 margin-top: 0px;
-padding: 10px 0 10px 0;
+padding: 5px 0 5px 0;
 color: white;
 list-style-type: none;
 display: flex;

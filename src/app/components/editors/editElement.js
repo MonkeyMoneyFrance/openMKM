@@ -55,7 +55,7 @@ function EditElement(props){
       <PanelHeader name={"Edition d'Element"} />
       <ElementMenu>
         <li className={panel[1]==='props' ? 'activeMenu' : ''} onClick={()=>switchForm('props')}>Contenu</li>
-        <li className={panel[1]==='styles' ? 'activeMenu' : ''} onClick={()=>switchForm('styles')}>Style</li>
+        <li className={panel[1]==='style' ? 'activeMenu' : ''} onClick={()=>switchForm('style')}>Style</li>
         <li onClick={cancelEdition}>Annuler</li>
       </ElementMenu>
       <Editor
