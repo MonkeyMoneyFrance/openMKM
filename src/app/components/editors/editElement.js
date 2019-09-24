@@ -1,57 +1,34 @@
 import React , {useState} from 'react'
 import Editor from '../forms/editor'
-<<<<<<< HEAD
-
-import {setPanel,resetEditorForm,setEditorForm} from '../../redux/actions'
-import {useSelector, useDispatch} from 'react-redux'
-import dotProp from 'dot-prop'
-import styled from 'styled-components'
-import sortUp from '../../assets/sort-up.svg'
-import SVG from 'react-inlinesvg';
-
-
-const nomMenu = 'Modifier'
-
-const Icon = styled.span`
-  cursor: pointer;
-  width:12px;
-  fill:black;
-  transition: all 200ms ease-out;  
-  &:hover {
-    fill:grey;
-  }
-`
-
-const ElementMenuItem = styled.div`
-  display : flex;
-  justify-content : space-around;
-  background-color: ${(props) => props.color};
-`
-
-
-function ElementMenu1({nomMenu}) {
-  const goToMenu = () => {
-    console.log('test')
-  }
-
-  const closeTab =() => {
-    console.log('prout')
-  }
-
-  return(
-    <ElementMenuItem color='#FF5419'>
-      <Icon onClick={closeTab}><SVG src={sortUp}/></Icon>
-      <div>{nomMenu}</div>
-      <Icon onClick={goToMenu}><SVG src={sortUp} /></Icon>
-    </ElementMenuItem>
-  )
-}
-=======
 import PanelHeader from './panelHeader'
 import {setPanel,resetEditorForm,setEditorForm,mapFormToPage} from '../../redux/actions'
 import {useSelector, useDispatch} from 'react-redux';
 import dotProp from 'dot-prop-immutable'
->>>>>>> 2b50dd124ed161bd90a8120ffd7075db5166ae1a
+import styled from 'styled-components'
+
+const ElementMenu = styled.nav`
+background-color: white;
+width:100%;
+display : flex;
+max-width:100%;
+margin-top: 0px;
+margin-bottom : 20px;
+padding: 0 px;
+color: black;
+list-style-type: none;
+justify-content : space-between;
+align-items: center;
+& li {
+  flex-grow : 1;
+  padding: 10px;
+  font-size: 1em;
+  cursor : pointer;
+  text-align : center;
+} & .activeMenu {
+  border-bottom : 2px solid #5fd3b6;
+  background-color : #F2F2F2;
+}`
+
 
 function EditElement(props){
   const dispatch = useDispatch()
@@ -59,11 +36,6 @@ function EditElement(props){
   const page = JSON.parse(useSelector(state => state.editor[editedContent]))
   const idItem = useSelector(state => (dotProp.get(JSON.parse(state.editor[editedContent]),state.editor.path||'')||{}).type)
   const panel = useSelector(state => state.editor.panel);
-<<<<<<< HEAD
-  console.log(panel)
-  const page = useSelector(state => state.editor.page)
-=======
->>>>>>> 2b50dd124ed161bd90a8120ffd7075db5166ae1a
   const path = useSelector(state => state.editor.path);
   const cancelEdition = () => {
     dispatch(resetEditorForm())
@@ -77,19 +49,15 @@ function EditElement(props){
     dispatch(setEditorForm(propsElement))
   }
   const updateForm = () => dispatch(mapFormToPage())
-
+  console.log(panel)
   return (
     <div>
-<<<<<<< HEAD
-      <ElementMenu1 nomMenu={nomMenu}/>
-=======
       <PanelHeader name={"Edition d'Element"} />
->>>>>>> 2b50dd124ed161bd90a8120ffd7075db5166ae1a
-      <ul>
-        <li onClick={()=>switchForm('props')}>Contenu</li>
-        <li onClick={()=>switchForm('styles')}>Style</li>
+      <ElementMenu>
+        <li className={panel[1]==='props' ? 'activeMenu' : ''} onClick={()=>switchForm('props')}>Contenu</li>
+        <li className={panel[1]==='styles' ? 'activeMenu' : ''} onClick={()=>switchForm('styles')}>Style</li>
         <li onClick={cancelEdition}>Annuler</li>
-      </ul>
+      </ElementMenu>
       <Editor
         id={idItem}
         updateForm={updateForm}
