@@ -1,7 +1,9 @@
 export default  [
   {
     id:'paragraph',
+
     styles:[
+
       [{
         label:'Contenu',
         id:'html',
@@ -24,6 +26,11 @@ export default  [
       }]
     ],
     props:[
+      [{
+        label:"Paragraphe",
+        html:'h2',
+        id:"title"
+      }],
       [{
         label:'Contenu',
         id:'html',
