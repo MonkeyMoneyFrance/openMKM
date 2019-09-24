@@ -37,7 +37,7 @@ export default function PanelHeader(props) {
   const close = () => {
     dispatch(setPanel(['main']))
     dispatch(setEditedContent(''))
-    dispatch(setHistoryPanel(['main']))
+    dispatch(setHistoryPanel([['main']]))
 
   }
 
