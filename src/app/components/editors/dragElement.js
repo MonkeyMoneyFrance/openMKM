@@ -1,32 +1,52 @@
 import React from 'react'
+import PanelHeader from './panelHeader'
 import DragAndDropButton from '../drag/button'
 const draggableItems = [
   {
+    type:'line',
+    name:"Ligne",
+    props:{type:'line',columns:[{type:'column',elements:[],style:{}}],style:{}}
+  },
+  {
+    type:'column',
+    name:"Colonne",
+    props : {type:'column',elements:[],style:{}}
+  },
+  {
     type:'button',
-    name:"BOUTON"
+    name:"BOUTON",
+    props:{}
   },
   {
     type:'text',
-    name:"TEXTE"
+    name:"TEXTE",
+    props:{}
   },
+
   {
     type:'underItem',
-    name:"SOUS ITEM"
+    name:"SOUS ITEM",
+    props:{}
   },
   {
     type:'image',
-    name:"IMAGE"
+    name:"IMAGE",
+    props:{}
   }
 ]
 
 function DragElement(){
   return (
-    <div style={{
-      display:'grid',
-      gridTemplateColumns: "auto auto"
-      }}>
-      {draggableItems.map(({name,type},index) => <DragAndDropButton key={index} type={type} name={name}/>)}
+    <div>
+      <PanelHeader name={"Ajout d'élément"} />
+        <div style={{
+          display:'grid',
+          gridTemplateColumns: "auto auto"
+          }}>
+          {draggableItems.map(({name,type,props},index) => <DragAndDropButton key={index} props={props} type={type} name={name}/>)}
+        </div>
     </div>
+
   )
 }
 export default DragElement

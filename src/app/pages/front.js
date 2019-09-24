@@ -1,9 +1,10 @@
 import React , { useState, useEffect } from 'react';
 import MainEditor from "../components/editors/index"
-import Button from '../components/front/button';
-import Line from '../components/front/line';
-import ParagraphEditor from '../components/front/paragraphEditor';
-import Image from '../components/front/image';
+import Block from '../components/front/block';
+import Menu from '../components/front/menu';
+import Footer from '../components/front/footer';
+
+
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import EditElements from '../components/buttons/editorElement'
@@ -18,16 +19,25 @@ import website from '../mocks/website'
 
 
 function Front() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const isEditing = useSelector(state => state.editor.isEditing);
+  const editedContent = useSelector(state => state.editor.editedContent);
+
   const websiteString = JSON.stringify(website.pages.home)
+  const webmenuString = JSON.stringify((website.menus||[]).find(menu => menu.pages.includes('home')) || {})
+  const webfooterString = JSON.stringify(([]).find(footer => footer.pages.includes('home')) || {})
+
   const pageString = useSelector(state =>  isEditing ? state.editor.page : websiteString);
+  const menuString = useSelector(state =>  isEditing ? state.editor.menu : webmenuString);
+  const footerString = useSelector(state =>  isEditing ? state.editor.footer : webfooterString);
 
   const page = {...JSON.parse(pageString)}
+  const menu = {...JSON.parse(menuString)}
+  const footer = {...JSON.parse(footerString)}
 
-  const setEditedItem = (path,type,subProps) => dispatch(setEdition({path,type,subProps}))
-  const droppedItem = (item,path,index,copy=false) => dispatch(dropItem({item,path,index,copy}))
+  // const setEditedItem = (path,type,subProps) => dispatch(setEdition({content:"page",path,type,subProps}))
+  // const droppedItem = (item,path,index,copy=false) => dispatch(dropItem({content:"page",item,path,index,copy}))
 
 
   useEffect(()=>{
@@ -37,38 +47,27 @@ function Front() {
   return(
     <div style={{flex:1,height:"100%",display:"flex",flexDirection:"row"}}>
       <DndProvider backend={HTML5Backend}>
-        <MainEditor page={page}/>
+        <MainEditor page={page} menu={menu} footer={footer}/>
         <div className="page">
-        {page.blocks.map((block,i)=>{
-          return(
-            <div key={i} name="block" className={"block"+ (isEditing ? " blockEditing" : "")}
-              style={{...block.style}}
-              >
-              <DropLine
-                path={`blocks.${i}`}
-                droppedItem={droppedItem}
-                index={0}
-              />
-              {block.lines.map((line,j)=>
-                <React.Fragment key={j}>
-                  <Line
-                    i={i}
-                    j={j}
-                    line={line}
-                    droppedItem={droppedItem}
-                    setEdition={setEditedItem}
-                    />
-                  <DropLine
-                    path={`blocks.${i}`}
-                    droppedItem={droppedItem}
-                    index={j+1}
-                  />
-                </React.Fragment>
-              )}
-            </div>
-          )}
+        <Menu
+          isEditing={isEditing && (editedContent === 'menu')}
+          menu={menu}
+          />
+        {page.blocks.map((block,i)=>
+          <Block
+            path={`blocks`}
+            index={i}
+            isEditing={isEditing && (editedContent === 'page')}
+            block={block}
+            key={i} />
+
         )}
+        <Footer
+          isEditing={isEditing && (editedContent === 'footer')}
+          footer={footer}
+          />
       </div>
+
     </DndProvider>
   </div>
 );

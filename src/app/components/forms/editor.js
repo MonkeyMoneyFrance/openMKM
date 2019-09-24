@@ -12,7 +12,7 @@ const translate = {p,h2,h3,input,autocomplete,submit,datepicker}
 function Editor(props){
   const submitForm = (form) => props.onSubmit(form);
   const updatePage = () => props.updateForm()
-  console.log(forms.find(h => h.id === props.id))
+
   return (
     <form className={'form'}>
       {((forms.find(h => h.id === props.id) || {})[props.subProps]||[]).map((line,i)=> (

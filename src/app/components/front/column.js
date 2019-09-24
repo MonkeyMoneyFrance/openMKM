@@ -17,19 +17,19 @@ const ColumnFront = styled.div`
 `
 
 
-function Column({column,i,j,k,droppedItem,setEdition}){
-  const isEditing = useSelector(state => state.editor.isEditing);
+function Column({column,path,index,droppedItem,setEdition,isEditing}){
+
 
   const [{overColumn}, dropColumn] = useDrop({
     accept : ["column","element","button","paragraph"],
-    canDrag : () => isEditing,
+    canDrop : () => isEditing,
     collect: monitor => ({
       overColumn: monitor.isOver(),
     }),
   })
 
   const [{ isDraggingColumn }, dragColumn] = useDrag({
-    item: { type : 'column' , path : `blocks.${i}.lines.${j}.columns.${k}`},
+    item: { type : 'column' , path : `${path}.${index}`},
     canDrag : () => isEditing,
     collect: monitor => ({
       isDraggingColumn: monitor.isDragging(),
@@ -41,40 +41,42 @@ function Column({column,i,j,k,droppedItem,setEdition}){
   const editingPath = useSelector(state => state.editor.path);
   const editingPanel = useSelector(state => state.editor.panel[1]);
   const editingForm = useSelector(state => state.editor.form);
-
   const itemWasClicked = (path,type,subProps) => isEditing ? setEdition(path,type,subProps) : void 0
-  // const isSameColumn = pathColumn == `blocks.${i}.lines.${j}.columns.${k}`
 
   return (
 
 
-  <ColumnFront className={"column"+ (isEditing ? " columnEditing" : "")} ref={dragColumn} {...column.style}>
+  <ColumnFront
+    className={"column"+ (isEditing ? " columnEditing" : "")}
+    ref={dragColumn}
+    {...column.style}>
+
     <div className={'snippedEditorContainer columnSnippet'}>
       <EditElements
-        path={`blocks.${i}.lines.${j}.columns`}
-        index={k}
+        path={path}
+        index={index}
         subProps={'style'}
         panel={'editColumn'}
         droppedItem={droppedItem}
         itemEdition={itemWasClicked}
         />
     </div>
-      <div ref={dropColumn}>
+    <div style={{width:'100%',height:'100%'}} ref={dropColumn}>
     <DropElement
-      path={`blocks.${i}.lines.${j}.columns.${k}`}
+      path={`${path}.${index}.elements`}
       droppedItem={droppedItem}
+      isEditing={isEditing}
       overColumn={overColumn}
       index={0}
     />
     {column.elements.map((element,l)=>{
 
-      const elementProps = isEditing && editingPath == `blocks.${i}.lines.${j}.columns.${k}.elements.${l}` && editingPanel == 'props' ? editingForm : element.props
-      const elementStyles = isEditing && editingPath == `blocks.${i}.lines.${j}.columns.${k}.elements.${l}` && editingPanel == 'styles' ? editingForm : element.styles
+      const elementProps = isEditing && editingPath == `${path}.${index}.elements.${l}` && editingPanel == 'props' ? editingForm : element.props
+      const elementStyles = isEditing && editingPath == `${path}.${index}.elements.${l}` && editingPanel == 'styles' ? editingForm : element.styles
 
       return(
         <Element
-            key={`${i}.${j}.${k}.${l}`}
-            l={l}
+            key={l}
             isEditing={isEditing}
             type={element.type}
             overColumn={overColumn}
@@ -82,13 +84,16 @@ function Column({column,i,j,k,droppedItem,setEdition}){
             elementStyles={elementStyles}
             setEdition={itemWasClicked}
             droppedItem={droppedItem}
-            path={`blocks.${i}.lines.${j}.columns.${k}`}
+            path={`${path}.${index}.elements`}
+            index={l}
           />
       )
     }
     )}
     </div>
+
   </ColumnFront>
+
 
 
   )

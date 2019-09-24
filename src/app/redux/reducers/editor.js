@@ -1,33 +1,35 @@
 import {
-  SET_EDITION,DROP_ITEM,TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM,MAP_FORM_TO_PAGE
+  SET_EDITED_CONTENT,SET_EDITION,DROP_ITEM,TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM,MAP_FORM_TO_PAGE
 } from "../constants/index";
 import dotProp from 'dot-prop-immutable'
 const initialState = {
-  panel:['editElement'],
+  panel:['main'],
   path:'',
+  editedContent:'',
   isEditing:false,
   form:{},
-  page:"{}"
+  page:"{}",
+  menu:"{}",
+  footer:"{}"
 }
 export default function editor(state = initialState, action){
 
   switch (action.type) {
     case DROP_ITEM: {
-      let {item,path,index,copy} = action.payload
-      let newPage = {...JSON.parse(state.page)}
-
-      let newItem = item.path ? dotProp.get(newPage,item.path) : item
+      let {content,item,path,index,copy} = action.payload
+      let newContent = {...JSON.parse(state[content || 'page'])}
+      let newItem = item.path ? dotProp.get(newContent,item.path) : item
       let oldPath,oldIndex
 
       // first remove old item
       if (item.path && !copy){
         oldIndex = item.path.split('.').reverse()[0]
         oldPath = item.path.split('.').slice(0, -1).join('.')
-        let initalElement = dotProp.get(newPage,oldPath)
+        let initalElement = dotProp.get(newContent,oldPath)
         initalElement[oldIndex] = null
-        newPage = dotProp.set(newPage,oldPath,initalElement)
+        newContent = dotProp.set(newContent,oldPath,initalElement)
       }
-      let element = dotProp.get(newPage,path)
+      let element = dotProp.get(newContent,path)
       let newElement = []
       let i = 0 , j = 0
       while (i < element.length + 1){
@@ -40,34 +42,37 @@ export default function editor(state = initialState, action){
         i++
       }
 
-      // let newPage = item.path ? dotProp.get(newPage,item.path) : page
-      newPage = dotProp.set(newPage,path,newElement)
+      // let newContent = item.path ? dotProp.get(newContent,item.path) : page
+      newContent = dotProp.set(newContent,path,newElement)
       // sanitize
       if (item.path && !copy) {
-        let sanitizeOldElement = dotProp.get(newPage,oldPath)
-        newPage = dotProp.set(newPage,oldPath,sanitizeOldElement.filter(Boolean))
+        let sanitizeOldElement = dotProp.get(newContent,oldPath)
+        newContent = dotProp.set(newContent,oldPath,sanitizeOldElement.filter(Boolean))
       }
-      let sanitizeNewElement = dotProp.get(newPage,path)
-      newPage = dotProp.set(newPage,path,sanitizeNewElement.filter(Boolean))
+      let sanitizeNewElement = dotProp.get(newContent,path)
+      newContent = dotProp.set(newContent,path,sanitizeNewElement.filter(Boolean))
       // end sanitize
       return {...state,
-        page:JSON.stringify(newPage),
+        [content || 'page']:JSON.stringify(newContent),
         form:{},
         path:''
       }
     }
 
     case SET_EDITION: {
-      let {path,type,subProps} = action.payload
-      let propsElement = (dotProp.get(JSON.parse(state.page),path)||{})[subProps]
-      return {...state,path,panel:[type,subProps],form:propsElement}
+      let {content,path,type,subProps} = action.payload
+      let propsElement = (dotProp.get(JSON.parse(state[content || 'page']),path)||{})[subProps]
+      return {...state,path,panel:[type,subProps],form:propsElement,editedContent:content}
+    }
+    case SET_EDITED_CONTENT : {
+      return {...state,editedContent:action.payload}
     }
     case TOGGLE_EDITOR:
-    return {...state,isEditing:!state.isEditing,page:JSON.stringify(action.payload.page||{})}
+    return {...state,isEditing:!state.isEditing,page:JSON.stringify(action.payload.page||{}),menu:JSON.stringify(action.payload.menu||{})}
       break;
     case UPDATE_PAGE:
       return {...state,
-        page:JSON.stringify(action.payload),
+        [state.editedContent || 'page']:JSON.stringify(action.payload),
         form:{},
         path:''
       }
@@ -78,7 +83,7 @@ export default function editor(state = initialState, action){
     case MAP_FORM_TO_PAGE:
       return {
         ...state,
-        page : JSON.stringify(dotProp.set(JSON.parse(state.page),`${state.path}.${state.panel[1]}`,{...state.form}))
+        [state.editedContent || 'page'] : JSON.stringify(dotProp.set(JSON.parse(state[state.editedContent || 'page']),`${state.path}.${state.panel[1]}`,{...state.form}))
       }
       break;
     case SET_EDITOR_FORM:

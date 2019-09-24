@@ -18,11 +18,11 @@ const Forker = {
 
 
 function Element(props){
-  const {type,overColumn,elementProps,elementStyles,path,l,setEdition,droppedItem,isEditing} = props
+  const {type,overColumn,elementProps,elementStyles,path,index,setEdition,droppedItem,isEditing} = props
   const itemWasClicked = (path,type,subProps) => setEdition(path,type,subProps)
   const [{ isDraggingItem }, dragItem] = useDrag({
     canDrag : () => isEditing,
-    item: { type , path : `${path}.elements.${l}` }
+    item: { type , path : `${path}.${index}` }
   })
 
   const Component = Forker[type];
@@ -35,8 +35,8 @@ function Element(props){
       >
       <div className={'snippedEditorContainer elementSnippet'}>
         <EditElements
-          path={`${path}.elements`}
-          index={l}
+          path={`${path}`}
+          index={index}
           subProps={'props'}
           panel={'editElement'}
           droppedItem={droppedItem}
@@ -48,10 +48,11 @@ function Element(props){
            {...elementProps} styles = {elementStyles}/>
       </div>
       <DropElement
-        path={path}
+        path={`${path}`}
         droppedItem={droppedItem}
         overColumn={overColumn}
-        index={l+1}
+        isEditing={isEditing}
+        index={index+1}
       />
     </>
 

@@ -1,6 +1,37 @@
 const website = {
   footers:{},
-  menus:{},
+  menus:[
+    {
+      name:'Super Menu',
+      pages : ['home'],
+      style:{paddingHorizontal:50},
+      lines : [{
+        type:'line',
+        style:{
+          "background": "#ffffff",
+          "margin": "0",
+          "padding": "0"
+        },
+        columns:[{type:"column",style:{},elements:[]}]
+
+      }]
+    },
+    {
+      name:'Menu Numero 2',
+      pages : [],
+      style:{paddingHorizontal:50},
+      lines : [{
+        type:'line',
+        style:{
+          "background": "#ffffff",
+          "margin": "0",
+          "padding": "0"
+        },
+        columns:[{type:"column",style:{},elements:[]}]
+
+      }]
+    }
+  ],
   pages:{
     home:{
       name:"Page d'Accueil",
@@ -14,10 +45,7 @@ const website = {
           "padding": "0"
         },
         lines:[
-          {
-          type : 'line',
-          style:{},
-          columns:[{type:"column",elements:[]}]},
+
           {
           type : 'line',
           style:{

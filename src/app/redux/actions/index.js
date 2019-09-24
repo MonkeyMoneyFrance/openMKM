@@ -31,7 +31,8 @@ import {
   RESET_EDITOR_FORM,
   MAP_FORM_TO_PAGE,
   DROP_ITEM,
-  SET_EDITION
+  SET_EDITION,
+  SET_EDITED_CONTENT
 
 } from "../constants/index";
 export const requestLogin = item => ({ type: REQUEST_LOGIN, payload: item });
@@ -49,15 +50,10 @@ export const requestFetchPublicPlace = item => ({ type: REQUEST_FETCH_PUBLIC_PLA
 export const fetchPublicPlace = item => ({ type: FETCH_PUBLIC_PLACE, payload: item });
 
 export const addTransaction = item => ({type:ADD_TRANSACTION,payload:item})
-
 export const addUser = item => ({ type: ADD_USER, payload: item });
 export const editUser = item => ({ type: EDIT_USER, payload: item });
-
-
 export const requestFetchTransaction = item => ({ type: REQUEST_FETCH_TRANSACTION, payload: item });
 export const fetchTransaction = item => ({ type: FETCH_TRANSACTION, payload: item });
-
-
 export const requestFetchGame = item => ({ type: REQUEST_FETCH_GAME, payload: item });
 export const fetchUser = item => ({ type: SET_USER, payload: item });
 export const fetchGame = item => ({ type: FETCH_GAME, payload: item });
@@ -74,3 +70,4 @@ export const resetEditorForm = item => ({type:RESET_EDITOR_FORM , payload:item})
 export const mapFormToPage = item => ({type:MAP_FORM_TO_PAGE , payload:item})
 export const dropItem = item => ({type:DROP_ITEM , payload:item})
 export const setEdition = item => ({type:SET_EDITION ,payload:item})
+export const setEditedContent = item => ({type:SET_EDITED_CONTENT ,payload:item})

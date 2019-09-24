@@ -8,7 +8,7 @@ export default function input(props){
     props.match ? setError(!props.match.test(e.target.value)) : void 0
     props.setForm({[props.id]:e.target.value})
   }
-  const onBlur = () => props.onBlur()
+  const onBlur = () => props.onBlur ? props.onBlur() : void 0
   return(
     <input
       disabled={props.disabled}
