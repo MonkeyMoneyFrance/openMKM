@@ -6,14 +6,14 @@ const Button = styled.button`
   cursor:pointer;
   float:right;
   display:flex;
-  background:${props => props.disabled ? 'yellow' : 'transparent'};
+  background:${props => props.colored ? 'yellow' : 'transparent'};
   padding:0.5em;
   margin:0 0.5em;
   border-radius:0.8em;
 `
 const Icon = styled.div`
   margin:0 0.5em;
-  fill : ${props => props.disabled ? 'black' : 'gray'}
+  fill : ${props => props.colored ? 'black' : 'gray'}
   & svg {
     width:13px;
   }
@@ -26,9 +26,9 @@ export default function MapButton({disabled,mapToPage}){
 
   <Button
     onClick={buttonClicked}
-    disabled = {disabled}
+    colored = {disabled}
     >
-    <Icon disabled = {disabled}><SVG src={check}  /></Icon>
+    <Icon colored = {disabled}><SVG src={check}  /></Icon>
     {disabled ? 'Affecté' : "Affecter à cette page"}
   </Button>
 )

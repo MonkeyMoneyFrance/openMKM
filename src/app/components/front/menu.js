@@ -20,7 +20,7 @@ function Menu({menu,isEditing}){
         droppedItem={droppedItem}
         index={0}
       />
-      {menu.lines.map((line,j)=>
+      {(menu.lines||[]).map((line,j)=>
         <React.Fragment key={j}>
           <Line
             path={`lines`}

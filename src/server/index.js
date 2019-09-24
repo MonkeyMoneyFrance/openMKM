@@ -1,6 +1,7 @@
 const express=require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const {getWebSite, setWebSite} = require('./routes/redismethods')
 const {user,auth,result,game,team,transaction}=require('./core');
 const redis = require('redis');
 const session = require('express-session');
@@ -83,7 +84,18 @@ passport.deserializeUser((user, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/api/website',(req,res) => {
+  let part = req.query.path
+  let page = req.query.page
+  getWebSite(part,page).then((page)=>res.status(200).send(page))
+})
+app.put('/api/website',(req,res) => {
 
+  let part = req.query.path
+  let page = req.query.page
+  let set = JSON.stringify(req.body)
+  setWebSite(part,page,set).then((page)=>res.status(200).send(set))
+})
 
 app.get('/api/user', (req, res) => {
   console.log(req.session)
@@ -133,6 +145,8 @@ app.get('/api/mock/games',game.mock)
 app.get('/api/mock/teams',team.mock)
 app.get('/api/mock/users',user.mock)
 app.get('/api/mock/resul',result.mock)
+
+
 
 app.get('/', (req, res) => {
   console.log('is not auth')
