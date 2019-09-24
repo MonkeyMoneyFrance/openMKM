@@ -1,5 +1,6 @@
 import React , {useState} from 'react'
 import Editor from '../forms/editor'
+<<<<<<< HEAD
 
 import {setPanel,resetEditorForm,setEditorForm} from '../../redux/actions'
 import {useSelector, useDispatch} from 'react-redux'
@@ -45,13 +46,24 @@ function ElementMenu1({nomMenu}) {
     </ElementMenuItem>
   )
 }
+=======
+import PanelHeader from './panelHeader'
+import {setPanel,resetEditorForm,setEditorForm,mapFormToPage} from '../../redux/actions'
+import {useSelector, useDispatch} from 'react-redux';
+import dotProp from 'dot-prop-immutable'
+>>>>>>> 2b50dd124ed161bd90a8120ffd7075db5166ae1a
 
 function EditElement(props){
   const dispatch = useDispatch()
-  const idItem = useSelector(state => (dotProp.get(state.editor.page,state.editor.path)||{}).type)
+  const editedContent = useSelector(state => state.editor.editedContent);
+  const page = JSON.parse(useSelector(state => state.editor[editedContent]))
+  const idItem = useSelector(state => (dotProp.get(JSON.parse(state.editor[editedContent]),state.editor.path||'')||{}).type)
   const panel = useSelector(state => state.editor.panel);
+<<<<<<< HEAD
   console.log(panel)
   const page = useSelector(state => state.editor.page)
+=======
+>>>>>>> 2b50dd124ed161bd90a8120ffd7075db5166ae1a
   const path = useSelector(state => state.editor.path);
   const cancelEdition = () => {
     dispatch(resetEditorForm())
@@ -64,15 +76,25 @@ function EditElement(props){
     dispatch(resetEditorForm())
     dispatch(setEditorForm(propsElement))
   }
+  const updateForm = () => dispatch(mapFormToPage())
+
   return (
     <div>
+<<<<<<< HEAD
       <ElementMenu1 nomMenu={nomMenu}/>
+=======
+      <PanelHeader name={"Edition d'Element"} />
+>>>>>>> 2b50dd124ed161bd90a8120ffd7075db5166ae1a
       <ul>
         <li onClick={()=>switchForm('props')}>Contenu</li>
         <li onClick={()=>switchForm('styles')}>Style</li>
         <li onClick={cancelEdition}>Annuler</li>
       </ul>
-      <Editor id={idItem} subProps={panel[1]} onSubmit={() => void 0}/>
+      <Editor
+        id={idItem}
+        updateForm={updateForm}
+        subProps={panel[1]}
+        onSubmit={() => void 0}/>
     </div>
 
   )

@@ -1,6 +1,37 @@
 const website = {
   footers:{},
-  menus:{},
+  menus:[
+    {
+      name:'Super Menu',
+      pages : ['home'],
+      style:{paddingHorizontal:50},
+      lines : [{
+        type:'line',
+        style:{
+          "background": "#ffffff",
+          "margin": "0",
+          "padding": "0"
+        },
+        columns:[{type:"column",style:{},elements:[]}]
+
+      }]
+    },
+    {
+      name:'Menu Numero 2',
+      pages : [],
+      style:{paddingHorizontal:50},
+      lines : [{
+        type:'line',
+        style:{
+          "background": "#ffffff",
+          "margin": "0",
+          "padding": "0"
+        },
+        columns:[{type:"column",style:{},elements:[]}]
+
+      }]
+    }
+  ],
   pages:{
     home:{
       name:"Page d'Accueil",
@@ -13,23 +44,28 @@ const website = {
           "margin": "0",
           "padding": "0"
         },
-        lines:[{
+        lines:[
+
+          {
+          type : 'line',
           style:{
             "margin": "2em 0 0 0",
-            "minHeight": 100,
             "padding": "0"
           },
-          columns:[{
+          columns:[
+            {type:"column",style:{},elements:[]},
+            {
+            type:"column",
             style:{
               "background": "#F9DDE2",
-              "justifyContent": "flex-start",
+              "justify-content": "flex-start",
               "padding": "0 1rem"
             },
             elements:[{
               type:"paragraph",
               props:{html:"<h3>&Eacute;CONOMIE</h3>"},
               style:{
-                "justifyContent":"center",
+                "justify-content":"center",
                 "padding": "2em 0em"
               },
             },{
@@ -40,10 +76,13 @@ const website = {
                 "padding": "1em 2em 4em 2em"
               },
             }]
-          },{
+          },
+            {
+            type:"column",
             style:{
-              "justifyContent": "flex-start",
-              "padding": "0 1rem"
+              "background": "#F9DDE2",
+              "justify-content": "flex-start",
+              "padding": "4em"
             },
             elements:[{
               type:"paragraph",
@@ -61,16 +100,19 @@ const website = {
               },
             }]
           }]
-        },{
+        },
+          {
+          type : 'line',
           style:{
             "margin": "2em 0 0 0",
-            "minHeight": 100,
+
             "padding": "0"
           },
           columns:[{
+            type:"column",
             style:{
               "background": "#F9DDE2",
-              "justifyContent": "flex-start",
+              "justify-content": "flex-start",
               "padding": "0 1rem"
             },
             elements:[{
@@ -89,6 +131,7 @@ const website = {
               },
             }]
           },{
+            type:"column",
             style:{
               "justifyContent": "flex-start",
               "padding": "0 1rem"

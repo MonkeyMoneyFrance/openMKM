@@ -1,92 +1,101 @@
 import React, {useState} from 'react'
-import { useDrop } from 'react-dnd'
-import Button from './button';
-import Paragraph from './paragraph';
-import Image from './image';
-import DropZone from '../drop/dropColumn'
+import { useDrop , useDrag} from 'react-dnd'
+import EditElements from '../buttons/editorElement'
+import Element from './element'
+import styled from 'styled-components'
+import DropElement from '../drop/dropElement'
+import DropColumn from '../drop/dropColumn'
 import { useDispatch , useSelector } from "react-redux";
 
-const Forker = {
-  paragraph : Paragraph, //or ParagraphEditor ?
-  button : Button,
-  image: Image,
-};
-//
+const ColumnFront = styled.div`
+  background : ${props => props["background"]};
+  margin : ${props => props["margin"]};
+  padding : ${props => props["padding"]};
+  display:flex;
+  flex:${props => props.flex || 1};
+
+`
 
 
-function Column({column,i,j,k,addItem,setEdition}){
+function Column({column,path,index,droppedItem,setEdition,isEditing}){
 
-  const [{canDropColumn,isOverColumn}, dropColumn] = useDrop({
-    accept: ["button","text"],
-    drop: () => ({ name: 'Dustbin' }),
+
+  const [{overColumn}, dropColumn] = useDrop({
+    accept : ["column","element","button","paragraph"],
+    canDrop : () => isEditing,
     collect: monitor => ({
-      isOverColumn: monitor.isOver(),
-      canDropColumn: monitor.canDrop(),
+      overColumn: monitor.isOver(),
     }),
   })
 
-  const droppedItem = (item,index) => addItem({item,index,i,j,k})
-  const isEditing = useSelector(state => state.editor.isEditing);
+  const [{ isDraggingColumn }, dragColumn] = useDrag({
+    item: { type : 'column' , path : `${path}.${index}`},
+    canDrag : () => isEditing,
+    collect: monitor => ({
+      isDraggingColumn: monitor.isDragging(),
+    }),
+  })
+
+
+  // const droppedItem = (item,index) => addItem({item,index,i,j,k})
   const editingPath = useSelector(state => state.editor.path);
   const editingPanel = useSelector(state => state.editor.panel[1]);
   const editingForm = useSelector(state => state.editor.form);
-  const overColumn = canDropColumn && isOverColumn
   const itemWasClicked = (path,type,subProps) => isEditing ? setEdition(path,type,subProps) : void 0
 
   return (
-    <div
-      ref={dropColumn} key={`${i}.${j}.${k}`} className={"column"+ (isEditing ? " columnEditing" : "")}
-      style={{...column.style}}
-    >
+
+
+  <ColumnFront
+    className={"column"+ (isEditing ? " columnEditing" : "")}
+    ref={dragColumn}
+    {...column.style}>
+
     <div className={'snippedEditorContainer columnSnippet'}>
-      <div
-        onClick={()=>itemWasClicked(`blocks.${i}.lines.${j}.columns.${k}`,'editColumn','styles')}
-        className={'default'}>O</div>
-        <div>ADD</div>
-        <div>COPY</div>
-        <div>MOVE</div>
-        <div>DELETE</div>
+      <EditElements
+        path={path}
+        index={index}
+        subProps={'style'}
+        panel={'editColumn'}
+        droppedItem={droppedItem}
+        itemEdition={itemWasClicked}
+        />
     </div>
-    <DropZone
+    <div style={{width:'100%',height:'100%'}} ref={dropColumn}>
+    <DropElement
+      path={`${path}.${index}.elements`}
       droppedItem={droppedItem}
+      isEditing={isEditing}
       overColumn={overColumn}
       index={0}
     />
     {column.elements.map((element,l)=>{
-      const Component = Forker[element.type];
-      const elementProps = isEditing && editingPath == `blocks.${i}.lines.${j}.columns.${k}.elements.${l}` && editingPanel == 'props' ? editingForm : element.props
-      const elementStyles = isEditing && editingPath == `blocks.${i}.lines.${j}.columns.${k}.elements.${l}` && editingPanel == 'styles' ? editingForm : element.styles
+
+      const elementProps = isEditing && editingPath == `${path}.${index}.elements.${l}` && editingPanel == 'props' ? editingForm : element.props
+      const elementStyles = isEditing && editingPath == `${path}.${index}.elements.${l}` && editingPanel == 'styles' ? editingForm : element.styles
 
       return(
-        <div key={`${i}.${j}.${k}.${l}`}>
-          <div className={"element"+ (isEditing ? " elementEditing" : "")}
-          style={{...element.style}} onClick={()=>console.log(`element ${i}.${j}.${k}.${l} clicked`)}
-          >
-          <div className={'snippedEditorContainer elementSnippet'}>
-            <div
-              onClick={()=>itemWasClicked(`blocks.${i}.lines.${j}.columns.${k}.elements.${l}`,'editElement','props')}
-              className={'default'}>O</div>
-              <div>ADD</div>
-              <div>COPY</div>
-              <div>MOVE</div>
-              <div>DELETE</div>
-          </div>
-            <Component
-              {...elementProps}
-              styles = {elementStyles}
-            />
-          </div>
-          <DropZone
-            droppedItem={droppedItem}
+        <Element
+            key={l}
+            isEditing={isEditing}
+            type={element.type}
             overColumn={overColumn}
-            index={l+1}
+            elementProps={elementProps}
+            elementStyles={elementStyles}
+            setEdition={itemWasClicked}
+            droppedItem={droppedItem}
+            path={`${path}.${index}.elements`}
+            index={l}
           />
-        </div>
-
       )
     }
     )}
     </div>
+
+  </ColumnFront>
+
+
+
   )
 }
 export default Column

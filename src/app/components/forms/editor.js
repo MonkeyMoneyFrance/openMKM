@@ -3,7 +3,7 @@ import forms from '../../config/editor'
 import {bindActionCreators} from 'redux'
 import {withRouter} from 'react-router-dom'
 import {input,h2,h3,p,submit,autocomplete,datepicker} from '../inputs/index.js'
-import dotProp from 'dot-prop'
+import dotProp from 'dot-prop-immutable'
 import {connect,useDispatch} from 'react-redux'
 import {setEditorForm,resetEditorForm} from '../../redux/actions'
 const translate = {p,h2,h3,input,autocomplete,submit,datepicker}
@@ -11,6 +11,7 @@ const translate = {p,h2,h3,input,autocomplete,submit,datepicker}
 
 function Editor(props){
   const submitForm = (form) => props.onSubmit(form);
+  const updatePage = () => props.updateForm()
 
   return (
     <form className={'form'}>
@@ -22,7 +23,7 @@ function Editor(props){
               (dispatch) => bindActionCreators({setForm:setEditorForm},dispatch)
             )(translate[e.html])
             return(<Component key={j} {...e}
-
+              onBlur={updatePage}
               defaultValue={(props.initialData||{})[e.id]}
               onSubmit={submitForm} />)
           })}

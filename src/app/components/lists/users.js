@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom'
 import tables from '../../config/tables'
 import {theadcell} from '../inputs/index.js'
 import SearchTable from '../inputs/searchTable'
-import dotProp from 'dot-prop'
+import dotProp from 'dot-prop-immutable'
 const rows = [
   createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),
   createData('22 Juin 2019', [{teamId:"France",result:"3"},{teamId:"Angleterre",result:"0"}],"A venir"),

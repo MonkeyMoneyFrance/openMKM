@@ -1,5 +1,29 @@
 export default  [
   {
+    id:'editMenu',
+    form:[
+      [{
+      label:'Nom du Menu',
+      html:'h2',
+      className:'',
+      }],
+      [{
+      label:'Nom du Menu',
+      html:'input',
+      id:'name',
+      className:'',
+      match:/^.+$/
+      }],
+      [{
+      label:'Renommer ce menu',
+      html:'submit',
+      id:'submit',
+      className:'',
+      match:/^.+$/
+    }]
+    ]
+  },
+  {
     id:'gameMatch',
     form:[
       [{
