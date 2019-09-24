@@ -87,5 +87,21 @@ module.exports = {
       })
     })
   },
+  getWebSite : function(part,page=''){
+    return new Promise((resolve,reject) =>{
+      client.get('website:'+part+':'+page,(err,reply)=>{
+        if (err) reject(err)
+        else resolve(reply)
+      })
+    })
+  },
+  setWebSite : function(part,page='',set){
+    return new Promise((resolve,reject) =>{
+      client.set('website:'+part+':'+page,set,(err,reply)=>{
+        if (err) reject(err)
+        else resolve(reply)
+      })
+    })
+  },
   getClient : () => client
 }

@@ -1,10 +1,11 @@
 import {
-  SET_EDITED_CONTENT,SET_EDITION,DROP_ITEM,TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM,MAP_FORM_TO_PAGE
+  SET_HISTORY_PANEL,SET_EDITED_CONTENT,SET_EDITION,DROP_ITEM,TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM,MAP_FORM_TO_PAGE
 } from "../constants/index";
 import dotProp from 'dot-prop-immutable'
 const initialState = {
   panel:['main'],
   path:'',
+  historyPanel:[],
   editedContent:'',
   isEditing:false,
   form:{},
@@ -15,6 +16,9 @@ const initialState = {
 export default function editor(state = initialState, action){
 
   switch (action.type) {
+    case SET_HISTORY_PANEL : {
+      return {...state,history:action.payload}
+    }
     case DROP_ITEM: {
       let {content,item,path,index,copy} = action.payload
       let newContent = {...JSON.parse(state[content || 'page'])}

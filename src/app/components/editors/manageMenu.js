@@ -1,11 +1,15 @@
-import React , {useState} from 'react'
+import React , {useState,useEffect} from 'react'
 import PanelHeader from './panelHeader'
 import EditMenuModal from '../modal/editMenu'
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
+import {setPage,getPage} from '../../utils/API'
 import {setPanel,setEditedContent} from '../../redux/actions'
 import MapButton from '../buttons/mapMenuToPageButton'
 import website from '../../mocks/website'
 import styled from 'styled-components'
+
+
+
 const styles = {
   textAlign:'center',
   padding:'1em',
@@ -33,7 +37,8 @@ const MenuList = styled.div`
 `
 function ItemMenuList({e,i,setChosenMenu,mapToPage,selected}) {
   const clickedItem = () => setChosenMenu(i)
-  const clickedButton = () => mapToPage(i)
+  const isMapped = e.pages.includes('home')
+  const clickedButton = () => mapToPage(i,!isMapped)
   return (
     <LiMenuList
       key={i}
@@ -41,30 +46,38 @@ function ItemMenuList({e,i,setChosenMenu,mapToPage,selected}) {
       selected={selected}>{e.name}
       <MapButton
         mapToPage={clickedButton}
-        disabled={e.pages.includes('home')}/>
+        disabled={isMapped}/>
     </LiMenuList>
   )
 }
 
-function DragElement(){
+function ManageMenu(){
   const dispatch = useDispatch();
+  const editedMenu = useSelector(state => state.editor.menu);
+  const [menusString,updateMenus] = useState('[]')
   const [chosenMenu,setChosenMenu] = useState(null)
   const [isOpenModal,setOpenModal] = useState(false)
   const editMenu = () => {
     dispatch(setPanel(['dragElement']))
     dispatch(setEditedContent('menu'))
+
   }
 
-
-
+  useEffect(()=>{
+    getPage('menus','main').then((menus) => {
+      let index = JSON.parse(menus).findIndex(m => m.pages.includes('home'))
+      updateMenus(menus)
+      if (index > -1) setChosenMenu(index)
+    }).catch(err => console.log(err))
+  },[])
 
   const changeChosenMenu = (i) => setChosenMenu(i)
   const openModal = () => setOpenModal(true)
   const closeModal = () => setOpenModal(false)
-  const menusString = JSON.stringify(website.menus||[])
+  // const menusString = JSON.stringify(website.menus||[])
   const menus = JSON.parse(menusString)
 
-  const copyMenu = () => setMenu(chosenMenu,null,true)
+  const copyMenu = () => setMenu(chosenMenu,{name:null},true)
   const createMenu = () => {
     setChosenMenu(null)
     setOpenModal(true)
@@ -72,14 +85,25 @@ function DragElement(){
   const deleteMenu = () => {
     let newMenus = [...menus]
     newMenus.splice(chosenMenu,1)
-    return newMenus
+    setPage('menus','main',newMenus).then(menus => {
+      setChosenMenu(null)
+      updateMenus(menus)
+    }).catch(err => console.log(err))
   }
-  const setMenu = (i,name,copy = false) => {
+  const saveChanges = () => {
     let newMenus = [...menus]
-    if (i && copy) {
-      newMenus.push({...newMenus[i],name:name || 'copie de - ' + newMenus[i].name  })
+    newMenus[chosenMenu] = {...newMenus[chosenMenu],...JSON.parse(editedMenu)}
+    setPage('menus','main',newMenus).then(menus => {
+      setChosenMenu(null)
+      updateMenus(menus)
+    }).catch(err => console.log(err))
+  }
+  const setMenu = (i,{name},copy = false) => {
+    let newMenus = [...menus]
+    if (i != null && copy) {
+      newMenus.push({...newMenus[i],pages:[],name:name || 'copie de - ' + newMenus[i].name  })
     }
-    else if (i) {
+    else if (i != null) {
       newMenus[i] = ({...newMenus[i],name:name || 'Nouveau Menu'})
     } else {
       newMenus.push({
@@ -89,19 +113,21 @@ function DragElement(){
         lines : [{type:'line',style:{},columns:[{type:"column",style:{},elements:[]}]}]
       })
     }
-    // should update newMenu with this structure...
+    setPage('menus','main',newMenus).then(menus => updateMenus(menus)).catch(err => console.log(err))
+
   }
 
-  const mapToPage = (i) => {
+  const mapToPage = (i,shouldMap = false) => {
     const newMenus =  menus.map((m,index) => {
       let oldIndex = m.pages.findIndex(p => p == 'home')
       if (oldIndex > -1) m.pages.splice(oldIndex,1)
-      else if (i == index) m = {...m,pages : ['home']}
+      else if (i == index && shouldMap) m = {...m,pages : ['home']}
       return m
     })
+    setPage('menus','main',newMenus).then(menus => updateMenus(menus)).catch(err => console.log(err))
     // should update newMenu with this structure...
   }
-
+  console.log((editedMenu) , chosenMenu, JSON.stringify(menus[chosenMenu]))
   return (
     <div>
       {isOpenModal && <EditMenuModal
@@ -109,7 +135,7 @@ function DragElement(){
         chosenMenu = {chosenMenu}
         initialData={(menus[chosenMenu]||{})}
         close={closeModal}/>}
-      <PanelHeader name={"Gestion du Menu"} />
+       <PanelHeader name={"Gestion du Menu"} />
           <MenuList>
             <header>Affectez votre page à un menu de la liste ci dessous :</header>
             <ul>
@@ -118,7 +144,7 @@ function DragElement(){
                 selected={i == chosenMenu}
                 i={i}
                 e={e}
-                mapToPage = {setMenu}
+                mapToPage = {mapToPage}
                 setChosenMenu={changeChosenMenu}/>)}
             </ul>
           </MenuList>
@@ -155,6 +181,12 @@ function DragElement(){
                 style={styles}
                 >{"Supprimer ce Menu"}
               </div>
+              {(editedMenu) != JSON.stringify(menus[chosenMenu]) && <div
+                onClick={saveChanges}
+                style={styles}
+                >{"Sauvegarder les changements sur ce Menu"}
+              </div> }
+
             </div>
             }
           </div>
@@ -162,4 +194,4 @@ function DragElement(){
 
   )
 }
-export default DragElement
+export default ManageMenu
