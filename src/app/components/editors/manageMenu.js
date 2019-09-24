@@ -3,7 +3,7 @@ import PanelHeader from './panelHeader'
 import EditMenuModal from '../modal/editMenu'
 import {useDispatch,useSelector} from 'react-redux'
 import {setPage,getPage} from '../../utils/API'
-import {setPanel,setEditedContent} from '../../redux/actions'
+import {setPanel,setEditedContent,pushHistoryPanel} from '../../redux/actions'
 import MapButton from '../buttons/mapMenuToPageButton'
 import website from '../../mocks/website'
 import styled from 'styled-components'
@@ -60,6 +60,7 @@ function ManageMenu(){
   const editMenu = () => {
     dispatch(setPanel(['dragElement']))
     dispatch(setEditedContent('menu'))
+    dispatch(pushHistoryPanel(["dragElement"]))
 
   }
 
@@ -74,9 +75,7 @@ function ManageMenu(){
   const changeChosenMenu = (i) => setChosenMenu(i)
   const openModal = () => setOpenModal(true)
   const closeModal = () => setOpenModal(false)
-  // const menusString = JSON.stringify(website.menus||[])
   const menus = JSON.parse(menusString)
-
   const copyMenu = () => setMenu(chosenMenu,{name:null},true)
   const createMenu = () => {
     setChosenMenu(null)
@@ -116,7 +115,6 @@ function ManageMenu(){
     setPage('menus','main',newMenus).then(menus => updateMenus(menus)).catch(err => console.log(err))
 
   }
-
   const mapToPage = (i,shouldMap = false) => {
     const newMenus =  menus.map((m,index) => {
       let oldIndex = m.pages.findIndex(p => p == 'home')
@@ -125,9 +123,7 @@ function ManageMenu(){
       return m
     })
     setPage('menus','main',newMenus).then(menus => updateMenus(menus)).catch(err => console.log(err))
-    // should update newMenu with this structure...
   }
-  console.log((editedMenu) , chosenMenu, JSON.stringify(menus[chosenMenu]))
   return (
     <div>
       {isOpenModal && <EditMenuModal

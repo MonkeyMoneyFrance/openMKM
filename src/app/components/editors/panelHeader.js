@@ -29,25 +29,21 @@ export default function PanelHeader(props) {
   const history = useSelector(state => state.editor.historyPanel)
   const goBack = () => {
     let newHistory = [...history]
-    let lastElement = newHistory.slice(-1).pop()
-    // newHistory.slice(-1)
-    console.log(newHistory)
-    console.log(lastElement[0])
-    console.log(lastElement[1])
-    //arr.slice(-1).pop();
-    dispatch(setPanel(lastElement[0]))
-    dispatch(setEditedContent(lastElement[1]))
+    newHistory.splice(-1)
+    let lastElement = [...newHistory].splice(-1).pop()
+    dispatch(setPanel(lastElement))
     dispatch(setHistoryPanel(newHistory))
   }
   const close = () => {
     dispatch(setPanel(['main']))
     dispatch(setEditedContent(''))
+    dispatch(setHistoryPanel([['main']]))
 
   }
 
   return (
     <Header>
-      <li></li>
+      {history.length > 1 &&  <li onClick={goBack}>&larr;</li>}
       <li>{props.name}</li>
       <li className={'close'} onClick={close}>&times;</li>
     </Header>
