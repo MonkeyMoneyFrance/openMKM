@@ -3,7 +3,7 @@ import PanelHeader from './panelHeader'
 import EditMenuModal from '../modal/editMenu'
 import {useDispatch,useSelector} from 'react-redux'
 import {setPage,getPage} from '../../utils/API'
-import {setPanel,setEditedContent,pushHistoryPanel} from '../../redux/actions'
+import {setPanel,setEditedContent,pushHistoryPanel,updatePage} from '../../redux/actions'
 import MapButton from '../buttons/mapMenuToPageButton'
 import website from '../../mocks/website'
 import styled from 'styled-components'
@@ -53,19 +53,22 @@ function ItemMenuList({e,i,setChosenMenu,mapToPage,selected}) {
 
 function ManageMenu(){
   const dispatch = useDispatch();
-  const editedMenu = useSelector(state => state.editor.menu);
+  const editedContent = useSelector(state => state.editor.editedContent);
+
+  const editedMenu = useSelector(state => state.editor[editedContent]);
+
   const [menusString,updateMenus] = useState('[]')
   const [chosenMenu,setChosenMenu] = useState(null)
   const [isOpenModal,setOpenModal] = useState(false)
   const editMenu = () => {
     dispatch(setPanel(['dragElement']))
-    dispatch(setEditedContent('menu'))
+    dispatch(setEditedContent(editedContent))
     dispatch(pushHistoryPanel(["dragElement"]))
 
   }
 
   useEffect(()=>{
-    getPage('menus','main').then((menus) => {
+    getPage(`${editedContent}s`,'main').then((menus) => {
       let index = JSON.parse(menus).findIndex(m => m.pages.includes('home'))
       updateMenus(menus)
       if (index > -1) setChosenMenu(index)
@@ -84,15 +87,16 @@ function ManageMenu(){
   const deleteMenu = () => {
     let newMenus = [...menus]
     newMenus.splice(chosenMenu,1)
-    setPage('menus','main',newMenus).then(menus => {
+    setPage(`${editedContent}s`,'main',newMenus).then(menus => {
       setChosenMenu(null)
+      updatePage(menus)
       updateMenus(menus)
     }).catch(err => console.log(err))
   }
   const saveChanges = () => {
     let newMenus = [...menus]
     newMenus[chosenMenu] = {...newMenus[chosenMenu],...JSON.parse(editedMenu)}
-    setPage('menus','main',newMenus).then(menus => {
+    setPage(`${editedContent}s`,'main',newMenus).then(menus => {
       setChosenMenu(null)
       updateMenus(menus)
     }).catch(err => console.log(err))
@@ -103,16 +107,20 @@ function ManageMenu(){
       newMenus.push({...newMenus[i],pages:[],name:name || 'copie de - ' + newMenus[i].name  })
     }
     else if (i != null) {
-      newMenus[i] = ({...newMenus[i],name:name || 'Nouveau Menu'})
+      newMenus[i] = ({...newMenus[i],name:name || 'Nouveau '+ editedContent})
     } else {
       newMenus.push({
-        name:name || 'Nouveau Menu',
+        name:name || 'Nouveau ' + editedContent,
         pages : [],
         style:{},
         lines : [{type:'line',style:{},columns:[{type:"column",style:{},elements:[]}]}]
       })
     }
-    setPage('menus','main',newMenus).then(menus => updateMenus(menus)).catch(err => console.log(err))
+
+    setPage(`${editedContent}s`,'main',newMenus).then(menus => {
+      dispatch(updatePage(newMenus.find(m => m.pages.includes('home'))||{}))
+      updateMenus(menus)
+    }).catch(err => console.log(err))
 
   }
   const mapToPage = (i,shouldMap = false) => {
@@ -122,7 +130,10 @@ function ManageMenu(){
       else if (i == index && shouldMap) m = {...m,pages : ['home']}
       return m
     })
-    setPage('menus','main',newMenus).then(menus => updateMenus(menus)).catch(err => console.log(err))
+    setPage(`${editedContent}s`,'main',newMenus).then(menus => {
+      dispatch(updatePage(newMenus.find(m => m.pages.includes('home'))||{}))
+      updateMenus(menus)
+    }).catch(err => console.log(err))
   }
   return (
     <div>
@@ -131,7 +142,7 @@ function ManageMenu(){
         chosenMenu = {chosenMenu}
         initialData={(menus[chosenMenu]||{})}
         close={closeModal}/>}
-       <PanelHeader name={"Gestion du Menu"} />
+       <PanelHeader name={"Gestion du "+ editedContent} />
           <MenuList>
             <header>Affectez votre page à un menu de la liste ci dessous :</header>
             <ul>
@@ -152,35 +163,36 @@ function ManageMenu(){
             <div
               onClick={createMenu}
               style={styles}
-              >{"Créer un Nouveau Menu"}
+              >{"Créer un Nouveau "+ editedContent}
             </div>
             {chosenMenu != null &&
             <div>
               <div
                 onClick={copyMenu}
                 style={styles}
-                >{"Dupliquer ce Menu"}
+                >{"Dupliquer ce " + editedContent}
               </div>
 
-              <div
+              {menus[chosenMenu] && (menus[chosenMenu].pages||[]).includes('home') && <div
                 onClick={editMenu}
                 style={styles}
-                >{"Editer ce Menu"}
+                >{"Editer ce " + editedContent}
               </div>
+              }
               <div
                 onClick={openModal}
                 style={styles}
-                >{"Renommer ce Menu"}
+                >{"Renommer ce " + editedContent}
               </div>
               <div
                 onClick={deleteMenu}
                 style={styles}
-                >{"Supprimer ce Menu"}
+                >{"Supprimer ce " + editedContent}
               </div>
-              {(editedMenu) != JSON.stringify(menus[chosenMenu]) && <div
+              {menus[chosenMenu] && (menus[chosenMenu].pages||[]).includes('home') && (editedMenu) != JSON.stringify(menus[chosenMenu]) && <div
                 onClick={saveChanges}
                 style={styles}
-                >{"Sauvegarder les changements sur ce Menu"}
+                >{"Sauvegarder les changements sur ce " + editedContent}
               </div> }
 
             </div>

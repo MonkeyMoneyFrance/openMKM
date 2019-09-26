@@ -43,13 +43,12 @@ function EditElement(props){
   }
   const switchForm = (subProps) => {
     const propsElement = (dotProp.get(page,path)||{})[subProps]
-
     dispatch(setPanel([panel[0],subProps]))
     dispatch(resetEditorForm())
     dispatch(setEditorForm(propsElement))
   }
   const updateForm = () => dispatch(mapFormToPage())
-  console.log(panel)
+
   return (
     <div>
       <PanelHeader name={"Edition d'Element"} />

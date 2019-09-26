@@ -69,7 +69,7 @@ export default function editor(state = initialState, action){
     case SET_EDITION: {
       let {content,path,type,subProps} = action.payload
       let propsElement = (dotProp.get(JSON.parse(state[content || 'page']),path)||{})[subProps]
-      return {...state,path,panel:[type,subProps],form:propsElement,editedContent:content}
+      return {...state,path,panel:[type,subProps],form:propsElement||{},editedContent:content}
     }
     case SET_EDITED_CONTENT : {
       return {...state,editedContent:action.payload}
