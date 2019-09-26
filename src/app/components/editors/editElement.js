@@ -26,7 +26,7 @@ align-items: center;
   text-align : center;
 } & .activeMenu {
   border-bottom : 2px solid #5fd3b6;
-  background-color : #F2F2F2;
+  background-color : #F7F7F7;
 }`
 
 
@@ -56,7 +56,6 @@ function EditElement(props){
       <ElementMenu>
         <li className={panel[1]==='props' ? 'activeMenu' : ''} onClick={()=>switchForm('props')}>Contenu</li>
         <li className={panel[1]==='style' ? 'activeMenu' : ''} onClick={()=>switchForm('style')}>Style</li>
-        <li onClick={cancelEdition}>Annuler</li>
       </ElementMenu>
       <Editor
         id={idItem}

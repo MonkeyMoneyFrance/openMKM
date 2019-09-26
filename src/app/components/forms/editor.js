@@ -7,14 +7,33 @@ import dotProp from 'dot-prop-immutable'
 import {connect,useDispatch} from 'react-redux'
 import {setEditorForm,resetEditorForm} from '../../redux/actions'
 const translate = {p,h2,h3,input,autocomplete,submit,datepicker}
+import styled from 'styled-components'
 
+const Form = styled.form`
+  display : flex;
+  flex-direction : column;
+  & input {
+    border : 1px solid #d5dadf;
+    margin : 2px;
+    border-shadow : none;
+    border-radius : 3px
+  }
+  & label {
+    color : black;
+    display: inline-block;
+    width: 200px;
+    text-align: left;
+    padding-left : 20px;
+  }
+
+`
 
 function Editor(props){
   const submitForm = (form) => props.onSubmit(form);
   const updatePage = () => props.updateForm()
 
   return (
-    <form className={'form'}>
+    <Form >
       {((forms.find(h => h.id === props.id) || {})[props.subProps]||[]).map((line,i)=> (
         <div key={i} className='container wrap'>
           {line.map((e,j)=>{
@@ -30,7 +49,7 @@ function Editor(props){
           </div>
         )
       )}
-    </form>
+    </Form>
   )
 }
 

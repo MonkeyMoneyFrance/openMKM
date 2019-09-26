@@ -10,14 +10,16 @@ export default function input(props){
   }
   const onBlur = () => props.onBlur ? props.onBlur() : void 0
   return(
-    <input
-      disabled={props.disabled}
-      value={props.form[props.id] != null && typeof props.form[props.id] != 'undefined'? props.form[props.id] : props.defaultValue ||''}
-      type={props.type || 'text'}
-      className={props.className + (error ? ' error ' : '')}
-      placeholder={props.label}
-      onChange={updateInput}
-      onBlur={onBlur}
-    />
+    <div>
+      <label>{props.label}</label>
+      <input
+        disabled={props.disabled}
+        value={props.form[props.id] != null && typeof props.form[props.id] != 'undefined'? props.form[props.id] : props.defaultValue ||''}
+        type={props.type || 'text'}
+        className={props.className + (error ? ' error ' : '')}
+        onChange={updateInput}
+        onBlur={onBlur}
+      />
+    </div>
   )
 }
