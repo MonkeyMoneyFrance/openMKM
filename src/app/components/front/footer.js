@@ -16,10 +16,11 @@ function Footer({footer,isEditing}){
       >
       <DropLine
         path={`lines`}
+        isEditing={isEditing}
         droppedItem={droppedItem}
         index={0}
       />
-      {footer.lines||[].map((line,j)=>
+      {(footer.lines||[]).map((line,j)=>
         <React.Fragment key={j}>
           <Line
             path={`lines`}
@@ -31,6 +32,7 @@ function Footer({footer,isEditing}){
             />
           <DropLine
             path={`lines`}
+            isEditing={isEditing}
             droppedItem={droppedItem}
             index={j+1}
           />

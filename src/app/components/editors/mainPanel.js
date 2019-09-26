@@ -13,7 +13,7 @@ const items = [
   },
   {
     name:"Editer le footer",
-    panel : 'dragElement',
+    panel : 'manageMenu',
     content : "footer"
   },
   {
