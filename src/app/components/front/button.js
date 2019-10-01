@@ -4,15 +4,13 @@ import {withRouter} from 'react-router-dom';
 import styled from 'styled-components'
 
 const ButtonSemantic = styled.button`
-  ${props => Object.keys(props.styles).reduce((hover,key) => key.indexOf('Hover') == -1  ? `${hover}${key}:${props.styles[key]};` : hover,"")};
+  ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') == -1  ? `${hover}${key}:${props.styles[key]};` : hover,"")};
   &:hover {
-    ${props => Object.keys(props.styles).reduce((hover,key) => key.indexOf('Hover') > -1 ? `${hover} ${key.replace('Hover','')}:${props.styles[key]};` : hover,"")}
+    ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') > -1 ? `${hover} ${key.replace('Hover','')}:${props.styles[key]};` : hover,"")}
   }
 `
 
 function Button(props){
-
-  //props : buttonText, colorButton, inverted, fluid, size
   return(
     <ButtonSemantic
 

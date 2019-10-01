@@ -15,12 +15,12 @@ const draggableItems = [
   {
     type:'button',
     name:"BOUTON",
-    props:{}
+    props : {type:'button',props:{},style:{}}
   },
   {
     type:'text',
     name:"TEXTE",
-    props:{}
+    props : {type:'button',props:{},style:{}}
   },
 
   {

@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import {  useSelector  } from "react-redux";
 export default function Paragraph(props){
   const Paragraph = styled[(/h1|h2|h3|h4|h5|h6|p|div|span|p/).test(props.attribute) ? props.attribute : "p"]`
-    ${props => {props}};
+    ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') == -1  ? `${hover}${key}:${props.styles[key]};` : hover,"")};
     &:hover {
-      color:${props => props.hoverColor};
+      ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') > -1 ? `${hover} ${key.replace('Hover','')}:${props.styles[key]};` : hover,"")}
     }
   `
 
