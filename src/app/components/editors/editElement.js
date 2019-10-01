@@ -28,35 +28,43 @@ align-items: center;
   border-bottom : 2px solid #5fd3b6;
   background-color : #F2F2F2;
 }`
-
-
-function EditElement(props){
+function Menu({panel}){
   const dispatch = useDispatch()
   const editedContent = useSelector(state => state.editor.editedContent);
   const page = JSON.parse(useSelector(state => state.editor[editedContent]))
-  const idItem = useSelector(state => (dotProp.get(JSON.parse(state.editor[editedContent]),state.editor.path||'')||{}).type)
-  const panel = useSelector(state => state.editor.panel);
   const path = useSelector(state => state.editor.path);
-  const cancelEdition = () => {
-    dispatch(resetEditorForm())
-    dispatch(setPanel(['dragElement']))
-  }
   const switchForm = (subProps) => {
     const propsElement = (dotProp.get(page,path)||{})[subProps]
     dispatch(setPanel([panel[0],subProps]))
     dispatch(resetEditorForm())
     dispatch(setEditorForm(propsElement))
   }
+  const cancelEdition = () => {
+    dispatch(resetEditorForm())
+    dispatch(setPanel(['dragElement']))
+  }
+  return(
+    <ElementMenu>
+      <li className={panel[1]==='props' ? 'activeMenu' : ''} onClick={()=>switchForm('props')}>Contenu</li>
+      <li className={panel[1]==='style' ? 'activeMenu' : ''} onClick={()=>switchForm('style')}>Style</li>
+      <li onClick={cancelEdition}>Annuler</li>
+    </ElementMenu>
+  )
+}
+
+function EditElement(props){
+const dispatch = useDispatch()
+  const editedContent = useSelector(state => state.editor.editedContent);
+  const idItem = useSelector(state => (dotProp.get(JSON.parse(state.editor[editedContent]),state.editor.path||'')||{}).type)
+  console.log(idItem)
+  const panel = useSelector(state => state.editor.panel);
+
   const updateForm = () => dispatch(mapFormToPage())
 
   return (
     <div>
       <PanelHeader name={"Edition d'Element"} />
-      <ElementMenu>
-        <li className={panel[1]==='props' ? 'activeMenu' : ''} onClick={()=>switchForm('props')}>Contenu</li>
-        <li className={panel[1]==='style' ? 'activeMenu' : ''} onClick={()=>switchForm('style')}>Style</li>
-        <li onClick={cancelEdition}>Annuler</li>
-      </ElementMenu>
+      <Menu  panel={panel}/>
       <Editor
         id={idItem}
         updateForm={updateForm}

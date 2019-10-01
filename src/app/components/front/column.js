@@ -72,7 +72,7 @@ function Column({column,path,index,droppedItem,setEdition,isEditing}){
     {column.elements.map((element,l)=>{
 
       const elementProps = isEditing && editingPath == `${path}.${index}.elements.${l}` && editingPanel == 'props' ? editingForm : element.props
-      const elementStyles = isEditing && editingPath == `${path}.${index}.elements.${l}` && editingPanel == 'styles' ? editingForm : element.styles
+      const elementStyles = isEditing && editingPath == `${path}.${index}.elements.${l}` && editingPanel == 'styles' ? editingForm : element.style
 
       return(
         <Element

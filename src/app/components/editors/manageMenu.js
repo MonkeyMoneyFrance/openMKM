@@ -64,7 +64,6 @@ function ManageMenu(){
     dispatch(setPanel(['dragElement']))
     dispatch(setEditedContent(editedContent))
     dispatch(pushHistoryPanel(["dragElement"]))
-
   }
 
   useEffect(()=>{

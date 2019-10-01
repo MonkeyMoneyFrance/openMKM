@@ -1,5 +1,5 @@
 import {
-  PUSH_HISTORY_PANEL,SET_HISTORY_PANEL,SET_EDITED_CONTENT,SET_EDITION,DROP_ITEM,TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,RESET_EDITOR_FORM,MAP_FORM_TO_PAGE
+  PUSH_HISTORY_PANEL,SET_HISTORY_PANEL,SET_EDITED_CONTENT,SET_EDITION,DROP_ITEM,TOGGLE_EDITOR,UPDATE_PAGE,SET_PANEL,SET_EDITED_ITEM,SET_EDITOR_FORM,SET_EDITOR_FORM_PROPS,RESET_EDITOR_FORM,MAP_FORM_TO_PAGE
 } from "../constants/index";
 import dotProp from 'dot-prop-immutable'
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
   editedContent:'',
   isEditing:false,
   form:{},
+  formProps:{},
   page:"{}",
   menu:"{}",
   footer:"{}"
@@ -68,8 +69,9 @@ export default function editor(state = initialState, action){
 
     case SET_EDITION: {
       let {content,path,type,subProps} = action.payload
+
       let propsElement = (dotProp.get(JSON.parse(state[content || 'page']),path)||{})[subProps]
-      return {...state,path,panel:[type,subProps],form:propsElement||{},editedContent:content}
+      return {...state,path,panel:[type,subProps],form:propsElement,editedContent:content,historyPanel:[...state.historyPanel,[type,subProps]]}
     }
     case SET_EDITED_CONTENT : {
       return {...state,editedContent:action.payload}
@@ -81,6 +83,7 @@ export default function editor(state = initialState, action){
       return {...state,
         [state.editedContent || 'page']:JSON.stringify(action.payload),
         form:{},
+        formProps:{},
         path:''
       }
       break;
@@ -99,8 +102,14 @@ export default function editor(state = initialState, action){
         form : {...state.form,...action.payload},
       }
       break;
+    case SET_EDITOR_FORM_PROPS:
+      return {
+        ...state,
+        formProps : {...state.formProps,...action.payload},
+      }
+      break;
     case RESET_EDITOR_FORM :
-      return {...state,form:{}}
+      return {...state,form:{},formProps:{}}
       break;
     case SET_PANEL:
       return {...state,panel:action.payload}
