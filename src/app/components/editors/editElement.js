@@ -26,7 +26,7 @@ align-items: center;
   text-align : center;
 } & .activeMenu {
   border-bottom : 2px solid #5fd3b6;
-  background-color : #F2F2F2;
+  background-color : #F7F7F7;
 }`
 function Menu({panel}){
   const dispatch = useDispatch()

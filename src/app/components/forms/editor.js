@@ -6,7 +6,26 @@ import {input,h2,h3,p,submit,switchHeader,autocomplete,datepicker} from '../inpu
 import {connect,useSelector,useDispatch} from 'react-redux'
 import {setEditorForm,resetEditorForm,setEditorFormProps} from '../../redux/actions'
 const translate = {switchHeader,p,h2,h3,input,autocomplete,submit,datepicker}
+import styled from 'styled-components'
 
+const Form = styled.form`
+  display : flex;
+  flex-direction : column;
+  & input {
+    border : 1px solid #d5dadf;
+    margin : 2px;
+    border-shadow : none;
+    border-radius : 3px
+  }
+  & label {
+    color : black;
+    display: inline-block;
+    width: 200px;
+    text-align: left;
+    padding-left : 20px;
+  }
+
+`
 
 function Editor(props){
   const submitForm = (form) => props.onSubmit(form);
@@ -27,7 +46,7 @@ function Editor(props){
 
 
   return (
-    <form className={'form'}>
+    <Form className={'form'}>
       {form.map((line,i)=> (
         <div key={i} className='container wrap' style={{justifyContent:'space-between'}}>
           {line.map((e,j)=>{
@@ -46,7 +65,7 @@ function Editor(props){
           </div>
         )
       )}
-    </form>
+    </Form>
   )
 }
 

@@ -17,7 +17,7 @@ align-items: center;
 & li {
   padding: 10px 20px;
   font-size: 1.1em;
-  &.close {
+  &.cursor {
     cursor : pointer;
   }
 }
@@ -43,9 +43,9 @@ export default function PanelHeader(props) {
 
   return (
     <Header>
-      {history.length > 1 &&  <li onClick={goBack}>&larr;</li>}
+      {history.length > 1 ? <li className={'cursor'} onClick={goBack}>&larr;</li> : <li></li>}
       <li>{props.name}</li>
-      <li className={'close'} onClick={close}>&times;</li>
+      <li className={'cursor'} onClick={close}>&times;</li>
     </Header>
   )
 }
