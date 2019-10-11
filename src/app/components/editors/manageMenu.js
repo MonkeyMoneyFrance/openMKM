@@ -54,7 +54,6 @@ function ItemMenuList({e,i,setChosenMenu,mapToPage,selected}) {
 function ManageMenu(){
   const dispatch = useDispatch();
   const editedContent = useSelector(state => state.editor.editedContent);
-
   const editedMenu = useSelector(state => state.editor[editedContent]);
 
   const [menusString,updateMenus] = useState('[]')
@@ -126,6 +125,7 @@ function ManageMenu(){
       updateMenus(menus)
     }).catch(err => console.log(err))
   }
+
   return (
     <div>
       {isOpenModal && <EditMenuModal
@@ -180,8 +180,6 @@ function ManageMenu(){
                 style={styles}
                 >{"Supprimer ce " + editedContent}
               </div>
-
-
             </div>
             }
           </div>

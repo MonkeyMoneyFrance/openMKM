@@ -5,8 +5,8 @@ import {resetEditor} from '../../redux/actions'
 import styled from 'styled-components'
 const Footer = styled.nav`
   background-color:#5fd3b6;
-  position:absolute;
-  bottom:0;
+
+  flex-shrink:0;
   width:100%;
   display : flex;
   max-width:100%;

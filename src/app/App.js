@@ -22,10 +22,10 @@ function App(props) {
   useEffect(()=> {
     dispatch(requestProfile())
   },[])
-  
+
   return (
-    <div style={{minHeight:"100%"}}>
-      <Switch>
+
+      <Switch >
         {routes.map((r,index) => 
           (
             <Route
@@ -38,7 +38,6 @@ function App(props) {
 
        )}
       </Switch>
-    </div>
   );
 }
 

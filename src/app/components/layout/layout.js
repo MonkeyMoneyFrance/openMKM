@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const PrivateLayout = styled.div`
   background-color:#D7DFF4;
-  min-height:100%;
+  min-height:100vh;
   & > .content {
     margin:auto;
     max-width:95%;
@@ -12,7 +12,7 @@ const PrivateLayout = styled.div`
 
 const AdminLayout = styled.div`
   background-color:#D7DFF4;
-  min-height:100%;
+  min-height:100vh;
   & > .content {
     padding:1em;
     margin:auto;
@@ -25,7 +25,7 @@ const AdminLayout = styled.div`
 `
 
 const PublicLayout = styled.div`
-  height:100%;
+  height:100vh;
   /* min-height:100%; */
   /* overflow:hidden; */
   & > .content {

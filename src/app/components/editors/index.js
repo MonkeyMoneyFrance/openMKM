@@ -19,6 +19,16 @@ const getPanel = {
   main:MainPanel,
   manageMenu:ManageMenu
 }
+const SideBar = styled.div`
+  transition:300ms all ease-in;
+  position:relative
+  overflow:auto;
+  display:flex;
+  flex-direction:'column;
+  width:${p => p.panelOpen ? "500px" : "0"};
+  border-right:1px solid;
+
+`
 const SwitchButton = styled.div`
     z-index: 150;
     transition: all 300ms ease-in 0s;
@@ -37,7 +47,7 @@ const SwitchButton = styled.div`
       width : 10px;
     }
 
-    top: 500px;
+    top: 50%;
     left : ${props => props.isEditing ? "500px" : "0px"};
     width: 25px;
     height: 50px;
@@ -60,13 +70,10 @@ function MainEditor({page,menu,footer}){
   const Panel = getPanel[panel[0]]
   return(
     <>
-    <div style={{
-      transition:"300ms all ease-in",
-      position:'relative',
-      overflow:'auto',
-      height:"100vh",
-      width:panelOpen ? 500 : 0, borderRight:"1px solid"}}>
-      <Panel />
+    <div panelOpen={panelOpen}>
+      <div style={{flex:"1 0 auto"}}>
+        <Panel />
+      </div>
       <BottomBar >Barre du Bas</BottomBar>
     </div>
     <SwitchButton
@@ -74,8 +81,7 @@ function MainEditor({page,menu,footer}){
       onClick={toggle}
     ><SVG src={isEditing ? sortUp : settings} /></SwitchButton>
 
-    </>
-
+  </>
   )
 }
 export default MainEditor
