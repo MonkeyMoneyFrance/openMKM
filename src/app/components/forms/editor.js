@@ -7,10 +7,18 @@ import {connect,useSelector,useDispatch} from 'react-redux'
 import {setEditorForm,resetEditorForm,setEditorFormProps} from '../../redux/actions'
 const translate = {switchHeader,p,h2,h3,input,autocomplete,submit,datepicker}
 import styled from 'styled-components'
-
+const Container = styled.div`
+  padding:0.5em;
+  justify-content:space-between;
+  display:flex;
+  width:100%;
+  align-items:center;
+`
 const Form = styled.form`
   display : flex;
   flex-direction : column;
+  height:calc(100vh - 200px);
+  overflow:auto;
   & input {
     border : 1px solid #d5dadf;
     margin : 2px;
@@ -27,23 +35,14 @@ const Form = styled.form`
 
 `
 
-function Editor(props){
-  const submitForm = (form) => props.onSubmit(form);
-  const updatePage = () => props.updateForm()
+function Editor({onSubmit,updateForm,form,initialData={}}){
+  const submitForm = (form) => onSubmit(form);
+  const updatePage = () => updateForm()
   const [headerSwitchs , setHeaderSwitchs] = useState({})
   const propsForm = useSelector(state => state.editor.formProps||{});
 
-  const form = ((forms.find(h => h.id === props.id) || {})[props.subProps]||[])
-
-  // useEffect(()=>{
-  //     let headerSwitchs = {}
-  //     form.map(line => line.map(el => el.html == 'switchHeader' ? headerSwitchs[el.id] = 'default' : void 0))
-  //     setHeaderSwitchs(headerSwitchs)
-  //
-  // },[])
   const shouldShow = (e) => (e.switch||[]).reduce((bool,s) => bool && (s.split(':')[0] && propsForm[s.split(':')[0]] &&  s.split(':')[1] == propsForm[s.split(':')[0]]), true)
   const updateSwitchHeader = (switchHeader) => setHeaderSwitchs({...headerSwitchs,...switchHeader})
-
 
   return (
     <Form className={'form'}>
@@ -55,12 +54,15 @@ function Editor(props){
               (state) => {return {form : state.editor.form,propsForm : state.editor.formProps}},
               (dispatch) => bindActionCreators({setForm:setEditorForm,setFormProps:setEditorFormProps},dispatch)
             )(translate[e.html])
-            return(<Component
-              key={e.id}
-              {...e}
-              onBlur={updatePage}
-              defaultValue={(props.initialData||{})[e.id]}
-              onSubmit={submitForm} />)
+            return(
+              <Container key={e.id} >
+                <Component
+                  {...e}
+                  onBlur={updatePage}
+                  defaultValue={initialData[e.id]}
+                  onSubmit={submitForm} />
+              </Container>
+            )
           })}
           </div>
         )

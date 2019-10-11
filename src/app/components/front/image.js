@@ -1,13 +1,12 @@
 import React , { useState, useEffect } from 'react';
-import ImageSemantic from 'semantic-ui-react/dist/commonjs/elements/Image';
 import {withRouter} from 'react-router-dom';
 
 function Image(props){
   //props : buttonText, colorButton, inverted, fluid, size
-  if (!props.src) return <ImageSemantic src={"http://via.placeholder.com/350x150"}/>
+  if (!props.src) return <img src={"http://via.placeholder.com/350x150"}/>
 
   return(
-    <ImageSemantic
+    <img
       style={{objectFit:props.objectFit}}
       size={props.size}
       src={props.src}

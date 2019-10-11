@@ -1,5 +1,4 @@
 import React , { useState, useEffect } from 'react';
-// import ButtonSemantic from 'semantic-ui-react/dist/commonjs/elements/Button';
 import {withRouter} from 'react-router-dom';
 import styled from 'styled-components'
 

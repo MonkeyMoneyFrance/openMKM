@@ -6,10 +6,12 @@ import DropLine from '../drop/dropLine'
 import {setEdition,dropItem} from '../../redux/actions';
 
 
-function Block({block,path,index,isEditing}) {
+function Block({block,path,index}) {
   const dispatch = useDispatch();
+  const isEditing = useSelector(state => state.editor.panelOpen && state.editor.editedContent == 'page');
   const setEditedItem = (path,type,subProps) => dispatch(setEdition({content:"page",path,type,subProps}))
   const droppedItem = (item,path,index,copy=false) => dispatch(dropItem({content:"page",item,path,index,copy}))
+
 
   return(
     <div name="block" className={"block"+ (isEditing ? " blockEditing" : "")}

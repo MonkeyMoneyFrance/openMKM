@@ -92,14 +92,6 @@ function ManageMenu(){
       updateMenus(menus)
     }).catch(err => console.log(err))
   }
-  const saveChanges = () => {
-    let newMenus = [...menus]
-    newMenus[chosenMenu] = {...newMenus[chosenMenu],...JSON.parse(editedMenu)}
-    setPage(`${editedContent}s`,'main',newMenus).then(menus => {
-      setChosenMenu(null)
-      updateMenus(menus)
-    }).catch(err => console.log(err))
-  }
   const setMenu = (i,{name},copy = false) => {
     let newMenus = [...menus]
     if (i != null && copy) {
@@ -188,11 +180,7 @@ function ManageMenu(){
                 style={styles}
                 >{"Supprimer ce " + editedContent}
               </div>
-              {menus[chosenMenu] && (menus[chosenMenu].pages||[]).includes('home') && (editedMenu) != JSON.stringify(menus[chosenMenu]) && <div
-                onClick={saveChanges}
-                style={styles}
-                >{"Sauvegarder les changements sur ce " + editedContent}
-              </div> }
+
 
             </div>
             }

@@ -12,7 +12,8 @@ function setPage(path,page,body) {
   let queryString = ''
   let query = {path,page}
   Object.keys(query).map((param , i) => queryString += (i == 0 ? "?" : "&") + `${param}=${query[param]}` )
-
+  console.log(queryString)
+  console.log(body)
   fetch(URL+'/website'+queryString,{
     method : 'put',
     body: JSON.stringify(body),

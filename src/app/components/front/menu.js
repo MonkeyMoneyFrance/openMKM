@@ -5,11 +5,11 @@ import {dropItem, setEdition} from '../../redux/actions'
 import { useDispatch , useSelector } from "react-redux";
 
 
-function Menu({menu,isEditing}){
+function Menu({menu}){
   const dispatch = useDispatch();
   const setEditedItem = (path,type,subProps) => dispatch(setEdition({content:"menu", path,type,subProps}))
   const droppedItem = (item,path,index,copy=false) => dispatch(dropItem({content:"menu",item,path,index,copy}))
-
+  const isEditing = useSelector(state => state.editor.panelOpen && state.editor.editedContent == 'menu');
   return (
     <div className={"block"+ (isEditing ? " blockEditing" : "")}
       style={{...menu.style}}

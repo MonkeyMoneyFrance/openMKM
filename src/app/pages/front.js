@@ -1,78 +1,87 @@
-import React , { useState, useEffect } from 'react';
+import React , { useState, useMemo } from 'react';
 import MainEditor from "../components/editors/index"
 import Block from '../components/front/block';
 import Menu from '../components/front/menu';
 import Footer from '../components/front/footer';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
-import EditElements from '../components/buttons/editorElement'
 import {withRouter} from 'react-router-dom';
 import {  useSelector , useDispatch } from "react-redux";
-import {bindActionCreators} from 'redux'
-import {setPage,getPage} from '../utils/API'
+import {getPage} from '../utils/API'
+import styled from 'styled-components'
 
-import DropLine from '../components/drop/dropLine'
-import {requestFetchUser,updatePage,setEdition,setEditorForm,resetEditorForm,setPanel,dropItem} from '../redux/actions';
-import dotProp from 'dot-prop-immutable'
-import website from '../mocks/website'
+const Content = styled.div`
+  flex : 1 0 auto;
+`
 
-
+const getItemsString = (items) => new Promise((resolve,reject) => {
+  getPage(items,(/menus|footers/).test(items) ? 'main' : 'home')
+  .then((item) => item ? (/menus|footers/).test(items) ?
+      resolve(JSON.stringify(JSON.parse(item).find(e => e.pages.includes('home')) || {}))
+      :
+      resolve(item)
+    : reject('null'))
+  .catch(err => reject(err))
+})
 
 function Front() {
-  // const dispatch = useDispatch();
+  async function getData(){
+    let menu = null,footer = null, page = null;
+    try {
+      menu = await getItemsString('menus')
+    } catch(e){
+      console.log(e)
+    }
+    try {
+      footer = await getItemsString('footers')
+    } catch(e){
+      console.log(e)
+    }
+    try {
+      page = await getItemsString('pages')
+    } catch(e) {
+      console.log(e)
+    }
+    if (page) setPageString(page)
+    if (footer) setFooterString(footer)
+    if (menu) setMenuString(menu)
+  }
   const [webmenuString,setMenuString] = useState('{}')
+  const [webfooterString,setFooterString] = useState('{}')
+  const [webpageString,setPageString] = useState('{"blocks":[{"lines":[]}]}')
+
   const isEditing = useSelector(state => state.editor.isEditing);
-  const editedContent = useSelector(state => state.editor.editedContent);
 
-  const websiteString = JSON.stringify(website.pages.home)
-  // const webmenuString = JSON.stringify((website.menus||[]).find(menu => menu.pages.includes('home')) || {})
-  const webfooterString = JSON.stringify(([]).find(footer => footer.pages.includes('home')) || {})
+  const page = useSelector(state =>  isEditing ? {...JSON.parse(state.editor.page)} : {...JSON.parse(webpageString)} )
+  const menu = useSelector(state =>  isEditing ? {...JSON.parse(state.editor.menu)} : {...JSON.parse(webmenuString)} )
+  const footer = useSelector(state =>  isEditing ? {...JSON.parse(state.editor.footer)} : {...JSON.parse(webfooterString)} )
 
-  const pageString = useSelector(state =>  isEditing ? state.editor.page : websiteString);
-  const menuString = useSelector(state =>  isEditing ? state.editor.menu : webmenuString);
-  const footerString = useSelector(state =>  isEditing ? state.editor.footer : webfooterString);
-
-  const page = {...JSON.parse(pageString)}
-  const menu = {...JSON.parse(menuString)}
-  const footer = {...JSON.parse(footerString)}
-
-  useEffect(()=>{
-    getPage('menus','main').then((menus) => {
-      setMenuString(JSON.stringify(JSON.parse(menus).find(menu => menu.pages.includes('home')) || {}))
-      }).catch(err => console.log(err))
-    getPage('menus','main').then((menus) => {
-      setMenuString(JSON.stringify(JSON.parse(menus).find(menu => menu.pages.includes('home')) || {}))
-      }).catch(err => console.log(err))
-  },[])
-
-
+  useMemo(()=> getData(),[isEditing])
   return(
-    <div style={{flex:1,height:"100%",display:"flex",flexDirection:"row"}}>
+    <div style={{flex:1,minHeight:"100%",display:"flex",flexDirection:"row"}}>
       <DndProvider backend={HTML5Backend}>
-        <MainEditor page={page} menu={menu} footer={footer}/>
-        <div className="page">
-        <Menu
-          isEditing={isEditing && (editedContent === 'menu')}
+        <MainEditor
+          page={page}
           menu={menu}
-          />
-        {page.blocks.map((block,i)=>
-          <Block
-            path={`blocks`}
-            index={i}
-            isEditing={isEditing && (editedContent === 'page')}
-            block={block}
-            key={i} />
-
-        )}
-        <Footer
-          isEditing={isEditing && (editedContent === 'footer')}
           footer={footer}
-          />
+        />
+        <div className="page">
+        <Menu menu={menu}/>
+        <Content>
+          {(page.blocks).map((block,i)=>
+            <Block
+              path={`blocks`}
+              index={i}
+              block={block}
+              key={i}
+              />
+          )}
+        </Content>
+        <Footer footer={footer}  />
       </div>
 
     </DndProvider>
   </div>
 );
 }
-//export default withRouter(connect(mapStateToProps,matchDispatchToProps)(Front))
 export default (Front)

@@ -5,8 +5,9 @@ import {dropItem, setEdition} from '../../redux/actions'
 import { useDispatch , useSelector } from "react-redux";
 
 
-function Footer({footer,isEditing}){
+function Footer({footer}){
   const dispatch = useDispatch();
+  const isEditing = useSelector(state => state.editor.panelOpen && state.editor.editedContent == 'footer');
   const setEditedItem = (path,type,subProps) => dispatch(setEdition({content:"footer", path,type,subProps}))
   const droppedItem = (item,path,index,copy=false) => dispatch(dropItem({content:"footer",item,path,index,copy}))
 

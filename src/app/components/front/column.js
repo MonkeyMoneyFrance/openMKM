@@ -8,12 +8,12 @@ import DropColumn from '../drop/dropColumn'
 import { useDispatch , useSelector } from "react-redux";
 
 const ColumnFront = styled.div`
-  background : ${props => props["background"]};
-  margin : ${props => props["margin"]};
-  padding : ${props => props["padding"]};
   display:flex;
   flex:${props => props.flex || 1};
-
+  ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') == -1  ? `${hover}${key}:${props.styles[key]};` : hover,"")};
+  &:hover {
+    ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') > -1 ? `${hover} ${key.replace('Hover','')}:${props.styles[key]};` : hover,"")}
+  }
 `
 
 
@@ -49,7 +49,7 @@ function Column({column,path,index,droppedItem,setEdition,isEditing}){
   <ColumnFront
     className={"column"+ (isEditing ? " columnEditing" : "")}
     ref={dragColumn}
-    {...column.style}>
+    styles = {column.style}>
 
     <div className={'snippedEditorContainer columnSnippet'}>
       <EditElements

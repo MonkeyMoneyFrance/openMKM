@@ -8,22 +8,23 @@ import withLayout from './config/publicRoute'
 import withAdmin from './config/adminRoute'
 import {Switch,Route} from 'react-router-dom'
 import {requestProfile} from './redux/actions'
-import {connect} from 'react-redux'
+import {connect,useSelector,useDispatch} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-function mapStateToProps(state){
-  return {}
-}
-function matchDispatchToProps(dispatch){
-  return bindActionCreators({requestProfile}, dispatch)
-}
+// function mapStateToProps(state){
+//   return {}
+// }
+// function matchDispatchToProps(dispatch){
+//   return bindActionCreators({requestProfile}, dispatch)
+// }
 function App(props) {
+  const dispatch = useDispatch();
   useEffect(()=> {
-    props.requestProfile()
+    dispatch(requestProfile())
   },[])
-
+  
   return (
-    <div style={{height:"100%"}}>
+    <div style={{minHeight:"100%"}}>
       <Switch>
         {routes.map((r,index) => 
           (
@@ -41,4 +42,4 @@ function App(props) {
   );
 }
 
-export default withRouter(connect(mapStateToProps,matchDispatchToProps)(App));
+export default withRouter(App);

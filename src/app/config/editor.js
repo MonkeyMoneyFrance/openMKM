@@ -1,48 +1,107 @@
+import text from './jsons/text.js'
+import textHover from './jsons/textHover.js'
+import frame from './jsons/frame.js'
+import frameHover from './jsons/frameHover.js'
 export default  [
   {
     id : 'column',
     style:[
       [{
+        label:'Transition',
+        id:'transition',
+        html:'input',
+        className:'',
+      }],
+      [{
+        label:'Curseur',
+        id:'cursor',
+        html:'input',
+        className:'',
+      }],
+      [{
+        "label": "",
+        "id": "lineStyle",
+        "states": [
+          "default:Normal",
+          "hover:Au survol"
+        ],
+        "html": "switchHeader"
+      }],
+      [{
         label:'Marges Externes',
         id:'margin',
         html:'input',
         className:'',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Marges Internes',
         id:'padding',
         html:'input',
         className:'',
-      }],
-      [{
-        label:'Taille Relative',
-        html:'input',
-        id:'flex'
-      }],
-      [{
-        label:'Couleur du Texte Hover',
-        html:'input',
-        id:'hoverColor'
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Arrière Plan',
         html:'input',
-        id:'background'
+        id:'background',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Bordure',
         html:'input',
-        id:'border'
+        id:'border',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Arrondi de Bordure',
         html:'input',
-        id:'border-radius'
+        id:'border-radius',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Ombre de Bordure',
         html:'input',
-        id:'box-shadow'
+        id:'box-shadow',
+        switch : ['lineStyle:default']
+      }],
+      [{
+        label:'Marges Externes',
+        id:'marginHover',
+        html:'input',
+        className:'',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Marges Internes',
+        id:'paddingHover',
+        html:'input',
+        className:'',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Arrière Plan',
+        html:'input',
+        id:'backgroundHover',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Bordure',
+        html:'input',
+        id:'borderHover',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Arrondi de Bordure',
+        html:'input',
+        id:'border-radiusHover',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Ombre de Bordure',
+        html:'input',
+        id:'box-shadowHover',
+        switch : ['lineStyle:hover']
       }]
     ]
   },
@@ -50,94 +109,148 @@ export default  [
     id : 'line',
     style:[
       [{
+        label:'Transition',
+        id:'transition',
+        html:'input',
+        className:'',
+      }],
+      [{
+        label:'Curseur',
+        id:'cursor',
+        html:'input',
+        className:'',
+      }],
+      [{
+        "label": "",
+        "id": "lineStyle",
+        "states": [
+          "default:Normal",
+          "hover:Au survol"
+        ],
+        "html": "switchHeader"
+      }],
+      [{
         label:'Marges Externes',
         id:'margin',
         html:'input',
         className:'',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Marges Internes',
         id:'padding',
         html:'input',
         className:'',
-      }],
-      [{
-        label:'Couleur du Texte',
-        html:'input',
-        id:'color'
-      }],
-      [{
-        label:'Couleur du Texte Hover',
-        html:'input',
-        id:'hoverColor'
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Arrière Plan',
         html:'input',
-        id:'background'
+        id:'background',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Bordure',
         html:'input',
-        id:'border'
+        id:'border',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Arrondi de Bordure',
         html:'input',
-        id:'border-radius'
+        id:'border-radius',
+        switch : ['lineStyle:default']
       }],
       [{
         label:'Ombre de Bordure',
         html:'input',
-        id:'box-shadow'
+        id:'box-shadow',
+        switch : ['lineStyle:default']
+      }],
+      [{
+        label:'Marges Externes',
+        id:'marginHover',
+        html:'input',
+        className:'',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Marges Internes',
+        id:'paddingHover',
+        html:'input',
+        className:'',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Arrière Plan',
+        html:'input',
+        id:'backgroundHover',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Bordure',
+        html:'input',
+        id:'borderHover',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Arrondi de Bordure',
+        html:'input',
+        id:'border-radiusHover',
+        switch : ['lineStyle:hover']
+      }],
+      [{
+        label:'Ombre de Bordure',
+        html:'input',
+        id:'box-shadowHover',
+        switch : ['lineStyle:hover']
       }]
     ]
   },
   {
     id:'paragraph',
     style:[
-      [{
-        label:'Marges Externes',
-        id:'margin',
-        html:'input',
-        className:'',
-      }],
-      [{
-        label:'Marges Internes',
-        id:'padding',
-        html:'input',
-        className:'',
-      }],
-      [{
-        label:'Couleur du Texte',
-        html:'input',
-        id:'color'
-      }],
-      [{
-        label:'Couleur du Texte Hover',
-        html:'input',
-        id:'hoverColor'
-      }],
-      [{
-        label:'Arrière Plan',
-        html:'input',
-        id:'background'
-      }],
-      [{
-        label:'Bordure',
-        html:'input',
-        id:'border'
-      }],
-      [{
-        label:'Arrondi de Bordure',
-        html:'input',
-        id:'border-radius'
-      }],
-      [{
-        label:'Ombre de Bordure',
-        html:'input',
-        id:'box-shadow'
-      }]
+      // text
+      [
+        {
+          "label": "Style de Texte",
+          "id": "showText",
+          "html": "switchHeader"
+        }
+      ],
+      [
+        {
+          "id": "text",
+          "states": [
+            "default:Normal",
+            "hover:Au survol"
+          ],
+          "switch" : ["showText:show"],
+          "html": "switchHeader"
+        }
+      ],
+      ...text,...textHover,
+      // Marges
+      [
+        {
+          "label": "Marges",
+          "id": "showMargin",
+          "html": "switchHeader"
+        }
+      ],
+      [
+        {
+
+          "id": "frame",
+          "states": [
+            "default:Normal",
+            "hover:Au survol"
+          ],
+          "switch" : ["showMargin:show"],
+          "html": "switchHeader"
+        }
+      ],
+      ...frame,...frameHover
     ],
     props:[
       [{
@@ -155,135 +268,224 @@ export default  [
   {
     id:'button',
     style:[
-  [
-    {
-      "label": "Typographie du Texte",
-      "id": "textStyle1",
-      "states": [
-        "default:Masquer",
-        "show:Afficher"
+      [
+        {
+          "label": "Style de Texte",
+          "id": "showText",
+          "html": "switchHeader"
+        }
       ],
-      "html": "switchHeader"
-    }
-  ],
-  [
-    {
-      "label": "Typographie du Texte",
-      "id": "font-family",
-      "html": "input",
-      "switch": [
-        "textStyle1:show"
-      ]
-    }
-  ],
-  [
-    {
-      "label": "Taille du Texte",
-      "id": "font-size",
-      "html": "input",
-      "switch": [
-        "textStyle1:show"
-      ]
-    }
-  ],
-  [
-    {
-      "label": "Graisse du Texte",
-      "id": "font-weight",
-      "html": "input",
-      "switch": [
-        "textStyle1:show"
-      ]
-    }
-  ],
-  [
-    {
-      "label": "Style de Texte",
-      "id": "font-style",
-      "html": "input",
-      "switch": [
-        "textStyle1:show"
-      ]
-    }
-  ],
-  [
-    {
-      "label": "Décoration du Texte",
-      "id": "text-decoration",
-      "html": "input",
-      "switch": [
-        "textStyle1:show"
-      ]
-    }
-  ],
-  [
-    {
-      "label": "Hauteur de ligne",
-      "id": "line-height",
-      "html": "input",
-      "switch": [
-        "textStyle1:show"
-      ]
-    }
-  ],
-  [
-    {
-      "label": "Espacement des caractères",
-      "id": "letter-spacing",
-      "switch": [
-        "textStyle1:show"
+      [
+        {
+          "label": "Typographie du Texte",
+          "id": "textStyle1",
+          "states": [
+            "default:Normal",
+            "hover:Au survol"
+          ],
+          "switch" : ["showText:show"],
+          "html": "switchHeader"
+        }
       ],
-      "html": "input"
-    }
-  ],
-  [
-    {
-      "label": "",
-      "id": "colorHeader",
-      "states": [
-        "default:Default",
-        "hover:Au survol"
+      [
+        {
+          "label": "Typographie du Texte",
+          "id": "font-family",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
       ],
-      "html": "switchHeader"
-    }
-  ],
-  [
-    {
-      "label": "Couleur du Texte",
-      "id": "color",
-      "html": "input",
-      "switch": [
-        "colorHeader:default"
-      ]
-    },
-    {
-      "label": "Couleur du Texte",
-      "id": "colorHover",
-      "html": "input",
-      "switch": [
-        "colorHeader:hover"
-      ]
-    }
-  ],
-  [
-    {
-      "label": "Couleur de l'Arrière Plan",
-      "id": "background-color",
-      "html": "input",
-      "switch": [
-        "colorHeader:default"
-      ]
-    },
-    {
-      "label": "Couleur de l'Arrière Plan",
-      "id": "background-colorHover",
-      "html": "input",
-      "switch": [
-        "colorHeader:hover"
-      ]
-    }
-  ]
-],
+      [
+        {
+          "label": "Taille du Texte",
+          "id": "font-size",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Graisse du Texte",
+          "id": "font-weight",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Style de Texte",
+          "id": "font-style",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Décoration du Texte",
+          "id": "text-decoration",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Hauteur de ligne",
+          "id": "line-height",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Espacement des caractères",
+          "id": "letter-spacing",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ],
+          "html": "input"
+        }
+      ],
+      [
+        {
+          "label": "Couleur du Texte",
+          "id": "color",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Couleur de l'Arrière Plan",
+          "id": "background-color",
+          "html": "input",
+          "switch": [
+            "textStyle1:default",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Typographie du Texte",
+          "id": "font-familyHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Taille du Texte",
+          "id": "font-sizeHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Graisse du Texte",
+          "id": "font-weightHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Style de Texte",
+          "id": "font-styleHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Décoration du Texte",
+          "id": "text-decorationHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Hauteur de ligne",
+          "id": "line-heightHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Espacement des caractères",
+          "id": "letter-spacingHover",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ],
+          "html": "input"
+        }
+      ],
+      [
+        {
+          "label": "Couleur du Texte",
+          "id": "colorHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+      [
+        {
+          "label": "Couleur de l'Arrière Plan",
+          "id": "background-colorHover",
+          "html": "input",
+          "switch": [
+            "textStyle1:hover",
+            "showText:show"
+          ]
+        }
+      ],
+    ],
     props:[
       [
         {

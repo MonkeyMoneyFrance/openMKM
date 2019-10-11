@@ -11,9 +11,10 @@ import dotProp from 'dot-prop-immutable'
 
 
 const LineFront = styled.div`
-  background : ${props => props["background"]};
-  margin : ${props => props["margin"]};
-  padding : ${props => props["padding"]};
+  ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') == -1  ? `${hover}${key}:${props.styles[key]};` : hover,"")};
+  &:hover {
+    ${props => Object.keys(props.styles||[]).reduce((hover,key) => key.indexOf('Hover') > -1 ? `${hover} ${key.replace('Hover','')}:${props.styles[key]};` : hover,"")}
+  }
   display:flex;
   flex:${props => props.flex || 1};
 
@@ -26,7 +27,7 @@ function Line({setEdition,droppedItem,line,index,path,isEditing}) {
 
   return(
     <LineFront
-      {...line.style}
+      styles = {line.style}
       className={"line"+ (isEditing ? " lineEditing" : "")}
       >
 

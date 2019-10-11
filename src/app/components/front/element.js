@@ -31,7 +31,6 @@ function Element(props){
       <div
         ref={dragItem}
         className={"element"+ (isEditing ? " elementEditing" : "")}
-        style={elementStyles}
       >
       <div className={'snippedEditorContainer elementSnippet'}>
         <EditElements

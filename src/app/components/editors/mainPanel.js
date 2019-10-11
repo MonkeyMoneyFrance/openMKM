@@ -1,5 +1,6 @@
 import React from 'react'
 import PanelHeader from './panelHeader'
+
 import {setPanel,setEditedContent,pushHistoryPanel} from '../../redux/actions'
 import {useDispatch,useSelector} from 'react-redux'
 const items = [
@@ -41,16 +42,19 @@ function MainPanel(){
     dispatch(pushHistoryPanel([panel]))
   }
   return (
-    <div style={{
-      display:'grid',
-      gridTemplateColumns: "auto"
-      }}>
+      <>
       <PanelHeader name={"Menu d'édition"} />
+        <div style={{
+          display:'grid',
+          gridTemplateColumns: "auto"
+          }}>
       {items.map((e,index) => <div
         onClick={() => changePanel(e)}
         style={styles}
         key={index} >{e.name}</div>)}
-    </div>
+      </div>
+
+    </>
   )
 }
 export default MainPanel

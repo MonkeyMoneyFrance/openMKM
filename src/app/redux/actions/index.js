@@ -30,12 +30,14 @@ import {
   SET_EDITOR_FORM,
   SET_EDITOR_FORM_PROPS,
   RESET_EDITOR_FORM,
+  RESET_EDITOR,
   MAP_FORM_TO_PAGE,
   DROP_ITEM,
   SET_EDITION,
   SET_EDITED_CONTENT,
   SET_HISTORY_PANEL,
   PUSH_HISTORY_PANEL,
+  SET_PANEL_OPEN
 } from "../constants/index";
 export const requestLogin = item => ({ type: REQUEST_LOGIN, payload: item });
 export const requestProfile = item => ({ type: REQUEST_PROFILE, payload: item });
@@ -66,9 +68,11 @@ export const requestFetchTeam = item => ({ type: REQUEST_FETCH_TEAM, payload: it
 export const toggleEditor = item => ({type:TOGGLE_EDITOR, payload:item})
 export const updatePage = item => ({type:UPDATE_PAGE, payload:item})
 export const setPanel = item => ({type:SET_PANEL , payload:item})
+export const setPanelOpen = item => ({type:SET_PANEL_OPEN , payload:item})
 export const setEditedItem = item => ({type:SET_EDITED_ITEM , payload:item})
 export const setEditorForm = item => ({type:SET_EDITOR_FORM , payload:item})
 export const setEditorFormProps = item => ({type:SET_EDITOR_FORM_PROPS , payload:item})
+export const resetEditor = item => ({ type: RESET_EDITOR, payload: item });
 
 export const resetEditorForm = item => ({type:RESET_EDITOR_FORM , payload:item})
 export const mapFormToPage = item => ({type:MAP_FORM_TO_PAGE , payload:item})
